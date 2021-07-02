@@ -1,8 +1,8 @@
 [TOC]
 
-# bdvis-web
+# InfoVis
 
-[![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)	](https://gitee.com/chu_shen/bdvis-cluster/tree/master/docs)[![Release](https://img.shields.io/badge/realease-latest-brightgreen.svg)	](https://gitee.com/chu_shen/bdvis-cluster/releases)[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)	![Vue](https://img.shields.io/badge/Vue-x.x.x-blue.svg)
+[![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)	](https://gitee.com/chu_shen/bdvis-cluster/tree/master/docs)[![Release](https://img.shields.io/badge/realease-latest-brightgreen.svg)	](https://gitee.com/chu_shen/bdvis-cluster/releases)[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)	![React](https://img.shields.io/badge/React-x.x.x-blue.svg)
 
 ## 简介 | Introduction
 
@@ -10,34 +10,28 @@ infovis模块
 
 提供对产品和文档本身的总体的、扼要的说明
 
-基于[umi](https://umijs.org/zh-CN/docs) + typescript的对内单页面应用
+基于antd、echarts、d3的可视化单页面数据监控平台
 
 ## 快速上手 | Getting Started
 
 ### Project setup
 
 ```
-npm install
+yarn
 ```
 
 ### Compiles and hot-reloads for development
 
 ```
-npm run serve
-npm run dev 启动开发模式
+yarn start
 ```
 
 ### Compiles and minifies for production
 
 ```
-npm run build 打包代码
+yarn build 打包代码
 ```
 
-### Lints and fixes files
-
-```
-npm run lint
-```
 
 ## 入门篇 | Basics
 
@@ -88,7 +82,7 @@ npm run lint
 
 ### 注意事项
 
-- 项目默认采用了[约定式路由](https://umijs.org/zh-CN/docs/convention-routing)
+- 项目默认采用了careate-react-app开发的react工程项目
 - 开发时需自行修改`src/config/index.ts`文件内的后端网关前缀`apiPrefix`，此样板代码为`audit`的api前缀
 - 若启用了`UAC登录逻辑`，会自动引入`dva`相关，用于存储全局状态，比如当前用户信息
 - 若启用了`侧边栏和头部`，需在`src/config/menu.ts`文件中配置菜单，`iconfont`自行引入和配置即可显示侧边栏菜单icon
