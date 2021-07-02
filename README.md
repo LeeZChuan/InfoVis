@@ -1,70 +1,142 @@
-# Getting Started with Create React App
+[TOC]
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# bdvis-web
 
-## Available Scripts
+[![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)	](https://gitee.com/chu_shen/bdvis-cluster/tree/master/docs)[![Release](https://img.shields.io/badge/realease-latest-brightgreen.svg)	](https://gitee.com/chu_shen/bdvis-cluster/releases)[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)	![Vue](https://img.shields.io/badge/Vue-x.x.x-blue.svg)
 
-In the project directory, you can run:
+## 简介 | Introduction
 
-### `yarn start`
+infovis模块
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+提供对产品和文档本身的总体的、扼要的说明
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+基于[umi](https://umijs.org/zh-CN/docs) + typescript的对内单页面应用
 
-### `yarn test`
+## 快速上手 | Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Project setup
 
-### `yarn build`
+```
+npm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Compiles and hot-reloads for development
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+npm run serve
+npm run dev 启动开发模式
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Compiles and minifies for production
 
-### `yarn eject`
+```
+npm run build 打包代码
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Lints and fixes files
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+npm run lint
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 入门篇 | Basics
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 目录说明
 
-## Learn More
+#### doc
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+本次项目的图表解释与所需数据类型解释
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### assets
+> 静态资源的存放
+#### components
+> 通用组件的存放
+#### config
+> 模块的引入与配置的存放
+#### hooks
+> 部分通用hooks的存放
+#### layouts
+> 布局文件的存放
+#### pages
+> 项目页面的划分，只存放页面的入口
+#### service
+> 接口调用的封装
+#### utils
+> 工具函数
+### 环境准备 | Prerequisite
 
-### Code Splitting
+环境需求，如：vue版本，cli版本，node版本，npm版本等
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+软件使用需要满足的前置条件
 
-### Analyzing the Bundle Size
+#### 编辑器配置
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- 开启nodejs自带核心模块提示
+- 开启eslint提示，`Automatic Eslint Configuration`按项目配置(Webstorm)
 
-### Making a Progressive Web App
+### 安装 | Installation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+软件的安装方法
 
-### Advanced Configuration
+### 设置 | Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+软件的设置
 
-### Deployment
+## 开发篇 | Advanced
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+提供中高级的开发教程
 
-### `yarn build` fails to minify
+### 注意事项
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- 项目默认采用了[约定式路由](https://umijs.org/zh-CN/docs/convention-routing)
+- 开发时需自行修改`src/config/index.ts`文件内的后端网关前缀`apiPrefix`，此样板代码为`audit`的api前缀
+- 若启用了`UAC登录逻辑`，会自动引入`dva`相关，用于存储全局状态，比如当前用户信息
+- 若启用了`侧边栏和头部`，需在`src/config/menu.ts`文件中配置菜单，`iconfont`自行引入和配置即可显示侧边栏菜单icon
+
+### 预设Hooks
+
+- `useRequest`，大部分获取数据场景使用
+- `usePageMenuInfo`，获取页面路由层级信息，基于此可实现`面包屑`或`路由重定向组件`等
+
+## API | Reference
+
+[API](./docs/API.md)
+
+## 疑难解答 | FAQ
+
+Q:
+
+A:
+
+## 附录 | Appendix
+
+### 名词解释 | Glossary
+
+名词解释
+
+### 最佳实践 | Recipes
+
+最佳实践
+
+### 故障处理 | Troubleshooting
+
+故障处理
+
+### 版本说明 | ChangeLog
+
+版本说明
+
+### 反馈 | Feedback
+
+**下方留言** OR **站内私信** OR **PR**
+
+## 参与贡献 | Join Us
+
+1.  Fork 本仓库
+2.  新建 Feat_xxx 分支
+3.  提交代码
+4.  新建 Pull Request
+
+## 开源协议 | License
+
+[![LICENSE](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](./LICENSE)	[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
