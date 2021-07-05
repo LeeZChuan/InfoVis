@@ -1,3 +1,5 @@
+// 在线率表示仪表盘2
+
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 
