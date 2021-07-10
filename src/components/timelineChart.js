@@ -121,10 +121,10 @@ const option = {
         },
         {
             name: '降雨量(mm)',
-            nameLocation: 'start',
+            // nameLocation: 'start',
             max: 5,
             type: 'value',
-            inverse: true
+            // inverse: true
         }
     ],
     series: [
@@ -199,7 +199,7 @@ const LineChart = () => {
     return (
         <div>
 
-            <div id="timeLineChart" ref={myChart} style={{ height: '600px' }}></div>
+            <div id="timeLineChart" ref={myChart} style={{ height: '400px' }}></div>
         </div>
     )
 

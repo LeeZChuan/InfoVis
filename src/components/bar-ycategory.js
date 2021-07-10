@@ -6,7 +6,7 @@ import * as echarts from 'echarts';
 
 const option = {
     title: {
-        text: '世界人口总量',
+        text: '数据时效性-各类时效性概况',
         subtext: '数据来自网络'
     },
     tooltip: {

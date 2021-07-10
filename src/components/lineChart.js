@@ -6,7 +6,7 @@ import * as echarts from 'echarts';
 
 const option = {
     title: {
-        text: '一天用电量分布',
+        text: '每日采集数据总量',
         subtext: '纯属虚构'
     },
     tooltip: {
@@ -29,7 +29,7 @@ const option = {
     yAxis: {
         type: 'value',
         axisLabel: {
-            formatter: '{value} W'
+            formatter: '{value} 车辆量'
         },
         axisPointer: {
             snap: true
@@ -99,7 +99,7 @@ const LineChart = () => {
     return (
         <div>
 
-            <div id="Chart" ref={myChart} style={{ height: '600px' }}></div>
+            <div id="Chart" ref={myChart} style={{ height: '400px' }}></div>
         </div>
     )
 

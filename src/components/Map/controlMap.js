@@ -397,16 +397,22 @@ const data = [
 
 const ControlMap = () => {
     const myChart = useRef();
-    const bmap=useRef();
-    useEffect(() => {
+    const bmap = useRef();
+    const initMap = () => {
         myChart.current = echarts.init(document.getElementById('controlMap'));
+        myChart.current.setOption({
+            //添加百度地图插件
+            bmap.current = myChart.current.getModel().getComponent('bmap').getBMap();
+        })
+    }
+    useEffect(() => {
         myChart.current.setOption
     }, [])
 
 
 
     const getData = () => {
-     
+
     }
     useEffect(() => {
         getData();
@@ -414,7 +420,7 @@ const ControlMap = () => {
     return (
         <div>
 
-            <div id="controlMap" ref={myChart,bmap} style={{ height: '600px' }}></div>
+            <div id="controlMap" ref={myChart, bmap} style={{ height: '600px' }}></div>
         </div>
     )
 

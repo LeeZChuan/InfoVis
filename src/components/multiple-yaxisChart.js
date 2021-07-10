@@ -123,7 +123,7 @@ const LineChart = () => {
     return (
         <div>
 
-            <div id="yaxisChart" ref={myChart} style={{ height: '600px' }}></div>
+            <div id="yaxisChart" ref={myChart} style={{ height: '400px' }}></div>
         </div>
     )
 

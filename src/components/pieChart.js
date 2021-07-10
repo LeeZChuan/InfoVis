@@ -94,7 +94,7 @@ const PieChart = () => {
     return (
         <div>
 
-            <div id="PieChart" ref={myChart} style={{ height: '600px' }}></div>
+            <div id="PieChart" ref={myChart} style={{ height: '400px' }}></div>
         </div>
     )
 
