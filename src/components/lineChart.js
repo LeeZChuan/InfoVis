@@ -6,7 +6,7 @@ import * as echarts from 'echarts';
 
 const option = {
     title: {
-        text: '每日采集数据总量',
+        text: '每日终端装车量',
         subtext: '纯属虚构'
     },
     tooltip: {
@@ -29,7 +29,7 @@ const option = {
     yAxis: {
         type: 'value',
         axisLabel: {
-            formatter: '{value} 车辆量'
+            formatter: '{value} '+'辆'
         },
         axisPointer: {
             snap: true
@@ -60,7 +60,7 @@ const option = {
     },
     series: [
         {
-            name: '用电量',
+            name: '记录车辆数',
             type: 'line',
             smooth: true,
             data: [300, 280, 250, 260, 270, 300, 550, 500, 400, 390, 380, 390, 400, 500, 600, 750, 800, 700, 600, 400],
@@ -69,12 +69,12 @@ const option = {
                     color: 'rgba(255, 173, 177, 0.4)'
                 },
                 data: [ [{
-                    name: '早高峰',
+                    name: '起伏期',
                     xAxis: '07:30'
                 }, {
                     xAxis: '10:00'
                 }], [{
-                    name: '晚高峰',
+                    name: '起伏期2',
                     xAxis: '17:30'
                 }, {
                     xAxis: '21:15'

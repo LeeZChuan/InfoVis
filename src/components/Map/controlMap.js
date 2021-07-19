@@ -4,8 +4,16 @@
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 //引入百度地图扩展
+// import { HeatmapChart } from 'echarts/components';
+import { VisualMapComponent } from 'echarts/components';
+// import '../../comfig/js/china';
+//引入百度地图扩展
 import 'echarts/extension/bmap/bmap';
+// import 'echarts/map/js/china';
+import { mapConfig } from './style';
+import { getHeatMapData } from '../../service/api';
 
+echarts.use([ VisualMapComponent]);
 //坐标信息
 const geoCoordMap = {
     "海门": [121.15, 31.89],
@@ -398,21 +406,65 @@ const data = [
 const ControlMap = () => {
     const myChart = useRef();
     const bmap = useRef();
-    const initMap = () => {
-        myChart.current = echarts.init(document.getElementById('controlMap'));
+    //初始化地图
+    const iniMap = () => {
+        myChart.current = echarts.init(document.getElementById('allmap'));
         myChart.current.setOption({
-            //添加百度地图插件
-            bmap.current = myChart.current.getModel().getComponent('bmap').getBMap();
-        })
+            animation: false,
+            bmap: {
+                zoom: 3.5,
+                roam: true,
+            },
+            visualMap: {
+                top: '40%',
+                min: 0,
+                calculable: true,
+            },
+            series: [{
+                name: 'heatmap',
+                type: 'heatmap',
+                coordinateSystem: 'bmap',
+                data: data,
+                pointSize: 20,
+                blurSize: 15,
+            }]
+        });
+        //添加百度地图插件
+        bmap.current = myChart.current
+            .getModel()
+            .getComponent('bmap')
+            .getBMap();
+        bmap.current.centerAndZoom(new bmap.Point(105.403119, 38.028658), 5);
+        //地图自定义组件样式
+        bmap.current.setMapStyle(mapConfig);
     }
     useEffect(() => {
-        myChart.current.setOption
-    }, [])
+        iniMap();
+    }, []);
+    useEffect(() => {
+      
+    })
 
 
-
-    const getData = () => {
-
+    const getData = async () => {
+        let Data = await getHeatMapData();
+        console.log('输出');
+        console.log(Data);
+        myChart.current.setOption({
+            series: [
+                {
+                    name: 'heatmap',
+                    data: data,
+                },
+            ],
+            visualMap: {
+                max: 5,
+                min: 0,
+                inRange: {
+                    color: ['blue', 'blue', 'green', 'yellow', 'red']
+                }
+            }
+        })
     }
     useEffect(() => {
         getData();

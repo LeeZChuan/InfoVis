@@ -2,12 +2,13 @@
 
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
+import {getTimeseriesData} from '../service/api';
 
 
 const option = {
     angleAxis: {
         type: 'category',
-        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+        data: [{}]
     },
     radiusAxis: {
     },
@@ -15,27 +16,27 @@ const option = {
     },
     series: [{
         type: 'bar',
-        data: [1, 2, 3, 4, 3, 5, 1],
+        data: [{}],
         coordinateSystem: 'polar',
-        name: 'A',
+        name: 'Can完整度',
         stack: 'a',
         emphasis: {
             focus: 'series'
         }
     }, {
         type: 'bar',
-        data: [2, 4, 6, 1, 3, 2, 1],
+        data: [{}],
         coordinateSystem: 'polar',
-        name: 'B',
+        name: '经纬度完整度',
         stack: 'a',
         emphasis: {
             focus: 'series'
         }
     }, {
         type: 'bar',
-        data: [1, 2, 3, 4, 1, 2, 5],
+        data: [{}],
         coordinateSystem: 'polar',
-        name: 'C',
+        name: '时间完整度',
         stack: 'a',
         emphasis: {
             focus: 'series'
@@ -43,8 +44,23 @@ const option = {
     }],
     legend: {
         show: true,
-        data: ['A', 'B', 'C']
-    }
+        data: ['Can完整度', '经纬度完整度', '时间完整度']
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross',
+            // precision : '3'
+        },
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        position: function (pos, params, el, elRect, size) {
+            var obj = {top: 10};
+            obj[['left'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+            return obj;
+        },
+        extraCssText: 'width: 170px'
+    },
+    // fontStyle:'bold'
 };
 
 const LineChart = () => {
@@ -54,6 +70,24 @@ const LineChart = () => {
         myChart.current = echarts.init(document.getElementById('stactterPieChart'));
     }, [])
     const getData = async () => {
+        const Data=await getTimeseriesData();
+        let DataList=[];
+        let canRate=[];
+        let locRate=[];
+        let dailyRecordRate=[];
+        for(let i=0;i<Data.length;i++)
+        {
+            // DataList.push(new Date(Data[i].msgDate).toLocaleString())
+            DataList.push(Data[i].msgDate);
+            canRate.push(Data[i].canRate);
+            locRate.push(Data[i].locRate);
+            dailyRecordRate.push(Data[i].dailyRecordRate);
+        }
+        console.log(DataList);
+        option.angleAxis.data=DataList;
+        option.series[0].data=canRate
+        option.series[1].data=locRate
+        option.series[2].data=dailyRecordRate
         myChart.current.setOption(option);
     }
     useEffect(() => {

@@ -6,7 +6,7 @@ import * as echarts from 'echarts';
 
 const option = {
     title: {
-        text: '南丁格尔玫瑰图',
+        text: '数据有效性南丁格尔图',
         subtext: '纯属虚构',
         left: 'center'
     },
