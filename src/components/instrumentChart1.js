@@ -1,29 +1,29 @@
 // 在线率表示仪表盘2
 
-import React, { useEffect, useRef,useContext} from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
-import { getChartData,getDemodata } from '../service/api'//数据读取
-
+import { getChartData} from '../service/api'//数据读取
 import AppContext from '../store';
 
 var highlight = '#03b7c9';
 
 const option = {
-    // backgroundColor: '#fff',
+    title: {
+        text: '实时在线率仪表盘',
+        subtext: '数据来自天远科技有限公司',
+        left: 'center',
+        align: 'right'
+    },
     series: [{}]
 };
 
+
+
 const InstrumentChart = () => {
     const myChart = useRef();
-    const {list} =useContext(AppContext);
-
-    useEffect(() => {
-        myChart.current = echarts.init(document.getElementById('instrumentChart1'));
-    }, [])
-
-    const getData = async() => {
-
-        let demoData = await getChartData(list.nowChooseCarBrand,list.nowChooseCarStyle,list.nowCho_CarDevNaData,list.startTime,list.endTime,"get_InstChartData");
+    const { list } = useContext(AppContext);
+    const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
+        let demoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
         const series = [
             {
                 type: 'gauge',
@@ -77,7 +77,7 @@ const InstrumentChart = () => {
             },
             // 内侧指针、数值显示
             {
-                name: "在线率",
+                name: "终端在线率",
                 type: 'gauge',
                 center: ['25%', '50%'],
                 radius: '60%',
@@ -116,7 +116,7 @@ const InstrumentChart = () => {
                     },
                     formatter: [
                         '{value} ' + ("%" || ''),
-                        '{name|' + "在线率" + '}'
+                        '{name|' + "终端在线率" + '}'
                     ].join('\n'),
                     rich: {
                         name: {
@@ -135,12 +135,12 @@ const InstrumentChart = () => {
                     value: demoData[0].onlineRate * 100
                 }]
             },
-                   // 外围刻度
-             {
+            // 外围刻度
+            {
                 type: 'gauge',
-                center:['75%', '50%'],
+                center: ['75%', '50%'],
                 radius: '60%',  // 1行3个
-                splitNumber: 8|| 10,
+                splitNumber: 8 || 10,
                 min: 0,
                 max: demoData[0].gpsOnline,
                 startAngle: 225,
@@ -189,7 +189,7 @@ const InstrumentChart = () => {
 
             // 内侧指针、数值显示
             {
-                name: "终端数量",
+                name: "GPS在线率",
                 type: 'gauge',
                 center: ['75%', '50%'],
                 radius: '60%',
@@ -228,7 +228,7 @@ const InstrumentChart = () => {
                     },
                     formatter: [
                         '{value} ' + ("%" || ''),
-                        '{name|' + "终端数量" + '}'
+                        '{name|' + "GPS在线率" + '}'
                     ].join('\n'),
                     rich: {
                         name: {
@@ -244,7 +244,7 @@ const InstrumentChart = () => {
                     }
                 },
                 data: [{
-                    value: demoData[0].gpdOnlieRate*100
+                    value: demoData[0].gpdOnlieRate * 100
                 }]
             }
         ]
@@ -252,12 +252,24 @@ const InstrumentChart = () => {
         option.series = series;
         myChart.current.setOption(option);
     }
+
     useEffect(() => {
-        getData(list.nowChooseCarBrand,list.nowChooseCarStyle,list.nowCho_CarDevNaData,list.startTime,list.endTime);
-    }, []);
+        myChart.current = echarts.init(document.getElementById('instrumentChart1'));
+    }, [])
+
+    useEffect(() => {
+        getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "get_InstChartData");
+        // 实时刷新
+        // const timer = setInterval(() => {
+        //     getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "get_InstChartData");
+
+        // }, 1000);
+        // return () => clearInterval(timer);
+    });
     return (
         <div>
-            <div id="instrumentChart1" ref={myChart} style={{ height: '350px' }}></div>
+            <div id="instrumentChart1" ref={myChart} style={{ height: '350px' }} ></div>
+            {/* <div>{list.nowChooseCarBrand}+{list.nowChooseCarStyle}+{list.nowCho_CarDevNaData}+{list.startTime}+{list.endTime}</div> */}
         </div>
     )
 

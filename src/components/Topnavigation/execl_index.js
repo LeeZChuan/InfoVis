@@ -31,7 +31,6 @@ const Topnav = () => {
     const [startTime, setstartTime] = useState('');//初始化一个时间终端数组
     const [endTime, setendTime] = useState('');//初始化一个时间终端数组
     const { list, setlist } = useContext(AppContext);
-    const { selectPage, setselectPage } = useContext(AppContext);
 
     //下拉时间选择
     const chooseTimeRange = (dates, dateStrings) => {
@@ -75,7 +74,6 @@ const Topnav = () => {
 
     useEffect(() => {
         initData();//最一开始初始化车辆品牌方法
-
     }, [])
 
     return (
@@ -86,23 +84,7 @@ const Topnav = () => {
                         <Clock />
                     </div>
                     <div style={titlestyle0}>
-                        {
-
-
-                            //  (selectPage) ? (<Button onChange={() => setselectPage(false)}>前往数据下载表格页面</Button>) : (<Button onChange={() => setselectPage(true)} > 前往可视化页面</Button>)
-
-                            (selectPage) ? (<Button onClick={() => {
-                                setselectPage(false);
-                                console.log(selectPage)
-                            }}><Link to="/download" >前往数据下载表格页面</Link></Button>) : (<Button onClick={() => {
-                                setselectPage(true);
-                                console.log(selectPage)
-                            }} > <Link to="/index" >前往可视化页面</Link></Button>)
-                            // selectPage? <Button><Link to="/download" onChange={setselectPage(false)}>前往数据下载表格页面</Link></Button>:<Button onChange={setselectPage(true)} > <Link to="/index" >前往可视化页面</Link></Button>
-
-                        }
-                        {/* <Button onClick={() => selectPage ? setselectPage(false) : setselectPage(true)}>你好</Button> */}
-
+                        <Button><Link to="/index" >前往数据可视化页面</Link></Button>
                     </div>
                     <h1 style={titlestyle1}>
                         数据质量分析平台
@@ -179,10 +161,8 @@ const Topnav = () => {
                                     if (selectChoose != true) {
 
                                         setselectChoose(true);
-                                        console.log("设置成功");
                                     }
                                     else {
-                                        console.log("已经设置成功，无需设置");
 
                                     }
                                     console.log(list);
@@ -194,7 +174,7 @@ const Topnav = () => {
                     </div>
                 </Row>
             </Header>
-        </Affix >
+        </Affix>
     )
 }
 
