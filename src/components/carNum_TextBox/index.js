@@ -1,45 +1,32 @@
-//终端装车数据列表展示
-import React, { useEffect, useContext } from 'react';
-import { getChartData } from '../../service/api'//数据读取
-import { Card, Table } from 'antd'
+//动态表格展示
+
+import React, { Component } from "react";
+import { JsSeamlessScroll } from "css-react-seamless-scroll";
+import { getChartData } from '../../service/api';//数据读取
 import AppContext from '../../store';
-import './styles.less';
+import "./styles.less";
 
-
-const styles = {
-    tableStyle: {
-        width: '100%'
-    },
-}
-
-const rowSelection = {
-    selections: true,
-}
 const data = [];
-const columns = [{
-    title: "型号",
-    dataIndex: '',
-    key: ''
-},
-{
-    title: "时间",
-    dataIndex: '',
-    key: ''
-}];
 
-const CarNumListTable = () => {
-    const { list } = useContext(AppContext);
-    const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
+
+class JsExample extends Component {
+    state = {
+        scrollSwitch: true,
+        datas: [],
+    }
+    //声明接收context
+    static contextType = AppContext;
+    getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         let demoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        //清除原始残留数据数组
+        if (data.length != 0) {
+            data.splice(0, data.length);
+        }
         //判断筛选的数据长度，如果不够弹窗进行报错，然后用户重新选择
         if (demoData.length !== 0) {
-            for (let i = 0; i < columns.length; i++) {
-                columns[i].dataIndex = Object.keys(demoData[0])[i];
-                columns[i].key = Object.keys(demoData[0])[i];
-            }
         } else {
-
             console.log("表格暂无数据，请重新选择")
+            alert('表格暂无数据，请重新选择')
         }
         demoData.map((item, index) => {
             data.push({
@@ -48,26 +35,55 @@ const CarNumListTable = () => {
                 installDate: item.installDate
             })
         })
-
+        //数组使用深拷贝实现图表数据刷新
+        let lists = data.concat();
+        this.setState({ datas: lists })
+    }
+    //这里有一个还未解决的问题，就是动态滚动模块，数据重新加载dom组件并未及时更新，需要定时器刷新，并且超过了范围就会出现初始化的数据
+    componentWillMount() {
+        let iniDataList = [];
+        for (let i = 0; i < 1000; i++) {
+            iniDataList.push({
+                key: i,
+                carID: "React 无缝滚动组件展示数据",
+                installDate: Date.now(),
+            })
+        }
+        this.setState({ datas: iniDataList });
     }
 
-    const select = () => {
-        console.log(1);
+    componentDidMount() {
+        this.timer = setInterval(() => {
+            this.getData(this.context.list.nowChooseCarBrand, this.context.list.nowChooseCarStyle, this.context.list.nowCho_CarDevNaData, this.context.list.startTime, this.context.list.endTime, "getCarInstallInfo")
+        }, 10000)
     }
-    useEffect(() => {
-        getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getCarInstallInfo");
 
-    }, []);
-    return (
-        <div className={'tableStyle'}>
-            {/* <TypingCard id='howUse' source={cardContent} height={178} /> */}
-            {/* <Card bordered={false} title='车辆数据表格' style={{ marginBottom: 5, minHeight: 400 }} id='select'></Card> */}
-                <Table rowSelection={rowSelection} rowKey={()=>data.key} dataSource={data} columns={columns}  style={styles.tableStyle} scroll={{x:'max-content'}} onChange={select} pagination={false}/>
-    
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
 
-        </div>
-    )
+    render() {
+        console.log(this.state.datas);
+        return (
+            <div className="scroll">
+                <div>车辆列表数据动态展示</div>
+                <JsSeamlessScroll datas={this.state.datas} hover>
+                    <span>序号</span>
+                    <span>车辆信息</span>
+                    <span>日期</span>
+                    {
+                        this.state.datas.map(data => <div className="item" key={data.key}>
+                            <span>{data.key}</span>
+                            <span>{data.carID}</span>
+                            <span>{data.installDate}</span>
+                        </div>)
+                    }
+                </JsSeamlessScroll >
 
+            </div >
+
+        )
+    }
 }
 
-export default CarNumListTable;
+export default JsExample;

@@ -268,7 +268,7 @@ const InstrumentChart = () => {
     });
     return (
         <div>
-            <div id="instrumentChart1" ref={myChart} style={{ height: '350px' }} ></div>
+            <div id="instrumentChart1" ref={myChart} style={{ height: '400px' }} ></div>
             {/* <div>{list.nowChooseCarBrand}+{list.nowChooseCarStyle}+{list.nowCho_CarDevNaData}+{list.startTime}+{list.endTime}</div> */}
         </div>
     )

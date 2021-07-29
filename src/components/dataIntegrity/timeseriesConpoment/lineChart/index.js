@@ -186,7 +186,7 @@ const LineChart = () => {
     }
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getTime_LineChartData");
-    }, []);
+    });
     return (
         <div>
             <div id="timeLineChart" ref={myChart} style={{ height: '400px' }}></div>

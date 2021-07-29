@@ -1,4 +1,4 @@
-//动态字符展示
+//动态字符展示脚本编写
 class Typing {
   constructor(opts) {
     this.opts = opts || {};

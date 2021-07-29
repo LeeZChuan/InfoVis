@@ -1,10 +1,9 @@
 //页面整体布局设计
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState,useEffect } from 'react';
 //图表引入
 import PieChart from './components/pieChart';
 import CarNumLineChart from './components/carNum_LineChart'
 import CarNumText from './components/carNum_TextBox'
-import Top from './components/Topnavigation/index'
 import InstrumentChart1 from './components/instrumentChart1';
 import MultipleyaxisChart from './components/multiple-yaxisChart';
 import Barycategory from './components/bar-ycategory';
@@ -15,13 +14,10 @@ import DataSeries_PieChart from './components/dataSeries_PieChart';
 import DataIntegrityLineChart from './components/dataIntegrity/timeLineChart/index';
 import TimeLineChart from './components/dataIntegrity/timeseriesConpoment/lineChart';
 import StactterPieChart from './components/dataIntegrity/timeseriesConpoment/stactterPieChart';
-
-import { Layout, Row, Col,Divider} from 'antd';
+import { Layout, Row, Col, Divider } from 'antd';
 import { Button } from 'antd/lib/radio';
-import { RetweetOutlined} from '@ant-design/icons'
-const {  Footer, Content } = Layout;
-
-
+import { RetweetOutlined } from '@ant-design/icons'
+const { Footer, Content } = Layout;
 
 
 const Dashborad = () => {
@@ -31,11 +27,26 @@ const Dashborad = () => {
         setshowChart(!showChart);
     }
 
+    // useEffect(()=>{
+    //     let dom =document.getElementById('instrumentChart1');
+    //     let dom1 =document.getElementById('timeLineChart')
+    //     if(dom){
+    //         console.log("仪表盘渲染完成")
+    //         console.log(dom);
+    //     }
+    //     else{
+    //         console.log('渲染失败')
+    //     }
+    //     if(dom1){
+    //         console.log('折线图渲染完成')
+    //         console.log(dom1);
+    //     }else{
+    //         console.log('渲染失败！！！！')
+    //     }
+    // })
 
     return (
         <Layout>
-        {/* //首页 */}
-        <Top/>
             <Content>
                 <Divider id="onlineData" orientation="left">实时展示栏目</Divider>
                 <Row orientation="left">
@@ -48,7 +59,7 @@ const Dashborad = () => {
                         </div>
                     </Col>
                     <Col className="gutter-row" span={8}>
-                        <CarNumLineChart/>
+                        <CarNumLineChart />
                     </Col>
                     <Col className="gutter-row" span={8}>
                         <CarNumText />
@@ -125,7 +136,7 @@ const Dashborad = () => {
                 </Anchor>
             </Affix> */}
 
-            <Footer style={{textAlign:'center'}}>Created by Lee</Footer>
+            <Footer style={{ textAlign: 'center' }}>Created by Lee</Footer>
         </Layout >)
 }
 

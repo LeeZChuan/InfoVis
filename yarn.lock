@@ -3774,6 +3774,11 @@ css-prefers-color-scheme@^3.1.1:
   dependencies:
     postcss "^7.0.5"
 
+css-react-seamless-scroll@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/css-react-seamless-scroll/-/css-react-seamless-scroll-1.0.0.tgz#99d866dfd51bafdcb5c4603b855971097e61580f"
+  integrity sha512-JN3sF/CVlrn3SPNVNq8k7FlsOq9KblH4746ZjDIgrm4SjipXjB966eugTGgj7jj3g2BSu/NdVi0FKDB73t7QxQ==
+
 css-select-base-adapter@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/css-select-base-adapter/-/css-select-base-adapter-0.1.1.tgz#3b2ff4972cc362ab88561507a95408a1432135d7"

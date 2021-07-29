@@ -13,10 +13,10 @@ const { Header } = Layout;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
-const style = { background: '#0092ff', heigh: '500px' };
+const style = { background: '#0092ff', heigh: '500px', width: '1920px' };
 const titlestyle0 = { margin: '0px 0px 0px 50px' }
-const titlestyle1 = { margin: '0px 0px 0px 300px', color: '#fff' }
-const titlestyle2 = { margin: '0px 0px 0px 100px' }
+const titlestyle1 = { margin: '0px 0px 0px 350px', color: '#fff' }
+const titlestyle2 = { margin: '0px 0px 0px 60px' }
 
 
 
@@ -92,12 +92,14 @@ const Topnav = () => {
                             //  (selectPage) ? (<Button onChange={() => setselectPage(false)}>前往数据下载表格页面</Button>) : (<Button onChange={() => setselectPage(true)} > 前往可视化页面</Button>)
 
                             (selectPage) ? (<Button onClick={() => {
-                                setselectPage(false);
-                                console.log(selectPage)
-                            }}><Link to="/download" >前往数据下载表格页面</Link></Button>) : (<Button onClick={() => {
-                                setselectPage(true);
-                                console.log(selectPage)
-                            }} > <Link to="/index" >前往可视化页面</Link></Button>)
+                                if (selectPage != true) { } else { setselectPage(false); }
+
+                            }}><Link to="/download" >前往源数据下载表格页</Link></Button>) : (<Button onClick={() => {
+                                if (selectPage != true) {
+                                    console.log("等待一下");
+                                    setselectPage(true); 
+                                } else{} setselectPage(true);
+                            }} > <Link to="/index" >前往可视化图表展示页</Link></Button>)
                             // selectPage? <Button><Link to="/download" onChange={setselectPage(false)}>前往数据下载表格页面</Link></Button>:<Button onChange={setselectPage(true)} > <Link to="/index" >前往可视化页面</Link></Button>
 
                         }
@@ -189,7 +191,7 @@ const Topnav = () => {
                                 }}  >
                                 查询
                             </Button>
-                            <Button type="primary" onClick={fullScreen} icon={<FullscreenOutlined />}>全屏</Button>
+                            <Button type="primary" onClick={fullScreen} icon={<FullscreenOutlined />}></Button>
                         </Space>
                     </div>
                 </Row>
