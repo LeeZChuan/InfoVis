@@ -2,8 +2,8 @@
 
 import React, { Component } from "react";
 import { JsSeamlessScroll } from "css-react-seamless-scroll";
-import { getChartData } from '../../service/api';//数据读取
-import AppContext from '../../store';
+import { getChartData } from '@/service/api';//数据读取
+import AppContext from '@/store';
 import "./styles.less";
 
 const data = [];

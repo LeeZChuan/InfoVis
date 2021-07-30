@@ -1,8 +1,8 @@
 //终端装车数据时序折线图
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
-import { getChartData} from '../../service/api'//数据读取
-import AppContext from '../../store';
+import { getChartData} from '@/service/api'//数据读取
+import AppContext from '@/store';
 
 // import theme from '../../style/echartsMap/dark.json'
 // const obj = JSON.parse(theme);

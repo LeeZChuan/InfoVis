@@ -11,7 +11,7 @@ import { VisualMapComponent } from 'echarts/components';
 import 'echarts/extension/bmap/bmap';
 // import 'echarts/map/js/china';
 import { mapConfig } from './style';
-import { getHeatMapData } from '../../service/api';
+import { getHeatMapData } from '@/service/api';
 
 echarts.use([ VisualMapComponent]);
 //坐标信息

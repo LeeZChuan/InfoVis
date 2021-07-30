@@ -1,10 +1,10 @@
 //顶部导航栏目设计组件
 import React, { useState, useEffect, useContext } from 'react';
-import Clock from '../TimeShow/index'
-import AppContext from '../../store';
+import Clock from '@/components/TimeShow/index'
+import AppContext from '@/store';
 import moment from 'moment';//时间组件
 import { Link } from 'react-router-dom';
-import { getCarBrandData, getCarStyle, getDeviceName } from '../../service/api';
+import { getCarBrandData, getCarStyle, getDeviceName } from '@/service/api';
 import screenfull from 'screenfull';//全屏
 import { FullscreenOutlined } from '@ant-design/icons';
 import { Layout, Row, Select, Space, DatePicker, Affix, Button } from 'antd';

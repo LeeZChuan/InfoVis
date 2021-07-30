@@ -1,8 +1,8 @@
 import React, { useEffect, useRef,useContext } from 'react';
 import * as echarts from 'echarts';
-import { getChartData } from '../../../../service/api';
-import AppContext from '../../../../store';
-import echartsTheme from '../../../../style/echartsMap/light'
+import { getChartData } from '@/service/api';
+import AppContext from '@/store';
+import echartsTheme from '@/style/echartsMap/light'
 
 const option = {
     title: {
