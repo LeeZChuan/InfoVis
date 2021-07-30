@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import * as echarts from "echarts";
 
 import { JsSeamlessScroll } from "css-react-seamless-scroll";
-
 import "./style.css";
-
 class JsExample extends Component {
   constructor(props) {
     super(props);

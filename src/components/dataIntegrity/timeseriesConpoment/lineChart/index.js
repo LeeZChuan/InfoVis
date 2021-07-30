@@ -2,7 +2,7 @@ import React, { useEffect, useRef,useContext } from 'react';
 import * as echarts from 'echarts';
 import { getChartData } from '../../../../service/api';
 import AppContext from '../../../../store';
-
+import echartsTheme from '../../../../style/echartsMap/light'
 
 const option = {
     title: {
@@ -163,7 +163,10 @@ const LineChart = () => {
     const { list } = useContext(AppContext);
     const myChart = useRef();
     useEffect(() => {
-        myChart.current = echarts.init(document.getElementById('timeLineChart'));
+        echarts.registerTheme('theme', echartsTheme);
+    }, [])
+    useEffect(() => {
+        myChart.current = echarts.init(document.getElementById('timeLineChart'));  
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
@@ -189,7 +192,7 @@ const LineChart = () => {
     });
     return (
         <div>
-            <div id="timeLineChart" ref={myChart} style={{ height: '400px' }}></div>
+            <div id="timeLineChart" theme="theme" ref={myChart} style={{ height: '400px' }}></div>
         </div>
     )
 

@@ -10,7 +10,6 @@ import Barycategory from './components/bar-ycategory';
 import BarycategoryCobo from './components/bar-ycategoryCobo';
 import EverydayLine from './components/everydayLine';
 import DataSeries_PieChart from './components/dataSeries_PieChart';
-// import ControlMap from './components/Map/controlMap';
 import DataIntegrityLineChart from './components/dataIntegrity/timeLineChart/index';
 import TimeLineChart from './components/dataIntegrity/timeseriesConpoment/lineChart';
 import StactterPieChart from './components/dataIntegrity/timeseriesConpoment/stactterPieChart';

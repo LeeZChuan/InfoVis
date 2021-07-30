@@ -12,8 +12,9 @@ export function AppProvider(props) {
         endTime: "2020-10-1"
     });
     const [selectPage, setselectPage] = useState(true);//表格与可视化图标页面路由切换状态
-    
-    return <AppContext.Provider value={{ list, setlist,selectPage, setselectPage }}>{props.children}</AppContext.Provider>
+    const [selectNum, setselectNum] = useState(false);//表格与可视化图标页面路由切换状态
+
+    return <AppContext.Provider value={{ list, setlist, selectPage, setselectPage, selectNum, setselectNum }}>{props.children}</AppContext.Provider>
 }
 
 export default AppContext;

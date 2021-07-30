@@ -5,8 +5,6 @@ import App from './Page';
 import { AppProvider } from './store';
 import 'antd/dist/antd.css';
 
-
-
 ReactDOM.render(<AppProvider>
     <App />
 </AppProvider>, document.getElementById("root"))

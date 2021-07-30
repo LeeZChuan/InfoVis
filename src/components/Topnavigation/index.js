@@ -8,17 +8,14 @@ import { getCarBrandData, getCarStyle, getDeviceName } from '../../service/api';
 import screenfull from 'screenfull';//全屏
 import { FullscreenOutlined } from '@ant-design/icons';
 import { Layout, Row, Select, Space, DatePicker, Affix, Button } from 'antd';
-
 const { Header } = Layout;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const style = { background: '#0092ff', heigh: '500px', width: '1920px' };
-const titlestyle0 = { margin: '0px 0px 0px 50px' }
+const titlestyle0 = { margin: '0px auto' }
 const titlestyle1 = { margin: '0px 0px 0px 350px', color: '#fff' }
-const titlestyle2 = { margin: '0px 0px 0px 60px' }
-
-
+const titlestyle2 = { margin: '0px auto' }
 
 const Topnav = () => {
     const [selectChoose, setselectChoose] = useState(false);//图表切换状态
@@ -32,7 +29,7 @@ const Topnav = () => {
     const [endTime, setendTime] = useState('');//初始化一个时间终端数组
     const { list, setlist } = useContext(AppContext);
     const { selectPage, setselectPage } = useContext(AppContext);
-
+    const { setselectNum } = useContext(AppContext);
     //下拉时间选择
     const chooseTimeRange = (dates, dateStrings) => {
         setstartTime(dateStrings[0]);
@@ -87,24 +84,16 @@ const Topnav = () => {
                     </div>
                     <div style={titlestyle0}>
                         {
-
-
-                            //  (selectPage) ? (<Button onChange={() => setselectPage(false)}>前往数据下载表格页面</Button>) : (<Button onChange={() => setselectPage(true)} > 前往可视化页面</Button>)
-
                             (selectPage) ? (<Button onClick={() => {
-                                if (selectPage != true) { } else { setselectPage(false); }
+                                if (selectPage != true) {} else { setselectPage(false); }
 
                             }}><Link to="/download" >前往源数据下载表格页</Link></Button>) : (<Button onClick={() => {
                                 if (selectPage != true) {
                                     console.log("等待一下");
                                     setselectPage(true); 
-                                } else{} setselectPage(true);
+                                } else{}
                             }} > <Link to="/index" >前往可视化图表展示页</Link></Button>)
-                            // selectPage? <Button><Link to="/download" onChange={setselectPage(false)}>前往数据下载表格页面</Link></Button>:<Button onChange={setselectPage(true)} > <Link to="/index" >前往可视化页面</Link></Button>
-
-                        }
-                        {/* <Button onClick={() => selectPage ? setselectPage(false) : setselectPage(true)}>你好</Button> */}
-
+                        }      
                     </div>
                     <h1 style={titlestyle1}>
                         数据质量分析平台
@@ -113,10 +102,7 @@ const Topnav = () => {
                         <Space>
                             <Select
                                 showSearch
-                                // mode="multiple" as const
                                 style={{ width: 130 }}
-                                // style={{ maxHeight: 32, overflow: 'hidden', width: 130 }}
-                                // placeholder={"查询品牌"}
                                 placeholder={selectChoose ? list.nowChooseCarBrand : "查询品牌"}
                                 onChange={e => {
                                     chooseCarData("carBrand", e);
@@ -178,6 +164,7 @@ const Topnav = () => {
                                         endTime: endTime
                                     }
                                     setlist(item);//设置全局list数据
+                                    setselectNum(true);//设置全局图表状态更新（主要针对于第一列的动态轮播图）
                                     if (selectChoose != true) {
 
                                         setselectChoose(true);
@@ -185,9 +172,7 @@ const Topnav = () => {
                                     }
                                     else {
                                         console.log("已经设置成功，无需设置");
-
                                     }
-                                    console.log(list);
                                 }}  >
                                 查询
                             </Button>
@@ -199,6 +184,5 @@ const Topnav = () => {
         </Affix >
     )
 }
-
 
 export default Topnav;

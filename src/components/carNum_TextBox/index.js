@@ -42,7 +42,7 @@ class JsExample extends Component {
     //这里有一个还未解决的问题，就是动态滚动模块，数据重新加载dom组件并未及时更新，需要定时器刷新，并且超过了范围就会出现初始化的数据
     componentWillMount() {
         let iniDataList = [];
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < 10000; i++) {
             iniDataList.push({
                 key: i,
                 carID: "React 无缝滚动组件展示数据",
@@ -54,8 +54,18 @@ class JsExample extends Component {
 
     componentDidMount() {
         this.timer = setInterval(() => {
-            this.getData(this.context.list.nowChooseCarBrand, this.context.list.nowChooseCarStyle, this.context.list.nowCho_CarDevNaData, this.context.list.startTime, this.context.list.endTime, "getCarInstallInfo")
-        }, 10000)
+            if (this.context.selectNum) {
+                this.getData(this.context.list.nowChooseCarBrand, this.context.list.nowChooseCarStyle, this.context.list.nowCho_CarDevNaData, this.context.list.startTime, this.context.list.endTime, "getCarInstallInfo")
+                this.context.setselectNum(false);
+            } else {
+                if (this.state.datas.length == 10000) {
+                    this.getData(this.context.list.nowChooseCarBrand, this.context.list.nowChooseCarStyle, this.context.list.nowCho_CarDevNaData, this.context.list.startTime, this.context.list.endTime, "getCarInstallInfo")
+                }
+                else {//如果切换重置了，再次注入数据
+
+                }
+            }
+        }, 1000)
     }
 
     componentWillUnmount() {
@@ -63,7 +73,6 @@ class JsExample extends Component {
     }
 
     render() {
-        console.log(this.state.datas);
         return (
             <div className="scroll">
                 <div>车辆列表数据动态展示</div>
