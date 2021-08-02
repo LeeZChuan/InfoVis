@@ -10,7 +10,7 @@ import Execl_DashBorad from './execl_DashBorad';
 
 export default () => (
     <Router>
-        <Nav />
+            <Nav />
             <Switch>
                 <Route path="/" exact component={BasicLayout} />
                 <Route path="/index" component={DashBorad} />

@@ -3,334 +3,168 @@
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 
-const mockData = [
-    {total: "5508", detail: "团队旅游"},
-    {total: "1064", detail: "探亲"},
-    {total: "275", detail: "应邀赴台"},
-    {total: "222", detail: "商务"},
-    {total: "89", detail: "其他"},
-    {total: "67", detail: "赴台就学"},
-    {total: "33", detail: "定居"},
-    {total: "9", detail: "旅行"},
-    {total: "167", detail: "闲的没事"},
-    {total: "133", detail: "吃饱撑的"},
-]
-
 const option = {
-    grid: {
-        left: 0
+    title: {
+        text: '某站点用户访问来源',
+        x: 'center',
+        textStyle: {
+            color: '#B4B4B4',
+            fontSize: 16,
+            fontWeight: 'normal',
+        },
     },
     tooltip: {
         trigger: 'item',
-        formatter: '{b}({d}%)',
-        textStyle: {
-            color: '#000'
-        },
         backgroundColor: '#fff',
-        extraCssText: 'box-shadow: 0px 0px 10px 0px rgba(19,83,88,0.2);'
-    },
-    legend: {
-        // orient: 'vertical',
-        // y: 'middle',
-        right: '0%',
-        top: '35%',
-        left: '60%',
-        bottom: '80%',
-        data: mockData.map(item => item.detail), 
-        icon: 'circle',
-        formatter: params => { 
-            const dataAll = mockData.map(item => Number(item.total))
-            const total = dataAll.reduce((x, y) => parseInt(x, 10) + parseInt(y, 10))
-            const value = Number(mockData.filter(item => item.detail === params)[0].total)
-            if (total === 0) {
-                return `{a|${params}：}{b|0.00%}`
-            }
-            const name = params
-            return `{a|${name}：}{b|${((value * 100) / total).toFixed(2)}%}`
-        },
-        textStyle: {
-            rich: {
-                a: {
-                    color: '#120000',
-                    width: 70,
-                    fontSize: 14,
-                    fontWeight: 'bold',
-                    align: 'left'
-                },
-                b: {
-                    color: '#18355C',
-                    fontSize: 14,
-                    fontWeight: 'bold',
-                }
-            }
-        },  
-        selectorPosition: 'start',
-        align: 'left',
-        itemHeight: 8,
-        itemWidth: 8,
-        itemGap: 30
+        formatter: "该天数据百分比情况占比{d}%"
     },
     series: [
         {
-            name: '',
+            name: '上网时间',
             type: 'pie',
-            radius: ['42%', '75%'],
-            center: ['30%', '50%'],
-            clockwise: false,
-            avoidLabelOverlap: false,
-            hoverOffset: 10,
-            legendHoverLink: true,
-            label: {
+            radius: ['6%', '70%'],//条形柱状图高度大小
+            roseType: 'area',
+            color: ['#3fa7dc'],//条形柱状图颜色
+            data: [{}],
+            labelLine: {
                 normal: {
-                    show: false,
-                    position: 'center'
-                },
-                emphasis: {
-                    show: true,
-                    textStyle: {
-                        fontSize: '20',
-                        fontWeight: '400'
-                    }
+                    show: false
                 }
             },
-            labelLine: {
+            label: {
                 normal: {
                     show: false
                 }
             },
             itemStyle: {
                 normal: {
-                    borderColor: '#ffffff',
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                },
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        },
+        {
+            name: '',
+            type: 'gauge',
+            min: 0,
+            max: 24,
+            startAngle: 90,
+            endAngle: 449.9,
+            radius: '100%',
+            splitNumber: 24,
+            clockwise: false,
+            animation: false,
+            detail: {
+                formatter: '{value}',
+                textStyle: {
+                    color: '#F02FC2'
                 }
             },
-            data: [
-                { 
-                    value: mockData[0].total,
-                    name: mockData[0].detail,
-                    itemStyle: {
-                        shadowBlur: 15,
-                        shadowOffsetX: -10,
-                        shadowOffsetY: 0,
-                        shadowColor: 'rgba(122,74,255, 0.4)',
-                        color: new echarts.graphic.LinearGradient(
-                            0, 0, 0, 1,
-                            [
-                                { offset: 0, color: '#9B66FF' },
-                                { offset: 1, color: '#6236FF' }
-                            ]
-                        ),
-                        emphasis: {
-                            shadowBlur: 15,
-                            shadowColor: 'rgba(122,74,255, 1)',
-                            borderColor: '#ffffff',
-                            borderWidth: 0
-                        }
-                    }    
+            detail: {
+                show: false
+            },
+            axisTick: {
+                show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: [
+                        [0.25, '#63869e'],//仪表盘左上角颜色
+                        [0.75, '#ffffff'],//仪表盘底部颜色
+                        [1, '#63869e']//仪表盘右上角颜色
+                    ],
+                    width: '40%',
+                    shadowColor: '#0d4b81', //默认仪表盘周围边沿透明颜色
+                    shadowBlur: 40,
+                    opacity: 1
+                }
+            },
+            splitLine: {
+                length: 5,
+                lineStyle: {
+                    color: '#ffffff',
+                    width: 2
+                }
+            },
+            axisLabel: {
+                formatter: function (v) {
+                    return v ? v : '';
                 },
-                { 
-                    value: mockData[1].total,
-                    name: mockData[1].detail,
-                    itemStyle: {
-                        shadowBlur: 15,
-                        shadowOffsetX: -10,
-                        shadowOffsetY: 0,
-                        shadowColor: 'rgba(236,102,255, 0.4)',
-                        color: new echarts.graphic.LinearGradient(
-                            0, 0, 0, 1,
-                            [
-                                { offset: 0, color: '#EC66FF' },
-                                { offset: 1, color: '#B620E0' }
-                            ]
-                        ),
-                        emphasis: {
-                            shadowBlur: 15,
-                            shadowColor: 'rgba(236,102,255, 1)',
-                            borderColor: '#ffffff',
-                            borderWidth: 0
-                        }
-                    }
+                textStyle: {
+                    color: "black",//周围24小时字体颜色
+                    fontWeight: 700
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: 'blue',
+                    width: 2
+                }
+            }
+        },
+        {
+            name: '',
+            type: 'gauge',
+            min: 0,
+            max: 24,
+            startAngle: 90,
+            endAngle: 449.9,
+            radius: '72%',
+            splitNumber: 24,
+            clockwise: false,
+            animation: false,
+            detail: {
+                formatter: '{value}',
+                textStyle: {
+                    color: '#63869e'
+                }
+            },
+            detail: {
+                show: false
+            },
+            axisTick: {
+                show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: [
+                        [1, '#E8E8E8']//仪表盘背景颜色
+                    ],
+                    width: '10%',
+                    opacity: 0.8
+                }
+            },
+            splitLine: {
+                show: true,
+                length: '92%',
+                lineStyle: {
+                    color: 'grey',
+                    width: '1'
+                }
+            },
+            axisLabel: {
+                show: false,
+                formatter: function (v) {
+                    return v ? v : '';
                 },
-                { 
-                    value: mockData[2].total,
-                    name: mockData[2].detail,
-                    itemStyle: {
-                        shadowBlur: 15,
-                        shadowOffsetX: -10,
-                        shadowOffsetY: 0,
-                        shadowColor: 'rgba(245,114,164, 0.4)',
-                        color: new echarts.graphic.LinearGradient(
-                            0, 0, 0, 1,
-                            [
-                                { offset: 0, color: '#F572A4' },
-                                { offset: 1, color: '#D72552' }
-                            ]
-                        ),
-                        emphasis: {
-                            shadowBlur: 15,
-                            shadowColor: 'rgba(245,114,164, 1)',
-                            borderColor: '#ffffff',
-                            borderWidth: 0
-                        }
-                    }
-                },
-                { 
-                    value: mockData[3].total,
-                    name: mockData[3].detail,
-                    itemStyle: {
-                        shadowBlur: 15,
-                        shadowOffsetX: -10,
-                        color: new echarts.graphic.LinearGradient(
-                            0, 0, 0, 1,
-                            [
-                                { offset: 0, color: '#FD9D00' },
-                                { offset: 1, color: '#FA6400' }
-                            ]
-                        ),
-                        shadowColor: 'rgba(238,101,0,0.4)',
-                        emphasis: {
-                            shadowBlur: 15,
-                            shadowColor: 'rgba(238,101,0,1)',
-                            borderColor: '#ffffff',
-                            borderWidth: 0
-                        }
-                    }
-                },
-                { 
-                    value: mockData[4].total,
-                    name: mockData[4].detail,
-                    itemStyle: {
-                        shadowBlur: 15,
-                        shadowOffsetX: -10,
-                        shadowColor: 'rgba(247,181,0, 0.4)',
-                        color: new echarts.graphic.LinearGradient(
-                            0, 0, 0, 1,
-                            [
-                                { offset: 0, color: '#FCDB00' },
-                                { offset: 1, color: '#F7B500' }
-                            ]
-                        ),
-                        emphasis: {
-                            shadowBlur: 15,
-                            shadowColor: 'rgba(247,181,0, 1)',
-                            borderWidth: 0
-                        }
-                    }    
-                },
-                { 
-                    value: mockData[5].total,
-                    name: mockData[5].detail,
-                    itemStyle: {
-                        shadowBlur: 15,
-                        shadowOffsetX: -10,
-                        shadowOffsetY: 0,
-                        shadowColor: 'rgba(130,221,0, 0.4)',
-                        color: new echarts.graphic.LinearGradient(
-                            0, 0, 0, 1,
-                            [
-                                { offset: 0, color: '#A6EC00' },
-                                { offset: 1, color: '#6DD400' }
-                            ]
-                        ),
-                        emphasis: {
-                            shadowBlur: 15,
-                            shadowColor: 'rgba(130,221,0, 1)',
-                            borderColor: '#ffffff',
-                            borderWidth: 0
-                        }
-                    }
-                },
-                { 
-                    value: mockData[6].total,
-                    name: mockData[6].detail,
-                    itemStyle: {
-                        shadowBlur: 15,
-                        shadowOffsetX: -10,
-                        shadowOffsetY: 0,
-                        shadowColor: 'rgba(88,224,196, 0.4)',
-                        color: new echarts.graphic.LinearGradient(
-                            0, 0, 0, 1,
-                            [
-                                { offset: 0, color: '#79EDDC' },
-                                { offset: 1, color: '#44D7B6' }
-                            ]
-                        ),
-                        emphasis: {
-                            shadowBlur: 15,
-                            shadowColor: 'rgba(88,224,196, 1)',
-                            borderColor: '#ffffff',
-                            borderWidth: 0
-                        }
-                    }
-                },
-                { 
-                    value: mockData[7].total,
-                    name: mockData[7].detail,
-                    itemStyle: {
-                        shadowBlur: 15,
-                        shadowOffsetX: -10,
-                        shadowOffsetY: 0,
-                        shadowColor: 'rgba(0,176,255, 0.4)',
-                        color: new echarts.graphic.LinearGradient(
-                            0, 0, 0, 1,
-                            [
-                                { offset: 0, color: '#00C4FF' },
-                                { offset: 1, color: '#0091FF' }
-                            ]
-                        ),
-                        emphasis: {
-                            shadowBlur: 15,
-                            shadowColor: 'rgba(0,176,255, 1)',
-                            borderColor: '#ffffff',
-                            borderWidth: 0
-                        }
-                    }
-                },
-                { 
-                    value: mockData[8].total,
-                    name: mockData[8].detail,
-                    itemStyle: {
-                        shadowBlur: 15,
-                        shadowOffsetX: -10,
-                        shadowOffsetY: 0,
-                        shadowColor: 'rgba(49, 189, 209, 0.4)',
-                        color: new echarts.graphic.LinearGradient(
-                            0, 0, 0, 1,
-                            [
-                                { offset: 0, color: '#31BDD1' },
-                                { offset: 1, color: '#4388C6' }
-                            ]
-                        ),
-                        emphasis: {
-                            shadowBlur: 15,
-                            shadowColor: 'rgba(49, 189, 209, 1)',
-                            borderColor: '#ffffff',
-                            borderWidth: 0
-                        }
-                    }
-                }, { 
-                    value: mockData[9].total,
-                    name: mockData[9].detail,
-                    itemStyle: {
-                        shadowBlur: 15,
-                        shadowOffsetX: -10,
-                        shadowOffsetY: 0,
-                        shadowColor: 'rgba(114, 151, 255, 0.4)',
-                        color: new echarts.graphic.LinearGradient(
-                            0, 0, 0, 1,
-                            [
-                                { offset: 0, color: '#7297FF' },
-                                { offset: 1, color: '#364BEC' }
-                            ]
-                        ),
-                        emphasis: {
-                            shadowBlur: 15,
-                            shadowColor: 'rgba(114, 151, 255, 1)',
-                            borderColor: '#ffffff',
-                            borderWidth: 0
-                        }
-                    }
-                },
-            ]
+                textStyle: {
+                    color: "#F02FC2",
+                    fontWeight: 700
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: 'green',
+                    width: 2,
+                    borderWidth: 3,
+                }
+            }
         }
     ]
 };
@@ -341,15 +175,23 @@ const PieChart = () => {
         myChart.current = echarts.init(document.getElementById('dataSeriesPieChart'));
     }, [])
     const getData = async () => {
+        const data = () => {
+            var d = [];
+            for (var i = 0; i < 24; i++) {
+                d.push({ name: i + '~' + (i + 1), value: Math.random() * 100 });
+            }
+            return d;
+        }
+        option.series[0].data = data();
         myChart.current.setOption(option);
     }
     useEffect(() => {
         getData();
-    }, []);
+    });
     return (
         <div>
 
-            <div id="dataSeriesPieChart" ref={myChart} style={{ height: '500px' }}></div>
+            <div id="dataSeriesPieChart" ref={myChart} style={{ height: '400px' }}></div>
         </div>
     )
 

@@ -25,7 +25,6 @@ class JsExample extends Component {
         //判断筛选的数据长度，如果不够弹窗进行报错，然后用户重新选择
         if (demoData.length !== 0) {
         } else {
-            console.log("表格暂无数据，请重新选择")
             alert('表格暂无数据，请重新选择')
         }
         demoData.map((item, index) => {

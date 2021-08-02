@@ -1,11 +1,11 @@
 //页面整体布局设计
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 //图表引入
 import PieChart from './components/pieChart';
 import CarNumLineChart from './components/carNum_LineChart'
 import CarNumText from './components/carNum_TextBox'
 import InstrumentChart1 from './components/instrumentChart1';
-import MultipleyaxisChart from './components/multiple-yaxisChart';
+import MultipleyaxisChart from './components/dataValidity';
 import Barycategory from './components/bar-ycategory';
 import BarycategoryCobo from './components/bar-ycategoryCobo';
 import EverydayLine from './components/everydayLine';
@@ -13,11 +13,15 @@ import DataSeries_PieChart from './components/dataSeries_PieChart';
 import DataIntegrityLineChart from './components/dataIntegrity/timeLineChart/index';
 import TimeLineChart from './components/dataIntegrity/timeseriesConpoment/lineChart';
 import StactterPieChart from './components/dataIntegrity/timeseriesConpoment/stactterPieChart';
-import { Layout, Row, Col, Divider } from 'antd';
+import { Layout, Row, Col, Divider, Card } from 'antd';
 import { Button } from 'antd/lib/radio';
 import { RetweetOutlined } from '@ant-design/icons'
 const { Footer, Content } = Layout;
 
+//背景颜色：白色#fff
+//黑色#111111，，配图颜色折线color: ['#28E9F6', '#FFC051', '#00FFAE'],
+//深蓝色'#021434，，配图颜色折线var colorArr=['#00DAFF','#0058B4','#7F5BEA','#34CD7F'],
+const frontStyle = { front: '#fff' };
 
 const Dashborad = () => {
     const [showChart, setshowChart] = useState(true);//图表切换状态
@@ -45,9 +49,10 @@ const Dashborad = () => {
     // })
 
     return (
-        <Layout>
+        <Layout style={{ backgroundColor: '#080b30',position:'absolute', width: 'auto',left:0,right:0 }}>
             <Content>
-                <Divider id="onlineData" orientation="left">实时展示栏目</Divider>
+            
+                <Divider id="onlineData" orientation="left" style={frontStyle}>实时展示栏目</Divider>
                 <Row orientation="left">
                     <Col span={24}>实时时间展示窗口</Col>
                 </Row>
@@ -82,24 +87,25 @@ const Dashborad = () => {
                 </Row>
                 <Divider orientation="left">数据有效性</Divider>
                 <Row gutter={10}>
-                    <Col md={16}>
+                    <Col md={8}>
                         饼状图
                         <PieChart />
                     </Col>
 
-                    <Col md={8}>
+                    <Col md={16}>
                         堆叠图
                         <MultipleyaxisChart />
                     </Col>
                 </Row>
                 <Divider orientation="left">数据时效性</Divider>
                 <Row gutter={10}>
-                    <Col md={16}>
+                    <Col md={24}>
                         各类时效性概况图
                         <Barycategory />
                     </Col>
-
-                    <Col md={8}>
+                </Row>
+                <Row gutter={10}>
+                    <Col md={24}>
                         数据时效性-同步数据时长
                         <BarycategoryCobo />
                     </Col>
@@ -113,7 +119,7 @@ const Dashborad = () => {
                 </Row>
                 <Divider orientation="left">数据连续性</Divider>
                 <Row gutter={10}>
-                    <Col md={16}>
+                    <Col md={8}>
                         各类时效性地图联动效果
                         <DataSeries_PieChart />
                     </Col>
@@ -123,19 +129,7 @@ const Dashborad = () => {
                     </Col>
                 </Row>
             </Content>
-            {/* 右上角浮动窗口 */}
-            {/* <Affix style={styles.affixBox}>
-                <Anchor offsetTop={50} affix={false}>
-                    <Anchor.Link href='#onlineData' title='实时展示栏目' />
-                    <Anchor.Link href='#basicData' title='数据完整性展示栏目' />
-                    <Anchor.Link href='#select' title='数据有效性栏目' />
-                    <Anchor.Link href='#filterOrSort' title='数据时效性栏目' />
-                    <Anchor.Link href='#remoteLoading' title='数据时效性地理信息展示' />
-                    <Anchor.Link href='#unfold' title='数据连续性' />
-                </Anchor>
-            </Affix> */}
-
-            <Footer style={{ textAlign: 'center' }}>Created by Lee</Footer>
+            <Footer style={{backgroundColor: '#080b30', width: 'auto', textAlign: 'center',color:'#fff' }}>Created by TYKJ</Footer>
         </Layout >)
 }
 

@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
+import theme from '@/style/echartsMap/light'
 
 const colors = ['#5470C6', '#91CC75', '#EE6666'];
 
@@ -20,7 +21,6 @@ const option = {
     toolbox: {
         feature: {
             dataView: {show: true, readOnly: false},
-            restore: {show: true},
             saveAsImage: {show: true}
         }
     },
@@ -111,7 +111,7 @@ const option = {
 const LineChart = () => {
     const myChart = useRef();
     useEffect(() => {
-        // const myChartDom = document.getElementById('Chart');
+        echarts.registerTheme(theme);
         myChart.current = echarts.init(document.getElementById('yaxisChart'));
     }, [])
     const getData = async () => {

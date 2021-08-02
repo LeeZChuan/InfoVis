@@ -1,17 +1,19 @@
 //终端装车数据时序折线图
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
-import { getChartData} from '@/service/api'//数据读取
+import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store';
 
-// import theme from '../../style/echartsMap/dark.json'
-// const obj = JSON.parse(theme);
-
-
 const option = {
+    backgroundColor:'#080b30',
     title: {
         text: '每日车辆数据趋势',
-        subtext: '数据来自天远科技有限公司',
+        textStyle: {
+            color: '#FFFFFF',
+            fontSize: '22',
+            fontFamily: 'PingFang',
+            fontWeight: '400',
+        },
         left: 'center',
         align: 'right'
     },
@@ -21,18 +23,20 @@ const option = {
             type: 'cross'
         },
     },
-    length:{
-        show:true
+    color: '#00DAFF',//POINT COLOR
+    length: {
+        show: true
     },
     toolbox: {
         show: true,
         feature: {
-            saveAsImage: {},
+            mark: { show: true },
+            dataView: { show: true, readOnly: false },
             dataZoom: {
                 yAxisIndex: 'none'
             },
-            restore: {},
-            saveAsImage: {}
+            restore: { show: true },
+            saveAsImage: { show: true }
         }
     },
     dataZoom: [
@@ -49,14 +53,34 @@ const option = {
             end: 100
         }
     ],
-    xAxis:[{
+    xAxis: [{
         type: 'category',
+        axisLabel: {
+            //坐标轴刻度标签的相关设置。
+            interval: 1, //设置为 1，表示『隔一个标签显示一个标签』
+            margin: 6,
+            textStyle: {
+                color: '#BCD8FF',
+                fontFamily: 'PingFang',
+                fontStyle: 'normal',
+                fontSize: 12,
+            },
+        },
         data: [{}],
     }],
     yAxis: {
         type: 'value',
         axisLabel: {
-            formatter: '{value} '+'辆'
+            //坐标轴刻度标签的相关设置。
+            interval: 0, //设置为 1，表示『隔一个标签显示一个标签』
+            margin: 15,
+            textStyle: {
+                color: '#BCD8FF',
+                fontFamily: 'PingFang',
+                fontStyle: 'normal',
+                fontSize: 12,
+            },
+            formatter: '{value} ' + '辆'
         },
     },
     series: [{}]
@@ -65,11 +89,11 @@ const option = {
 const LineChart = () => {
     const myChart = useRef();
     const { list } = useContext(AppContext);
-    const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime,Chartfuncation) => {
+    const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         let demoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
-        let timeData=[];
-        let data=[];
-        demoData.map((item)=>{
+        let timeData = [];
+        let data = [];
+        demoData.map((item) => {
             timeData.push(item.month.toString());
             data.push(item.amount);
         })
@@ -77,10 +101,32 @@ const LineChart = () => {
             name: '车辆数目',
             type: 'line',
             smooth: true,
-            data:data
+            symbolSize: 10,
+            symbol: 'circle',
+            symbolSize: 8,
+            itemStyle: {
+                normal: {
+                    color: '#0092f6',
+                    lineStyle: {
+                        color: "#0092f6",
+                        width: 1
+                    },
+                    areaStyle: {
+                        //color: '#94C9EC'
+                        color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                            offset: 0,
+                            color: 'rgba(7,44,90,0.3)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(0,146,246,0.9)'
+                        }]),
+                    }
+                }
+            },
+            data: data
         }]
-        option.xAxis[0].data=timeData;
-        option.series=series;
+        option.xAxis[0].data = timeData;
+        option.series = series;
 
         myChart.current.setOption(option);
     }

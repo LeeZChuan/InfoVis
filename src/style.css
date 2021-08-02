@@ -5,6 +5,7 @@
   margin: 0 25px;
   overflow: hidden;
   position: relative;
+  color: aliceblue;
 }
 
 .scroll > div:first-child {

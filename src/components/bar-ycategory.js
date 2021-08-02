@@ -1,13 +1,17 @@
 //数据完整性：三个指标的时间序列堆叠图
-
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 
-
 const option = {
+    backgroundColor:'#080b30',
     title: {
         text: '数据时效性-各类时效性概况',
-        subtext: '数据来自网络'
+        textStyle: {
+            color: '#FFFFFF',
+            fontSize: '22',
+            fontFamily: 'PingFang',
+            fontWeight: '400',
+        },
     },
     tooltip: {
         trigger: 'axis',
@@ -15,8 +19,24 @@ const option = {
             type: 'shadow'
         }
     },
+    toolbox: {
+        show: true,
+        feature: {
+            mark: { show: true },
+            dataView: { show: true, readOnly: false },
+            saveAsImage: { show: true },
+        }
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            mark: { show: true },
+            dataView: { show: true, readOnly: false },
+            saveAsImage: { show: true }
+        }
+    },
     legend: {
-        data: ['2011年', '2012年']
+        data: ['2011年', '2012年'],
     },
     grid: {
         left: '3%',
@@ -26,11 +46,29 @@ const option = {
     },
     xAxis: {
         type: 'value',
-        boundaryGap: [0, 0.01]
+        boundaryGap: [0, 0.01],
+        axisLabel: {
+            //坐标轴刻度标签的相关设置。
+            interval: 0, //设置为 1，表示『隔一个标签显示一个标签』
+            margin: 10,
+            textStyle: {
+                color: '#BCD8FF',
+                fontFamily: 'PingFang',
+                fontStyle: 'normal',
+                fontSize: 15,
+            },
+        },
+
     },
     yAxis: {
+        //动态排列盘y轴样式
         type: 'category',
-        data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)']
+        data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)'],
+        axisLine: {
+            lineStyle: {
+                color: '#BCD8FF'
+            }
+        }
     },
     series: [
         {
@@ -46,10 +84,10 @@ const option = {
     ]
 };
 
+
 const BarChart = () => {
     const myChart = useRef();
     useEffect(() => {
-        // const myChartDom = document.getElementById('Chart');
         myChart.current = echarts.init(document.getElementById('BarChart'));
     }, [])
     const getData = async () => {

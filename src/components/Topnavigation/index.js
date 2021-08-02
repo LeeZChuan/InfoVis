@@ -8,11 +8,12 @@ import { getCarBrandData, getCarStyle, getDeviceName } from '@/service/api';
 import screenfull from 'screenfull';//全屏
 import { FullscreenOutlined } from '@ant-design/icons';
 import { Layout, Row, Select, Space, DatePicker, Affix, Button } from 'antd';
+import './index.less';
 const { Header } = Layout;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
-const style = { background: '#0092ff', heigh: '500px', width: '1920px' };
+const style = { background: '#0092ff', heigh: '500px', width: '100%'};
 const titlestyle0 = { margin: '0px auto' }
 const titlestyle1 = { margin: '0px 0px 0px 350px', color: '#fff' }
 const titlestyle2 = { margin: '0px auto' }
@@ -85,15 +86,15 @@ const Topnav = () => {
                     <div style={titlestyle0}>
                         {
                             (selectPage) ? (<Button onClick={() => {
-                                if (selectPage != true) {} else { setselectPage(false); }
+                                if (selectPage != true) { } else { setselectPage(false); }
 
                             }}><Link to="/download" >前往源数据下载表格页</Link></Button>) : (<Button onClick={() => {
                                 if (selectPage != true) {
                                     console.log("等待一下");
-                                    setselectPage(true); 
-                                } else{}
+                                    setselectPage(true);
+                                } else { }
                             }} > <Link to="/index" >前往可视化图表展示页</Link></Button>)
-                        }      
+                        }
                     </div>
                     <h1 style={titlestyle1}>
                         数据质量分析平台

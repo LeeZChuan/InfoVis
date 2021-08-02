@@ -2,95 +2,144 @@
 
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
-// import theme from '../style/echartsMap/dark.json'
 
-// const obj = JSON.parse(theme);
-
+const fontColor = '#30eee9';
 const option = {
+    backgroundColor:'#080b30',
     title: {
         text: '每日终端装车量',
-        subtext: '纯属虚构'
+        textStyle: {
+            color: '#FFFFFF',
+            fontSize: '22',
+            fontFamily: 'PingFang',
+            fontWeight: '400',
+        },
+        left: 'center',
+        align: 'right'
+    },
+    grid: {
+        left: '5%',
+        right: '5%',
+        top: '15%',
+        bottom: '5%',
+        containLabel: true
     },
     tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-            type: 'cross'
-        }
+        show: true,
+        trigger: 'item'
     },
     toolbox: {
         show: true,
         feature: {
-            saveAsImage: {}
+            mark: { show: true },
+            dataView: { show: true, readOnly: false },
+            saveAsImage: { show: true },
+            dataZoom: {
+                yAxisIndex: 'none'
+            },
         }
     },
-    xAxis: {
-        type: 'category',
-        boundaryGap: false,
-        data: ['00:00', '01:15', '02:30', '03:45', '05:00', '06:15', '07:30', '08:45', '10:00', '11:15', '12:30', '13:45', '15:00', '16:15', '17:30', '18:45', '20:00', '21:15', '22:30', '23:45']
-    },
-    yAxis: {
-        type: 'value',
-        axisLabel: {
-            formatter: '{value} '+'辆'
+    legend: {
+        show: true,
+        x: 'center',
+        y: '35',
+        icon: 'stack',
+        itemWidth: 10,
+        itemHeight: 10,
+        textStyle: {
+            color: '#1bb4f6'
         },
-        axisPointer: {
-            snap: true
-        }
+        data: [ '已发布']
     },
-    visualMap: {
-        show: false,
-        dimension: 0,
-        pieces: [{
-            lte: 6,
-            color: 'green'
-        }, {
-            gt: 6,
-            lte: 8,
-            color: 'red'
-        }, {
-            gt: 8,
-            lte: 14,
-            color: 'green'
-        }, {
-            gt: 14,
-            lte: 17,
-            color: 'red'
-        }, {
-            gt: 17,
-            color: 'green'
-        }]
-    },
-    series: [
+    xAxis: [
         {
-            name: '记录车辆数',
-            type: 'line',
-            smooth: true,
-            data: [300, 280, 250, 260, 270, 300, 550, 500, 400, 390, 380, 390, 400, 500, 600, 750, 800, 700, 600, 400],
-            markArea: {
-                itemStyle: {
-                    color: 'rgba(255, 173, 177, 0.4)'
-                },
-                data: [ [{
-                    name: '起伏期',
-                    xAxis: '07:30'
-                }, {
-                    xAxis: '10:00'
-                }], [{
-                    name: '起伏期2',
-                    xAxis: '17:30'
-                }, {
-                    xAxis: '21:15'
-                }] ]
+            type: 'category',
+            boundaryGap: false,
+            axisLabel: {
+                color: fontColor
+            },
+            axisLine: {
+                show: true,
+                lineStyle: {
+                    color: '#397cbc'
+                }
+            },
+            axisTick: {
+                show: false,
+            },
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    color: '#195384'
+                }
+            },
+            data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value',
+            name: '浏览量',
+            min: 0,
+            max: 1000,
+            position: 'right',
+            axisLabel: {
+                formatter: '{value} 人',
+                textStyle: {
+                    color: '#186afe'
+                }
+            },
+            axisLine: {
+                lineStyle: {
+                    color: '#186afe'
+                }
+            },
+            axisTick: {
+                show: false,
+            },
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    color: '#11366e'
+                }
             }
         }
+    ],
+    series: [
+        {
+            name: '已发布',
+            type: 'line',
+            stack: '总量',
+            symbol: 'circle',
+            symbolSize: 8,
+
+            itemStyle: {
+                normal: {
+                    color: '#00d4c7',
+                    lineStyle: {
+                        color: "#00d4c7",
+                        width: 1
+                    },
+                    areaStyle: {
+                        //color: '#94C9EC'
+                        color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                            offset: 0,
+                            color: 'rgba(7,44,90,0.3)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(0,212,199,0.9)'
+                        }]),
+                    }
+                }
+            },
+            data: [220, 182, 191, 234, 290, 330, 310, 201, 154, 190, 330, 410]
+        },
     ]
 };
 
 const LineChart = () => {
     const myChart = useRef();
     useEffect(() => {
-        // echarts.registerTheme('dark', obj)
-        // const myChartDom = document.getElementById('Chart');
         myChart.current = echarts.init(document.getElementById('Chart'));
     }, [])
     const getData = async () => {
@@ -98,7 +147,7 @@ const LineChart = () => {
     }
     useEffect(() => {
         getData();
-    }, []);
+    });
     return (
         <div>
 

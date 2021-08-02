@@ -8,11 +8,25 @@ import AppContext from '@/store';
 var highlight = '#03b7c9';
 
 const option = {
+    backgroundColor:'#080b30',
     title: {
         text: '实时在线率仪表盘',
-        subtext: '数据来自天远科技有限公司',
+        textStyle: {
+            color: '#FFFFFF',
+            fontSize: '22',
+            fontFamily: 'PingFang',
+            fontWeight: '400',
+        },
+        padding: [10, 0, 1000, 500],
         left: 'center',
-        align: 'right'
+    },
+    toolbox: {
+        show: true,
+        feature: {
+            mark: {show: true},
+            dataView: {show: true, readOnly: false},
+            saveAsImage: {show: true}
+        }
     },
     series: [{}]
 };
@@ -112,7 +126,7 @@ const InstrumentChart = () => {
                     offsetCenter: [0, '100%'],
                     textStyle: {
                         fontSize: 20,
-                        color: '#222'
+                        color: '#fff'
                     },
                     formatter: [
                         '{value} ' + ("%" || ''),
@@ -121,8 +135,8 @@ const InstrumentChart = () => {
                     rich: {
                         name: {
                             fontSize: 14,
-                            lineHeight: 30,
-                            color: '#222'
+                            lineHeight: 20,
+                            color: '#fff'
                         }
                     }
                 },
@@ -224,7 +238,7 @@ const InstrumentChart = () => {
                     offsetCenter: [0, '100%'],
                     textStyle: {
                         fontSize: 20,
-                        color: '#222'
+                        color: '#fff'
                     },
                     formatter: [
                         '{value} ' + ("%" || ''),
@@ -234,7 +248,7 @@ const InstrumentChart = () => {
                         name: {
                             fontSize: 14,
                             lineHeight: 30,
-                            color: '#222'
+                            color: '#fff'
                         }
                     }
                 },
