@@ -6,17 +6,14 @@ import moment from 'moment';//时间组件
 import { Link } from 'react-router-dom';
 import { getCarBrandData, getCarStyle, getDeviceName } from '@/service/api';
 import screenfull from 'screenfull';//全屏
-import { FullscreenOutlined } from '@ant-design/icons';
+import { FullscreenOutlined, AreaChartOutlined, AppstoreOutlined } from '@ant-design/icons';
 import { Layout, Row, Select, Space, DatePicker, Affix, Button } from 'antd';
-import './index.less';
+import './index.css';
 const { Header } = Layout;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
-const style = { background: '#0092ff', heigh: '500px', width: '100%'};
-const titlestyle0 = { margin: '0px auto' }
-const titlestyle1 = { margin: '0px 0px 0px 350px', color: '#fff' }
-const titlestyle2 = { margin: '0px auto' }
+const style = { background: '#0092ff' };
 
 const Topnav = () => {
     const [selectChoose, setselectChoose] = useState(false);//图表切换状态
@@ -71,6 +68,8 @@ const Topnav = () => {
         }
     }
 
+   
+
     useEffect(() => {
         initData();//最一开始初始化车辆品牌方法
 
@@ -78,12 +77,12 @@ const Topnav = () => {
 
     return (
         <Affix>
-            <Header style={style}>
+            <Header style={style} className='header'>
                 <Row>
-                    <div>
+                    <div className="showTime">
                         <Clock />
                     </div>
-                    <div style={titlestyle0}>
+                    <div className="selectPage">
                         {
                             (selectPage) ? (<Button onClick={() => {
                                 if (selectPage != true) { } else { setselectPage(false); }
@@ -96,10 +95,10 @@ const Topnav = () => {
                             }} > <Link to="/index" >前往可视化图表展示页</Link></Button>)
                         }
                     </div>
-                    <h1 style={titlestyle1}>
+                    <h1 className="title">
                         数据质量分析平台
                     </h1>
-                    <div style={titlestyle2}>
+                    <div className="search">
                         <Space>
                             <Select
                                 showSearch
@@ -177,6 +176,34 @@ const Topnav = () => {
                                 }}  >
                                 查询
                             </Button>
+
+
+                            {/* <div className="selectPage">
+                                {
+                                    (selectPage) ? (<Button onClick={() => {
+                                        if (selectPage != true) { } else { setselectPage(false); }
+
+                                    }} icon={<AppstoreOutlined />}><Link to="/download" ></Link></Button>) : (<Button onClick={() => {
+                                        if (selectPage != true) {
+                                            console.log("等待一下");
+                                            setselectPage(true);
+                                        } else { }
+                                    }} icon={<AreaChartOutlined />} > <Link to="/index" ></Link></Button>)
+                                }
+                            </div> */}
+                            {/* <div className="selectPage">
+                                {
+                                    (selectPage) ? (<Button onClick={() => {
+                                        if (selectPage != true) { } else { setselectPage(false); }
+
+                                    }} icon={<AppstoreOutlined />}><Link to="/download" ></Link></Button>) : (<Button onClick={() => {
+                                        if (selectPage != true) {
+                                            console.log("等待一下");
+                                            setselectPage(true);
+                                        } else { }
+                                    }} icon={<AreaChartOutlined />} > <Link to="/index" ></Link></Button>)
+                                }
+                            </div> */}
                             <Button type="primary" onClick={fullScreen} icon={<FullscreenOutlined />}></Button>
                         </Space>
                     </div>

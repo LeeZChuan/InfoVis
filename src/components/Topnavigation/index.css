@@ -1,0 +1,26 @@
+//顶部导航栏目
+.header{
+    height: 500px;
+    width: 100%;
+    position:relative;
+}
+.showTime{
+    margin:0px auto;
+}
+.selectPage{
+    
+}
+.title{
+    /* 绝对定位--垂直居中 */
+    /* position: absolute; */
+    top: 50%;
+    left: 50%;
+    margin-left: 310px;
+    color: white;
+}
+.search{
+    margin: 0px auto;
+}
+.title.Line{
+    color: whitesmoke;
+}

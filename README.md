@@ -1,6 +1,4 @@
-[TOC]
-
-# InfoVis
+# 📈InfoVis
 
 [![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)	]()[![Release](https://img.shields.io/badge/realease-latest-brightgreen.svg)	]()[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)	![React](https://img.shields.io/badge/React-17.x.x-blue.svg)
 
@@ -66,6 +64,9 @@ yarn build 打包代码
 
 
 ## API | Reference
+
+- 该项目使用了以下常用插件
+- 1.css-react-seamless-scroll，用于滚动展示滑动栏目
 
 [API](./docs/API.md)
 

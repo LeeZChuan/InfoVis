@@ -99,7 +99,7 @@ const BarChart = () => {
     return (
         <div>
 
-            <div id="BarChart" ref={myChart} style={{ height: '600px' }}></div>
+            <div id="BarChart" ref={myChart} style={{ height: '600px',width:'1900px'}}></div>
         </div>
     )
 

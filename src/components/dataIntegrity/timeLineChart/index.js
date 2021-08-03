@@ -151,7 +151,7 @@ const LineChart = () => {
     return (
         <div>
 
-            <div id="Chart" ref={myChart} style={{ height: '400px' }}></div>
+            <div id="Chart" ref={myChart} style={{ height: '400px', width:'940px' }}></div>
         </div>
     )
 

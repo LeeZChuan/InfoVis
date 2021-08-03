@@ -273,12 +273,6 @@ const InstrumentChart = () => {
 
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "get_InstChartData");
-        // 实时刷新
-        // const timer = setInterval(() => {
-        //     getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "get_InstChartData");
-
-        // }, 1000);
-        // return () => clearInterval(timer);
     });
     return (
         <div>

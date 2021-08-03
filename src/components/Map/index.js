@@ -2,338 +2,426 @@
 //用于展示各地区时效性之间的关系
 
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as echarts from 'echarts';
-const province = ['北京', '天津', '河北', '山西', '内蒙古', '辽宁', '吉林', '黑龙江', '上海', '江苏', '浙江', '安徽', '福建', '江西', '山东', '河南', '湖北', '湖南', '广东', '广西', '海南', '重庆', '四川', '贵州', '云南', '西藏', '陕西', '甘肃', '青海', '宁夏', '新疆'];
-const gdp = [
-    //['第一产业','第二产业','第三产业',‘GDP’]
-    [129.79, 4944.44, 20594.9, 25669.13],
-    [220.22, 7571.35, 10093.82, 17885.39],
-    [3492.81, 15256.93, 13320.71, 32070.45],
-    [784.78, 5028.99, 7236.64, 13050.41],
-    [1637.39, 8553.63, 7937.08, 18128.1],
-    [2173.06, 8606.54, 11467.3, 22246.9],
-    [1498.52, 7004.95, 6273.33, 14776.8],
-    [2670.46, 4400.69, 8314.94, 15386.09],
-    [109.47, 8406.28, 19662.9, 28178.65],
-    [4077.18, 34619.5, 38691.6, 77388.28],
-    [1965.18, 21194.61, 24091.57, 47251.36],
-    [2567.72, 11821.58, 10018.32, 24407.62],
-    [2363.22, 14093.47, 12353.89, 28810.58],
-    [1904.53, 8829.54, 7764.93, 18499],
-    [4929.13, 31343.67, 31751.69, 68024.49],
-    [4286.21, 19275.82, 16909.76, 40471.79],
-    [3659.33, 14654.38, 14351.67, 32665.38],
-    [3578.37, 13341.17, 14631.83, 31551.37],
-    [3694.37, 35109.66, 42050.88, 80854.91],
-    [2796.8, 8273.66, 7247.18, 18317.64],
-    [948.35, 905.95, 2198.9, 4053.2],
-    [1303.24, 7898.92, 8538.43, 17740.59],
-    [3929.33, 13448.92, 15556.29, 32934.54],
-    [1846.19, 4669.53, 5261.01, 11776.73],
-    [2195.11, 5690.16, 6903.15, 14788.42],
-    [115.78, 429.17, 606.46, 1151.41],
-    [1693.85, 9490.72, 8215.02, 19399.59],
-    [983.39, 2515.56, 3701.42, 7200.37],
-    [221.19, 1249.98, 1101.32, 2572.49],
-    [241.6, 1488.44, 1438.55, 3168.59],
-    [1648.97, 3647.01, 4353.72, 9649.7]
-]
-var typeIndex = 1;
-var selectedRange = null;
-var option = null;
-var str = "";
-var data = [];
-var geoCoordMap = {};
-var name = "2016年各省市GDP及各产业占比"
-var mapName = 'china'
-// 地图特征
-var mapFeatures = echarts.getMap(mapName).geoJson.features;
-for (var i = 0; i < province.length; i++) {
-    data.push({
-        "name": province[i],
-        "value": [{
-                "name": '第一产业',
-                value: gdp[i][0]
-            },
-            {
-                "name": '第二产业',
-                value: gdp[i][1]
-            },
-            {
-                "name": '第三产业',
-                value: gdp[i][2]
-            }
-        ]
-    })
-}
-var geoCoordMap = { //为了保证饼图不互相重叠，我对经纬坐标进行了调整
-    '上海':  [121.472644,  31.231706],
-    '云南':  [102.712251,  24.040609],
-    '内蒙古':  [111.670801,  40.818311],
-    '北京':  [116.405285,  39.904989],
-    // '台湾': [121.509062, 25.044332],
-    '吉林':  [125.3245,  43.886841],
-    '四川':  [103.065735,  30.659462],
-    '天津':  [119.190182,  39.125596],
-    '宁夏':  [106.278179,  38.46637],
-    '安徽':  [117.283042,  31.86119],
-    '山东':  [118.000923,  36.675807],
-    '山西':  [112.049248,  37.057014],
-    '广东':  [113.280637,  23.125178],
-    '广西':  [108.320004,  22.82402],
-    '新疆':  [87.617733,  43.792818],
-    '江苏':  [119.467413,  33.741544],
-    '江西':  [115.892151,  28.676493],
-    '河北':  [114.802461,  37.745474],
-    '河南':  [113.665412,  33.757975],
-    '浙江':  [120.153576,  29.287459],
-    '海南':  [110.33119,  20.031971],
-    '湖北':  [113.298572,  30.984355],
-    '湖南':  [112.12279,  28.19409],
-    // '澳门': [113.54909, 22.198951],
-    '甘肃':  [103.823557,  36.058039],
-    '福建':  [119.306239,  26.075302],
-    '西藏':  [91.132212,  29.660361],
-    '贵州':  [106.713478,  26.578343],
-    '辽宁':  [123.029096,  41.396767],
-    '重庆':  [106.504962,  29.933155],
-    '陕西':  [108.948024,  34.263161],
-    '青海':  [100.578916,  36.623178],
-    // '香港': [114.173355, 22.320048],
-    '黑龙江':  [126.642464,  46.756967],
-}
-// 地理坐标图(打印出来方便查看)
-console.log("===========geoCoordMap===============");
-for (var i in geoCoordMap) {
-    console.log(geoCoordMap[i]);
-}
-console.log(geoCoordMap);
-console.log("==============data===============");
-console.log(data);
+import 'echarts/map/js/china';
+import { Menu, Table } from 'antd';
+import { getworldData, getworldRankListData,getChinaData } from '@/service/api'//数据读取
 
-/*变换地图数据（格式）：pie*/
-function convertMapDta(type, data) {
-    var mapData = [];
-    for (var i = 0; i < data.length; i++) {
-        mapData.push({
-            'name': province[i],
-            "value": gdp[i][3]
-        })
-    }
-    return mapData;
-}
 
-console.log("================mapData==================")
-// console.log(convertMapDta_bar(province[typeIndex],data))
-console.log(convertMapDta(province[typeIndex], data))
-console.log("=========================================")
-
-/*resetPie*/
-function resetPie(myChart, params, geoCoordMap, typeIndex) {
-    var op = myChart.getOption();
-    var ops = op.series;
-    ops.forEach(function(v, i) {
-        if (i > 0) {
-            var geoCoord = geoCoordMap[v.name];
-            var p = myChart.convertToPixel({
-                seriesIndex: 0
-            }, geoCoord);
-            v.center = p;
-            if (params != 0 && params.zoom) {
-                v.radius = v.radius * params.zoom;
-            }
-            if (params != 0 && params.selected) {
-                var rangeFirstNumber = params.selected[0];
-                var rangeSecondNumber = params.selected[1];
-                var pd = v.data[typeIndex].value;
-                if (pd < rangeFirstNumber || pd > rangeSecondNumber) {
-                    v.itemStyle.normal.opacity = 0;
-                } else {
-                    v.itemStyle.normal.opacity = 1;
-                }
+const chinaMap = [];
+const chinaHeader = [];
+const worldMap = [];
+const worldHeader = [];
+//地图组件
+class Map extends React.Component {
+    //地图展示
+    drawMap() {
+        let max = 2000;
+        let show = true;
+        let text = '中国国内';
+        let name = {};
+        if (this.props.data === 'world') {
+            //国际效果
+            max = 200000
+            show = false
+            text = '世界疫情地图'
+            name = {
+                "Afghanistan": "阿富汗",
+                "Angola": "安哥拉",
+                "Albania": "阿尔巴尼亚",
+                "Algeria": "阿尔及利亚",
+                "Argentina": "阿根廷",
+                "Armenia": "亚美尼亚",
+                "Australia": "澳大利亚",
+                "Austria": "奥地利",
+                "Azerbaijan": "阿塞拜疆",
+                "Bahamas": "巴哈马",
+                "Bangladesh": "孟加拉国",
+                "Belgium": "比利时",
+                "Benin": "贝宁",
+                "Burkina Faso": "布基纳法索",
+                "Burundi": "布隆迪",
+                "Bulgaria": "保加利亚",
+                "Bosnia and Herz.": "波斯尼亚和黑塞哥维那",
+                "Belarus": "白俄罗斯",
+                "Belize": "伯利兹",
+                "Bermuda": "百慕大群岛",
+                "Bolivia": "玻利维亚",
+                "Brazil": "巴西",
+                "Brunei": "文莱",
+                "Bhutan": "不丹",
+                "Botswana": "博茨瓦纳",
+                "Cambodia": "柬埔寨",
+                "Cameroon": "喀麦隆",
+                "Canada": "加拿大",
+                "Central African Rep.": "中非共和国",
+                "Chad": "乍得",
+                "Chile": "智利",
+                "China": "中国",
+                "Colombia": "哥伦比亚",
+                "Congo": "刚果",
+                "Costa Rica": "哥斯达黎加",
+                "Côte d'Ivoire": "科特迪瓦",
+                "Croatia": "克罗地亚",
+                "Cuba": "古巴",
+                "Cyprus": "塞浦路斯",
+                "Czech Rep.": "捷克共和国",
+                "Dem. Rep. Korea": "韩国",
+                "Dem. Rep. Congo": "民主刚果",
+                "Denmark": "丹麦",
+                "Djibouti": "吉布提",
+                "Dominican Rep.": "多米尼加共和国",
+                "Ecuador": "厄瓜多尔",
+                "Egypt": "埃及",
+                "El Salvador": "萨尔瓦多",
+                "Eq. Guinea": "赤道几内亚",
+                "Eritrea": "厄立特里亚",
+                "Estonia": "爱沙尼亚",
+                "Ethiopia": "埃塞俄比亚",
+                "Falkland Is.": "福克兰群岛",
+                "Fiji": "斐济",
+                "Finland": "芬兰",
+                "France": "法国",
+                "French Guiana": "法属圭亚那",
+                "Fr. S. Antarctic Lands": "法属南部领地",
+                "Gabon": "加蓬",
+                "Gambia": "冈比亚",
+                "Germany": "德国",
+                "Georgia": "佐治亚州",
+                "Ghana": "加纳",
+                "Greece": "希腊",
+                "Greenland": "格陵兰",
+                "Guatemala": "危地马拉",
+                "Guinea": "几内亚",
+                "Guinea-Bissau": "几内亚比绍",
+                "Guyana": "圭亚那",
+                "Haiti": "海地",
+                "Heard I. and McDonald Is.": "赫德岛和麦克唐纳群岛",
+                "Honduras": "洪都拉斯",
+                "Hungary": "匈牙利",
+                "Iceland": "冰岛",
+                "India": "印度",
+                "Indonesia": "印度尼西亚",
+                "Iran": "伊朗",
+                "Iraq": "伊拉克",
+                "Ireland": "爱尔兰",
+                "Israel": "以色列",
+                "Italy": "意大利",
+                "Ivory Coast": "象牙海岸",
+                "Jamaica": "牙买加",
+                "Japan": "日本",
+                "Jordan": "乔丹",
+                "Kashmir": "克什米尔",
+                "Kazakhstan": "哈萨克斯坦",
+                "Kenya": "肯尼亚",
+                "Kosovo": "科索沃",
+                "Kuwait": "科威特",
+                "Kyrgyzstan": "吉尔吉斯斯坦",
+                "Laos": "老挝",
+                "Lao PDR": "老挝人民民主共和国",
+                "Latvia": "拉脱维亚",
+                "Lebanon": "黎巴嫩",
+                "Lesotho": "莱索托",
+                "Liberia": "利比里亚",
+                "Libya": "利比亚",
+                "Lithuania": "立陶宛",
+                "Luxembourg": "卢森堡",
+                "Madagascar": "马达加斯加",
+                "Macedonia": "马其顿",
+                "Malawi": "马拉维",
+                "Malaysia": "马来西亚",
+                "Mali": "马里",
+                "Mauritania": "毛里塔尼亚",
+                "Mexico": "墨西哥",
+                "Moldova": "摩尔多瓦",
+                "Mongolia": "蒙古",
+                "Montenegro": "黑山",
+                "Morocco": "摩洛哥",
+                "Mozambique": "莫桑比克",
+                "Myanmar": "缅甸",
+                "Namibia": "纳米比亚",
+                "Netherlands": "荷兰",
+                "New Caledonia": "新喀里多尼亚",
+                "New Zealand": "新西兰",
+                "Nepal": "尼泊尔",
+                "Nicaragua": "尼加拉瓜",
+                "Niger": "尼日尔",
+                "Nigeria": "尼日利亚",
+                "Korea": "朝鲜",
+                "Northern Cyprus": "北塞浦路斯",
+                "Norway": "挪威",
+                "Oman": "阿曼",
+                "Pakistan": "巴基斯坦",
+                "Panama": "巴拿马",
+                "Papua New Guinea": "巴布亚新几内亚",
+                "Paraguay": "巴拉圭",
+                "Peru": "秘鲁",
+                "Republic of the Congo": "刚果共和国",
+                "Philippines": "菲律宾",
+                "Poland": "波兰",
+                "Portugal": "葡萄牙",
+                "Puerto Rico": "波多黎各",
+                "Qatar": "卡塔尔",
+                "Republic of Serbia": "塞尔维亚共和国",
+                "Romania": "罗马尼亚",
+                "Russia": "俄罗斯",
+                "Rwanda": "卢旺达",
+                "Samoa": "萨摩亚",
+                "Saudi Arabia": "沙特阿拉伯",
+                "Senegal": "塞内加尔",
+                "Serbia": "塞尔维亚",
+                "Sierra Leone": "塞拉利昂",
+                "Slovakia": "斯洛伐克",
+                "Slovenia": "斯洛文尼亚",
+                "Solomon Is.": "所罗门群岛",
+                "Somaliland": "索马里兰",
+                "Somalia": "索马里",
+                "South Africa": "南非",
+                "S. Geo. and S. Sandw. Is.": "南乔治亚和南桑德威奇群岛",
+                "S. Sudan": "南苏丹",
+                "Spain": "西班牙",
+                "Sri Lanka": "斯里兰卡",
+                "Sudan": "苏丹",
+                "Suriname": "苏里南",
+                "Swaziland": "斯威士兰",
+                "Sweden": "瑞典",
+                "Switzerland": "瑞士",
+                "Syria": "叙利亚",
+                "Tajikistan": "塔吉克斯坦",
+                "Tanzania": "坦桑尼亚",
+                "Thailand": "泰国",
+                "Timor-Leste": "东帝汶",
+                "Togo": "多哥",
+                "Trinidad and Tobago": "特立尼达和多巴哥",
+                "Tunisia": "突尼斯",
+                "Turkey": "土耳其",
+                "Turkmenistan": "土库曼斯坦",
+                "Uganda": "乌干达",
+                "Ukraine": "乌克兰",
+                "United Arab Emirates": "阿拉伯联合酋长国",
+                "United Kingdom": "大不列颠联合王国",
+                "United Republic of Tanzania": "坦桑尼亚联合共和国",
+                "United States": "美国",
+                "United States of America": "美利坚合众国",
+                "Uruguay": "乌拉圭",
+                "Uzbekistan": "乌兹别克斯坦",
+                "Vanuatu": "瓦努阿图",
+                "Venezuela": "委内瑞拉",
+                "Vietnam": "越南",
+                "West Bank": "西岸",
+                "W. Sahara": "西撒哈拉",
+                "Yemen": "也门",
+                "Zambia": "赞比亚",
+                "Zimbabwe": "津巴布韦"
             }
         }
-    });
-    myChart.setOption(op, true);
-}
-
-/*addPie*/
-function addPie(chart, data) {
-    var op = chart.getOption();
-    var sd = option.series;
-    for (var i = 0; i < data.length; i++) {
-        var randomValue = 15;
-        var radius = randomValue;
-        var geoCoord = geoCoordMap[data[i].name];
-        if (geoCoord) {
-            var vr = [];
-            (data[i].value).map(function(v) {
-                vr.push({
-                    name: v.name,
-                    value: v.value,
-                    visualMap: false
-                }); //饼图的数据不进行映射
-            });
-            var p = chart.convertToPixel({
-                seriesIndex: 0
-            }, geoCoord);
-            sd.push({
-                name: data[i].name,
-                type: 'pie',
-                // roseType: 'radius',
-                tooltip: {
-                    formatter: function(params) {
-                        return params.seriesName + "<br/>" + params.name + " : " + params.value + ' 亿元';
-                    }
+        let myChart = echarts.init(document.getElementById('mapChart'));
+        window.addEventListener('resize', function () {
+            myChart.resize();
+        })
+        let option = {
+            title: {
+                text: text,
+                left: 'center'
+            },
+            tooltip: {
+                formatter: function (params, ticket, callback) {
+                    return params.seriesName + '<br />' + params.name + '：' + params.value
+                }//数据格式化
+            },
+            visualMap: {
+                calculable: true,
+                min: 0,
+                max: max,
+                left: 'left',
+                top: 'bottom',
+                text: ['高', '低'],//取值范围的文字
+                inRange: {
+                    color: ['lightskyblue', 'yellow', 'orangered']//取值范围的颜色
                 },
-                radius: radius,
-                center: p,
-                data: vr,
-                zlevel: 4,
-                tooltip: {
-                    formatter: '{a}<br/>{b}: {c}亿元 ({d}%)'
-                },
+                show: true//图注
+            },
+            geo: {
+                nameMap: name,
+                map: this.props.data,
+                roam: false,//不开启缩放和平移
+                zoom: 1.23,//视角缩放比例
                 label: {
                     normal: {
-                        show: false,
-                    },
-                },
-                labelLine: {
-                    normal: {
-                        show: false
+                        show: show,
+                        fontSize: '10',
+                        color: 'rgba(0,0,0,0.7)'
                     }
                 },
                 itemStyle: {
-                    opacity: 0.2
+                    normal: {
+                        borderColor: 'rgba(0, 0, 0, 0.2)'
+                    },
+                    emphasis: {
+                        areaColor: '#F3B329',//鼠标选择区域颜色
+                        shadowOffsetX: 0,
+                        shadowOffsetY: 0,
+                        shadowBlur: 20,
+                        borderWidth: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
                 }
-            });
+            },
+            series: [
+                {
+                    name: '感染人数',
+                    mapType: this.props.data,
+                    type: 'map',
+                    geoIndex: 0,
+
+                    data: this.props.dataMap
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+    }
+    componentDidUpdate() {
+        this.drawMap()
+    }
+    render() {
+        return (<div id="mapChart"></div>)
+    }
+}
+//头部展示组件
+function Header(params) {//肺炎数据总览
+    var data = params.header
+    return <div className='box'>
+        {
+            data.map((item, index) => {
+                return (
+                    <div className='box2' key={index}>
+                        <p style={{ color: 'red', fontSize: '18px' }}>{item.total}</p>
+                        <p style={{ color: '#222' }}>{item.name}</p>
+                        <p style={{ color: 'red', fontSize: '12px' }}>较昨日{item.add >= 0 ? '+' : ''}<span style={{ color: 'red' }}>{item.add}</span></p>
+                    </div>
+                )
+            })
+        }
+    </div>
+}
+
+//最后汇总数据组件
+const ControlMap = () => {
+    // const myChart = useRef();
+    const [current, setcurrent] = useState('china');//当前选择的展示状体
+    const [dataSource, setdataSource] = useState([]);//列表数据
+    const [dataMap, setdataMap] = useState([]);//地图数据
+    const [header, setheader] = useState([]);//头部预览数据
+    const getData = () => {
+        let worldData = getworldData();
+        let rankList = getworldRankListData();
+        let chinaData = getChinaData();
+        //中国总览数据
+        chinaHeader = [
+            {
+                name: '累计确诊',
+                add: chinaData.chinaAdd.confirm,
+                total: chinaData.chinaTotal.confirm
+            },
+            {
+                name: '现有确诊',
+                add: chinaData.chinaAdd.nowConfirm,
+                total: chinaData.chinaTotal.nowConfirm
+            },
+            {
+                name: '死亡人数',
+                add: chinaData.chinaAdd.dead,
+                total: chinaData.chinaTotal.dead
+            },
+            {
+                name: '治愈人数',
+                add: chinaData.chinaAdd.heal,
+                total: chinaData.chinaTotal.heal
+            }
+        ]
+
+        //世界总览数据
+        worldHeader = [
+            {
+                name: '累计确诊',
+                add: worldData.confirmAdd,
+                total: worldData.confirm
+            },
+            {
+                name: '现有确诊',
+                add: worldData.nowConfirmAdd,
+                total: worldData.nowConfirm
+            },
+            {
+                name: '死亡人数',
+                add: worldData.deadAdd,
+                total: worldData.dead
+            },
+            {
+                name: '治愈人数',
+                add: worldData.healAdd,
+                total: worldData.heal
+            }
+        ];
+
+        //*****************地图数据列表循环****************************
+        chinaData.areaTree[0].children.forEach((item, i) => {
+            //中国地图数据
+            chinaMap[i] = {
+                name: item.name,
+                value: item.total.confirm
+            }
+        })
+
+        rankList.forEach((item, i) => {
+            //世界地图数据
+            worldMap[i] = {
+                name: item.name,
+                value: item.confirm
+            }
+        })
+
+        worldMap.push({ name: '中国', value: chinaData.chinaTotal.confirm })
+        //刷新数据
+        setheader(chinaHeader);
+        setdataMap(chinaMap);
+    };
+
+    const handleClick = e => {
+        //按钮数据切换方法
+        console.log('click', e);
+        setcurrent(e.key);
+        if (e.key === 'china') {
+            setdataMap(chinaMap);
+            setheader(chinaHeader);
+        } else {
+            setdataMap(worldMap);
+            setheader(worldHeader);
         }
     }
-    return sd;
-};
 
-
-/* 指定图表的配置项和数据:pie*/
-var option = {
-    title: {
-        text: name,
-        left: 'center',
-        textStyle: {
-            color: 'black'
-        }
-    },
-    legend: {
-        data: ['第三产业', '第二产业', '第一产业'],
-        orient: 'vertical',
-        top: '10%',
-        left: 'left',
-        zlevel: 4
-    },
-    toolbox: {
-        feature: {
-            saveAsImage: {
-                pixelRatio: 5
-            }
-        }
-    },
-    tooltip: {
-        trigger: 'item',
-        formatter: function(params) {
-            if (params.value) {
-                return params.name + "<br/>" + "GDP: " + params.value + "亿元";
-            }
-        }
-    },
-    visualMap: {
-        type: 'continuous',
-        show: true,
-        min: 0,
-        max: 100000,
-        left: 'left',
-        top: 'bottom',
-        text: ['高    (亿元)', '低    (亿元)'], // 文本，默认为数值文本
-        calculable: true,
-        // seriesIndex: [0],
-        inRange: {
-            // color: ['#3B5077', '#031525'] // 蓝黑
-            // color: ['#ffc0cb', '#800080'] // 红紫
-            // color: ['#3C3B3F', '#605C3C'] // 黑绿
-            // color:['#3C3B3F','#EE2C2C']//黑红
-            color: ['lightskyblue', 'yellow', 'orangered']
-            // color: ['#0f0c29', '#302b63', '#24243e'] // 黑紫黑
-            // color: ['#23074d', '#cc5333'] // 紫红
-            // color: ['#00467F', '#A5CC82'] // 蓝绿
-            // color: ['#1488CC', '#2B32B2'] // 浅蓝
-            // color: ['#00467F', '#A5CC82'] // 蓝绿
-        }
-    },
-
-    series: [{
-        name: 'chinaMap',
-        type: 'map',
-        mapType: mapName,
-        roam: true,
-
-        label: {
-            normal: {
-                show: false,
-            },
-            emphasis: {
-                show: true
-            }
-        },
-        geo: {
-            show: true,
-            map: mapName,
-            label: {
-                normal: {
-                    show: false
-                },
-                emphasis: {
-                    show: false,
-                }
-            },
-            roam: true,
-            itemStyle: {
-                normal: {
-                    areaColor: '#031525',
-                    borderColor: '#3B5077',
-                },
-                emphasis: {
-                    areaColor: '#2B91B7',
-                }
-            }
-        },
-
-        data: convertMapDta(province[typeIndex], data),
-        zlevel: 3
-    }]
-};
-console.log('========visualMapdata==========')
-console.log(convertMapDta(province[typeIndex], data))
-if (option && typeof option === "object") {
-    myChart.setOption(option, true);
+    // useEffect(() => {
+    //     myChart.current = echarts.init(document.getElementById('mapChart'));
+    // }, [])
+    useEffect(() => {
+        getData();
+    });
+    return (
+        <div>
+            {/* <div id="mapChart" ref={myChart} style={{ height: '600px' }}></div> */}
+            <div>
+                <Menu onClick={handleClick} selectedKeys={{ current }} mode="horizontal">
+                    <Menu.Item key="china">中国国内</Menu.Item>
+                    <Menu.Item key="world">国外情况</Menu.Item>
+                </Menu>
+            </div>
+            <Header header={header}></Header>
+            <Map data={current} dataMap={dataMap}></Map>
+        </div>
+    )
 }
-/*pie*/
-addPie(myChart, data);
-/*bar*/
-// addBar(myChart,data);
-console.log("===========option=================");
-console.log(option);
-myChart.setOption(option, true);
 
-/*饼图跟着地图移动:pie*/
-myChart.on('georoam', function(params) {
-    resetPie(myChart, params, geoCoordMap, typeIndex);
-});
-myChart.on('datarangeselected', function(params) {
-    resetPie(myChart, params, geoCoordMap, typeIndex);
-});
-window.addEventListener("resize", function() {
-    myChart.resize();
-    resetPie(myChart, 0, geoCoordMap);
-})
+export default ControlMap;
 
-
-myChart.setOption(option);

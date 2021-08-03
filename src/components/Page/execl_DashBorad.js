@@ -1,7 +1,7 @@
 //页面整体布局设计
 import React from 'react';
 import { Layout } from 'antd';
-import TableDemo from '../src/components/Table'
+import TableDemo from '@/components/Table'
 const { Footer, Content } = Layout;
 
 const Dashborad = () => {
@@ -9,7 +9,7 @@ const Dashborad = () => {
         <Content>
             <TableDemo />
         </Content>
-        <Footer style={{ textAlign: 'center' }}>Created by Lee</Footer>
+        <Footer style={{ textAlign: 'center' }}>Created by TYKJ</Footer>
     </Layout>)
 }
 
