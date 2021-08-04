@@ -338,7 +338,7 @@ const LineChart = () => {
         option.series[0].data = canRate
         option.series[1].data = locRate
         option.series[2].data = dailyRecordRate
-        myChart.current.setOption(option);
+        myChart.current.setOption(option,true);
     }
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getTime_LineChartData");

@@ -1,27 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
-const data1 = ['50', '60', '30', '50', '60', '30', '50', '60', '40', '60', '20', '40', '60'];
-const data2 = ['50', '60', '30', '50', '60', '30', '50', '60', '40', '60', '20', '40', '60'];
-const data3 = ['50', '60', '30', '50', '60', '30', '50', '60', '40', '60', '20', '40', '60'];
-const data4 = ['50', '60', '30', '50', '60', '30', '50', '60', '40', '60', '20', '40', '60'];
-const datacity = [
-    '2019-12',
-    '2020-01',
-    '2020-02',
-    '2020-03',
-    '2020-04',
-    '2020-05',
-    '2020-06',
-    '2020-07',
-    '2020-08',
-    '2020-09',
-    '2020-10',
-    '2020-11',
-];
+import { getChartData } from '@/service/api';
+import AppContext from '@/store';
 
-const colorArr=['#00DAFF','#0058B4','#7F5BEA','#34CD7F']
+const colorArr = ['#00DAFF', '#0058B4', '#7F5BEA', '#34CD7F']
 const option = {
-    backgroundColor:'#080b30',
+    backgroundColor: '#080b30',
     tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -35,18 +19,17 @@ const option = {
             mark: { show: true },
             dataView: { show: true, readOnly: false },
             saveAsImage: { show: true },
-           
         }
     },
-    color:colorArr,
+    color: colorArr,
     legend: {
-        data: ['线路车辆公里能耗', '生成时间', '数据频发', '生成时间错误'],
+        data: ['Can数据', '工作时间', '位置信息', '信息时间','信息生成时间错误'],
         left: '3%',
         top: '40',
         itemWidth: 10,
         itemHeight: 10,
         itemGap: 15,
-        top:'10%',
+        top: '10%',
         textStyle: {
             color: '#ACCFFF',
             fontSize: 12,
@@ -78,6 +61,7 @@ const option = {
                 //坐标轴刻度标签的相关设置。
                 interval: 0, //设置为 1，表示『隔一个标签显示一个标签』
                 margin: 15,
+                formatter: '{value} %',
                 textStyle: {
                     color: '#BCD8FF',
                     fontFamily: 'PingFang',
@@ -98,15 +82,15 @@ const option = {
             },
         },
         {
-            name: '',
+            name: '百分比(%)',
             // 单位 显示位置
             // nameLocation: 'start',
-
             type: 'value',
             axisLabel: {
                 //坐标轴刻度标签的相关设置。
                 interval: 0, //设置为 1，表示『隔一个标签显示一个标签』
                 margin: 15,
+                formatter: '{value} %',
                 textStyle: {
                     color: '#BCD8FF',
                     fontFamily: 'PingFang',
@@ -116,7 +100,7 @@ const option = {
             },
             axisLine: {
                 lineStyle: {
-                    color: '#0066FF',
+                    color: '#BCD8FF',
                 },
             },
             splitLine: {
@@ -149,29 +133,29 @@ const option = {
                     color: '#0066FF',
                 },
             },
-            data: datacity,
+            data: [{}],
         },
     ],
     series: [
         {
-            name:'线路车辆公里能耗',
-            type:'line',
+            name: 'Can数据',
+            type: 'line',
             yAxisIndex: 1,
             symbolSize: 10,
-                symbol: 'circle',
-                lineStyle: {
-                    normal: {
-                        color: '#00DAFF',
-                        width: 2,
-                        shadowBlur: 3,
-                        shadowColor: 'rgba(0,0,0,0.2)',
-                        shadowOffsetY: 10,
-                    },
+            symbol: 'circle',
+            lineStyle: {
+                normal: {
+                    color: '#00DAFF',
+                    width: 2,
+                    shadowBlur: 3,
+                    shadowColor: 'rgba(0,0,0,0.2)',
+                    shadowOffsetY: 10,
                 },
-			data: data1
+            },
+            data: [{}]
         },
         {
-            name: '生成时间',
+            name: '工作时间',
             type: 'bar',
             barWidth: '20',
             stack: '总量',
@@ -183,13 +167,13 @@ const option = {
                     show: true,
                 },
             },
-            data: data2,
+            data: [{}],
         },
         {
-            name: '数据频发',
+            name: '位置信息',
             type: 'bar',
             barWidth: '20',
-            stack:'总量',
+            stack: '总量',
             label: {
                 show: false,
             },
@@ -198,12 +182,27 @@ const option = {
                     show: true,
                 },
             },
-            data: data3,
+            data: [{}],
         },
         {
-            name: '生成时间错误',
+            name: '信息时间',
             type: 'bar',
-            stack:'总量',
+            stack: '总量',
+            barWidth: '20',
+            label: {
+                show: false,
+            },
+            itemStyle: {
+                normal: {
+                    show: true, 
+                },
+            },
+            data: [{}],
+        },
+        {
+            name: '信息生成时间错误',
+            type: 'bar',
+            stack: '总量',
             barWidth: '20',
             label: {
                 show: false,
@@ -211,25 +210,49 @@ const option = {
             itemStyle: {
                 normal: {
                     show: true,
+                    color: '#DB2F75',
                     barBorderRadius: [20, 20, 0, 0], // 圆角（左上、右上、右下、左下）
                 },
             },
-            data: data4,
+            data: [{}],
         },
     ],
 };
 
 
 const LineChart = () => {
+    const { list } = useContext(AppContext);
     const myChart = useRef();
     useEffect(() => {
         myChart.current = echarts.init(document.getElementById('scatterYChart'));
     }, [])
-    const getData = async () => {
+    const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
+        const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        console.log(Data);
+        let datacity = [];
+        let Can = [];
+        let Error = [];
+        let Info = [];
+        let Loc = [];
+        let Work = [];
+        Data.map(item => {
+            datacity.push(item.msgDate);
+            Can.push(item.RoCan*100);
+            Error.push(item.RoErrotime*100);
+            Info.push(item.RoInfo*100);
+            Loc.push(item.RoLocation*100);
+            Work.push(item.RoWorktime*100);
+        })
+        option.series[0].data = Can;
+        option.series[1].data = Work;
+        option.series[2].data = Loc;
+        option.series[3].data = Info;
+        option.series[4].data = Error;
+        option.xAxis[0].data = datacity;
         myChart.current.setOption(option);
     }
     useEffect(() => {
-        getData();
+        getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getDataValidation_MultipleData");
     });
     return (
         <div>

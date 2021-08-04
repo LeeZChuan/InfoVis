@@ -3,11 +3,12 @@ import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
 import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store';
-
+import { Select } from 'antd';
+const { Option } = Select;
 const option = {
-    backgroundColor:'#080b30',
+    backgroundColor: '#080b30',
     title: {
-        text: '每日车辆数据趋势',
+        text: '车辆数量变化趋势',
         textStyle: {
             color: '#FFFFFF',
             fontSize: '22',
@@ -85,6 +86,10 @@ const option = {
     },
     series: [{}]
 };
+const timeData = [
+    { value: 'day', name: '按天' },
+    { value: 'month', name: '按月' }
+]
 
 const LineChart = () => {
     const myChart = useRef();
@@ -130,16 +135,38 @@ const LineChart = () => {
 
         myChart.current.setOption(option);
     }
+
+    const selectDate = (Date) => {
+        if (Date == 'day') {
+            getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getCarInstallAmount_Day");
+        }
+        else if(Date=='month') {
+            getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getCarInstallAmount_Month");
+        }
+    }
     useEffect(() => {
-        // echarts.registerTheme('dark', obj)
         myChart.current = echarts.init(document.getElementById('carNumLineChart'));
     }, [])
     useEffect(() => {
-        getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getCarInstallAmount");
+        getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getCarInstallAmount_Month");
     }, []);
     return (
         <div>
-
+            <Select
+                style={{ width: 130 }}
+                placeholder={"选择查询粒度"}
+                onChange={e => {
+                    selectDate(e);
+                }}
+            >
+                {timeData.map(item => {
+                    return (
+                        <Option value={item.value} key={item.value}>
+                            {item.name}
+                        </Option>
+                    )
+                })}
+            </Select>
             <div id="carNumLineChart" ref={myChart} style={{ height: '400px' }}></div>
         </div>
     )

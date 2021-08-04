@@ -1,21 +1,22 @@
 //页面整体布局设计
 import React, { useState } from 'react';
 //图表引入
-import PieChart from '@/components/pieChart';
-import CarNumLineChart from '@/components/carNum_LineChart'
-import CarNumText from '@/components/carNum_TextBox'
+import PieChart from '@/components/onLine/online_ScattarChart';
+import CarNumLineChart from '@/components/onLine/carNum_LineChart'
+import CarNumText from '@/components/onLine/carNum_TextBox'
 import InstrumentChart1 from '@/components/instrumentChart1';
-import MultipleyaxisChart from '@/components/dataValidity';
+import MultipleyaxisChart from '@/components/dataValidity/multiple';
 import Barycategory from '@/components/bar-ycategory';
 import BarycategoryCobo from '@/components/bar-ycategoryCobo';
 import EverydayLine from '@/components/everydayLine';
 import DataSeries_PieChart from '@/components/dataSeries_PieChart';
-import DataIntegrityLineChart from '@/components/dataIntegrity/timeLineChart/index';
-import TimeLineChart from '@/components/dataIntegrity/timeseriesConpoment/lineChart';
+import CanIntegrityLineChart from '@/components/dataIntegrity/timeLineChart/index';//can数据完整度
+import AllIntegrityLineChart from '@/components/dataIntegrity/timeseriesConpoment/lineChart';
 import StactterPieChart from '@/components/dataIntegrity/timeseriesConpoment/stactterPieChart';
 import { Layout, Row, Col, Divider } from 'antd';
 import { Button } from 'antd/lib/radio';
 import { RetweetOutlined } from '@ant-design/icons';
+import './index.css';
 const { Footer, Content } = Layout;
 
 //背景颜色：白色#fff
@@ -24,15 +25,16 @@ const { Footer, Content } = Layout;
 const frontStyle = { color: '#fff' };
 
 const Dashborad = () => {
-    const [showChart, setshowChart] = useState(true);//图表切换状态
+    const [LineOrScatterChart, setLineOrScatterChart] = useState(true);//图表切换状态
+   
     //图表切换 
     const showSwitch = () => {
-        setshowChart(!showChart);
+        setLineOrScatterChart(!LineOrScatterChart);
     }
     return (
-        <Layout style={{ backgroundColor: '#080b30',position:'absolute', width: 'auto',left:0,right:0 }}>
+        <Layout style={{ backgroundColor: '#080b30' }} className="layout" >
             <Content>
-            
+
                 <Divider id="onlineData" orientation="left" style={frontStyle}>实时展示栏目</Divider>
                 <Row orientation="left">
                     <Col span={24} style={frontStyle}>实时时间展示窗口</Col>
@@ -53,27 +55,30 @@ const Dashborad = () => {
                 <Divider id="basicData" orientation="left" style={frontStyle}>数据完整性展示</Divider>
                 <Row gutter={16}>
                     <Col className="gutter-row" span={12}>
-                        <Button shape="circle" icon={<RetweetOutlined />} onClick={showSwitch}>Trunsform</Button>
+                        <Button shape="circle" icon={<RetweetOutlined />} onClick={showSwitch}>转换</Button>
+                 
                         <div>
-                            {showChart ? (
-                                <TimeLineChart />
-                            ) : (<StactterPieChart />)
+                            {
+                                LineOrScatterChart ? (
+                                    <AllIntegrityLineChart />
+                                ) : (<StactterPieChart />)
+
                             }
                         </div>
                     </Col>
                     <Col className="gutter-row" span={12} style={frontStyle}>
                         带有时间序列的终端装车量
-                        <DataIntegrityLineChart />
+                        <CanIntegrityLineChart />
                     </Col>
                 </Row>
                 <Divider orientation="left" style={frontStyle}>数据有效性</Divider>
                 <Row gutter={10}>
-                    <Col md={8}>
+                    <Col md={8} style={frontStyle}>
                         饼状图
                         <PieChart />
                     </Col>
 
-                    <Col md={16}>
+                    <Col md={16} style={frontStyle}>
                         堆叠图
                         <MultipleyaxisChart />
                     </Col>
@@ -108,7 +113,7 @@ const Dashborad = () => {
                     </Col>
                 </Row>
             </Content>
-            <Footer style={{backgroundColor: '#080b30', width: 'auto', textAlign: 'center',color:'#fff' }}>Created by TYKJ</Footer>
+            <Footer style={{ backgroundColor: '#080b30', width: 'auto', textAlign: 'center', color: '#fff' }}>Created by TYKJ</Footer>
         </Layout >)
 }
 

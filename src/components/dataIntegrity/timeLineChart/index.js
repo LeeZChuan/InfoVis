@@ -7,7 +7,7 @@ const fontColor = '#30eee9';
 const option = {
     backgroundColor:'#080b30',
     title: {
-        text: '每日终端装车量',
+        text: 'Can数据完整度',
         textStyle: {
             color: '#FFFFFF',
             fontSize: '22',

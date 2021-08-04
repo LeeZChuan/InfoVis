@@ -1,14 +1,16 @@
-//顶部导航栏目
+/* //顶部导航栏目 */
 .header{
-    height: 500px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 450px;
+    z-index:9999;
     width: 100%;
-    position:relative;
+    background-color: '#0092ff';
+    
 }
 .showTime{
     margin:0px auto;
-}
-.selectPage{
-    
 }
 .title{
     /* 绝对定位--垂直居中 */
@@ -24,3 +26,4 @@
 .title.Line{
     color: whitesmoke;
 }
+

@@ -7,8 +7,8 @@ export function AppProvider(props) {
         nowChooseCarBrand: "ALL",
         nowChooseCarStyle: "ALL",
         nowCho_CarDevNaData: "ALL",
-        startTime: "2020-10-1",
-        endTime: "2020-10-1"
+        startTime: "2021-01-01",
+        endTime: "2021-06-01"
     });
     const [selectPage, setselectPage] = useState(true);//表格与可视化图标页面路由切换状态
     const [selectNum, setselectNum] = useState(false);//动态滚动提示栏数据更新情况状态
