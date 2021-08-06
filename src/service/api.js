@@ -2,8 +2,6 @@
 
 import axios from 'axios';
 import { apiBase } from './config';//引入请求地址
-// import { cookie } from 'request'; //引入cookie保存登录信息
-
 
 // export default {
 //     methods: {
@@ -48,7 +46,6 @@ export async function getDeviceName(carBrand, carType) {
 //绘制图表返回数据返还(已经将所有图表使用同一个方法进行返还了)
 export async function getChartData(carBrand, carType, deviceName, startTime, endTime, DataFuncation) {
     const data = await axios.get(apiBase + DataFuncation + "/brand%" + carBrand + "&type%" + carType + "&device%" + deviceName + "&timeStart%" + "\'" + startTime + "\'" + "&timeEnd%" + "\'" + endTime + "\'");
-    // console.log(carBrand);
     return data.data;
 }
 
@@ -60,24 +57,4 @@ export function downloadExcelData() {
         let worldData = res.data.data.FAutoGlobalStatis;
         return worldData;
     });
-}
-
-// export function downloadExcelData() {
-//     //获取python后端传回的excel表格文件
-//     axios.post('https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=FAutoGlobalStatis,FAutoContinentStatis,FAutoGlobalDailyList,FAutoCountryConfirmAdd').then((res) => {
-//         let worldData = res.data.data.FAutoGlobalStatis;
-//         return worldData;
-//     });
-// }
-
-export function getworldRankListData() {
-    //获取世界各国肺炎疫情
-    axios.post('https://api.inews.qq.com/newsqa/v1/automation/foreign/country/ranklist').then((res) => {
-        let worldRankListData = res.data.data;
-        return worldRankListData;
-    });
-}
-
-export function getChinaData() {
-  
 }

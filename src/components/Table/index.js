@@ -1,13 +1,10 @@
 // 数据表格下载模块
 
 import React, { useContext } from 'react'
-import { Card, Popconfirm, Button, Table } from 'antd'
+import { Card, Button, Table } from 'antd'
 import axios, { post } from 'axios'
 import { useState } from 'react'
 import AppContext from '@/store';
-
-
-
 
 const data2 = []
 for (let i = 0; i < 80000; i++) {

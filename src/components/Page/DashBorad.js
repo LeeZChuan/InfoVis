@@ -1,4 +1,6 @@
-//页面整体布局设计
+//页面整体布局设计--
+
+
 import React, { useState } from 'react';
 //图表引入
 //实时数据展示
@@ -13,8 +15,10 @@ import StactterPieChart from '@/components/dataIntegrity/timeseriesConpoment/sta
 import PieChart from '@/components/dataValidity/nightingalePieChart';
 import MultipleyaxisChart from '@/components/dataValidity/multiple';
 //数据时效性
-import Barycategory from '@/components/dataTemporal_Effect/bar-ycategory';//数据时效性
+import Barycategory from '@/components/dataTemporal_Effect/bar-ycategory';
 import BarycategoryCobo from '@/components/dataTemporal_Effect/complexCharts';
+import ThemeRiverChart from '@/components/dataTemporal_Effect/themeRiverChart';
+// themeRiverChart
 //数据连续性
 import EverydayLine from '@/components/everydayLine';
 import DataSeries_PieChart from '@/components/dataSeries_PieChart';
@@ -91,15 +95,20 @@ const Dashborad = () => {
                 </Row>
                 <Divider orientation="left" style={frontStyle}>数据时效性</Divider>
                 <Row gutter={10}>
-                    <Col md={24} style={frontStyle}>
-                        各类时效性概况图
+                    <Col md={16} style={frontStyle}>
+                        各类时效性对比图
                         <Barycategory />
+                    </Col>
+                    <Col md={8} style={frontStyle}>
+                        时效性分布图
+                        <BarycategoryCobo />
                     </Col>
                 </Row>
                 <Row gutter={10}>
                     <Col md={24} style={frontStyle}>
                         数据时效性-同步数据时长
-                        <BarycategoryCobo />
+                        
+                        <ThemeRiverChart/>
                     </Col>
                 </Row>
                 <Row gutter={10}>

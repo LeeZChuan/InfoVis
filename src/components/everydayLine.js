@@ -1,8 +1,9 @@
 //每日采集数据量折线图
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
-
+import { getChartData } from '@/service/api'//数据读取
+import AppContext from '@/store';
 
 const category = ['市区', '万州', '江北', '南岸', '北碚', '綦南', '长寿', '永川', '璧山', '江津', '城口', '大足', '垫江', '丰都', '奉节', '合川', '江津区', '开州', '南川', '彭水', '黔江', '石柱', '铜梁', '潼南', '巫山', '巫溪', '武隆', '秀山', '酉阳', '云阳', '忠县', '川东', '检修'];
 const dottedBase = [];
@@ -46,7 +47,7 @@ const option = {
         }
     },
     legend: {
-        data: ['已贯通', '计划贯通', '贯通率',],
+        data: ['连续性比例', '单车连续比例', '产品连续比例', '平均间隔时间', '丢失天数'],
         textStyle: {
             color: '#B4B4B4'
         },
@@ -58,7 +59,7 @@ const option = {
         y: '12%',
     },
     xAxis: {
-        data: category,
+        data: [{}],
         axisLine: {
             lineStyle: {
                 color: '#B4B4B4'
@@ -95,7 +96,7 @@ const option = {
     }],
 
     series: [{
-        name: '贯通率',
+        name: '连续性比例',
         type: 'line',
         smooth: true,
         showAllSymbol: true,
@@ -109,9 +110,38 @@ const option = {
         },
         data: [{}]
     },
-
     {
-        name: '已贯通',
+        name: '单车连续比例',
+        type: 'line',
+        smooth: true,
+        showAllSymbol: true,
+        symbol: 'emptyCircle',
+        symbolSize: 8,
+        yAxisIndex: 1,
+        itemStyle: {
+            normal: {
+                color: '#F02FF2'
+            },
+        },
+        data: [{}]
+    },
+    {
+        name: '产品连续比例',
+        type: 'line',
+        smooth: true,
+        showAllSymbol: true,
+        symbol: 'emptyCircle',
+        symbolSize: 8,
+        yAxisIndex: 1,
+        itemStyle: {
+            normal: {
+                color: '#F02F22'
+            },
+        },
+        data: [{}]
+    },
+    {
+        name: '平均间隔时间',
         type: 'bar',
         barWidth: 10,
         itemStyle: {
@@ -130,9 +160,9 @@ const option = {
     },
 
     {
-        name: '计划贯通',
+        name: '丢失天数',
         type: 'bar',
-        barGap: '-100%',
+        // barGap: '-100%',//合并到一起
         barWidth: 10,
         itemStyle: {
             normal: {
@@ -156,24 +186,26 @@ const option = {
 
 const LineChart = () => {
     const myChart = useRef();
+    const { list } = useContext(AppContext);
     useEffect(() => {
         // const myChartDom = document.getElementById('Chart');
         myChart.current = echarts.init(document.getElementById('everydayLineChart'));
     }, [])
-    const getData = async () => {
-        for (var i = 0; i < 33; i++) {
-            var rate = barData[i] / lineData[i];
-            rateData[i] = rate.toFixed(2);
-        }
-        option.series[0].data=rateData;
-        option.series[1].data=barData;
-        option.series[2].data=lineData;
-
+    const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
+        const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        console.log(Data);
+        let dateList = Data.map(item => { return (item.msgDate) })
+        option.series[0].data = Data.map(item => { return (item.RoDaily) })
+        option.series[1].data = Data.map(item => { return (item.singleRate) })
+        option.series[2].data = Data.map(item => { return (item.multiRate) })
+        option.series[3].data = Data.map(item => { return (item.interval) })
+        option.series[4].data = Data.map(item => { return (item.losingDays) })
+        option.xAxis.data = dateList;
         myChart.current.setOption(option);
     }
     useEffect(() => {
-        getData();
-    }, []);
+        getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getCollect_LineChartData");
+    }, [list]);
     return (
         <div>
 
