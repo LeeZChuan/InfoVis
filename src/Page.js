@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch, } from 'react-router-dom';
 //组件
 import Nav from './components/Topnavigation/index';
 import BasicLayout from './components/TopDashborad/layout';

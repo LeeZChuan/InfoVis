@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { getCarBrandData, getCarStyle, getDeviceName } from '@/service/api';
 import screenfull from 'screenfull';//全屏
 import { FullscreenOutlined, AreaChartOutlined, AppstoreOutlined } from '@ant-design/icons';
-import { Layout, Row, Select, Space, DatePicker, Affix, Button } from 'antd';
+import { Layout, Select, Space, DatePicker, Affix, Button } from 'antd';
 import './index.css';
 const { Header } = Layout;
 const { Option } = Select;
@@ -68,7 +68,7 @@ const Topnav = () => {
         }
     }
 
-   
+
 
     useEffect(() => {
         initData();//最一开始初始化车辆品牌方法
@@ -77,8 +77,8 @@ const Topnav = () => {
 
     return (
         <Affix>
-            <Header style={style} className='header'>
-                <Row>
+            <Header style={style}>
+                <div className="header">
                     <div className="showTime">
                         <Clock />
                     </div>
@@ -87,12 +87,12 @@ const Topnav = () => {
                             (selectPage) ? (<Button onClick={() => {
                                 if (selectPage != true) { } else { setselectPage(false); }
 
-                            }}><Link to="/download" >前往源数据下载表格页</Link></Button>) : (<Button onClick={() => {
+                            }}><Link to="/download" >数据下载</Link></Button>) : (<Button onClick={() => {
                                 if (selectPage != true) {
                                     console.log("等待一下");
                                     setselectPage(true);
                                 } else { }
-                            }} > <Link to="/index" >前往可视化图表展示页</Link></Button>)
+                            }} > <Link to="/index" >可视展示</Link></Button>)
                         }
                     </div>
                     <h1 className="title">
@@ -176,38 +176,10 @@ const Topnav = () => {
                                 }}  >
                                 查询
                             </Button>
-
-
-                            {/* <div className="selectPage">
-                                {
-                                    (selectPage) ? (<Button onClick={() => {
-                                        if (selectPage != true) { } else { setselectPage(false); }
-
-                                    }} icon={<AppstoreOutlined />}><Link to="/download" ></Link></Button>) : (<Button onClick={() => {
-                                        if (selectPage != true) {
-                                            console.log("等待一下");
-                                            setselectPage(true);
-                                        } else { }
-                                    }} icon={<AreaChartOutlined />} > <Link to="/index" ></Link></Button>)
-                                }
-                            </div> */}
-                            {/* <div className="selectPage">
-                                {
-                                    (selectPage) ? (<Button onClick={() => {
-                                        if (selectPage != true) { } else { setselectPage(false); }
-
-                                    }} icon={<AppstoreOutlined />}><Link to="/download" ></Link></Button>) : (<Button onClick={() => {
-                                        if (selectPage != true) {
-                                            console.log("等待一下");
-                                            setselectPage(true);
-                                        } else { }
-                                    }} icon={<AreaChartOutlined />} > <Link to="/index" ></Link></Button>)
-                                }
-                            </div> */}
                             <Button type="primary" onClick={fullScreen} icon={<FullscreenOutlined />}></Button>
                         </Space>
                     </div>
-                </Row>
+                </div>
             </Header>
         </Affix >
     )

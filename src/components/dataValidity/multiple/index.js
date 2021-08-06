@@ -36,7 +36,7 @@ const option = {
         },
     },
     title: {
-        text: '近12个月线路能耗',
+        text: '数据完整性占比情况展示',
         textStyle: {
             color: '#FFFFFF',
             fontSize: '22',
@@ -228,13 +228,12 @@ const LineChart = () => {
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
-        console.log(Data);
         let datacity = [];
-        let Can = [];
-        let Error = [];
-        let Info = [];
-        let Loc = [];
-        let Work = [];
+        let Can = [];//can数据
+        let Error = [];//错误信息数据
+        let Info = [];//信息参数
+        let Loc = [];//位置信息参数
+        let Work = [];//工作时间
         Data.map(item => {
             datacity.push(item.msgDate);
             Can.push(item.RoCan*100);
@@ -253,11 +252,11 @@ const LineChart = () => {
     }
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getDataValidation_MultipleData");
-    });
+    },[list]);
     return (
         <div>
 
-            <div id="scatterYChart" ref={myChart} style={{ height: '400px' }}></div>
+            <div id="scatterYChart" ref={myChart} style={{ height: '400px' ,width:'100%'}}></div>
         </div>
     )
 

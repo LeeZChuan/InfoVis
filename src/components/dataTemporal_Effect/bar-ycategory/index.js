@@ -1,9 +1,12 @@
-//数据完整性：三个指标的时间序列堆叠图
-import React, { useEffect, useRef } from 'react';
+//数据时效性：数据排行榜
+
+import React, { useEffect, useRef,useContext } from 'react';
 import * as echarts from 'echarts';
+import { getChartData } from '@/service/api';
+import AppContext from '@/store';
 
 const option = {
-    backgroundColor:'#080b30',
+    backgroundColor: '#080b30',
     title: {
         text: '数据时效性-各类时效性概况',
         textStyle: {
@@ -36,7 +39,7 @@ const option = {
         }
     },
     legend: {
-        data: ['2011年', '2012年'],
+        data: [''],
     },
     grid: {
         left: '3%',
@@ -63,7 +66,7 @@ const option = {
     yAxis: {
         //动态排列盘y轴样式
         type: 'category',
-        data: ['巴西', '印尼', '美国', '印度', '中国', '世界人口(万)'],
+        data: [{}],
         axisLine: {
             lineStyle: {
                 color: '#BCD8FF'
@@ -72,34 +75,42 @@ const option = {
     },
     series: [
         {
-            name: '2011年',
+            name: '',
             type: 'bar',
-            data: [18203, 23489, 29034, 104970, 131744, 630230]
-        },
-        {
-            name: '2012年',
-            type: 'bar',
-            data: [19325, 23438, 31000, 121594, 134141, 681807]
+            data: [{}]
         }
     ]
 };
 
 
 const BarChart = () => {
+    const { list } = useContext(AppContext);
     const myChart = useRef();
     useEffect(() => {
-        myChart.current = echarts.init(document.getElementById('BarChart'));
+        myChart.current = echarts.init(document.getElementById('rankingBarChart'));
     }, [])
-    const getData = async () => {
+    const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
+        const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        console.log(Data);
+        let yAxis_name=Object.keys(Data[0]);
+        let serise_data=[];
+        for(let[key,value] of Object.entries(Data[0])){
+            //获取对象数值
+            serise_data.push(value);
+
+        }
+        option.yAxis.data=yAxis_name;
+        option.series[0].data=serise_data;
+        //数据配置
         myChart.current.setOption(option);
     }
     useEffect(() => {
-        getData();
-    }, []);
+        getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getDataTimeliness_BaryData");
+    },[list]);
     return (
         <div>
 
-            <div id="BarChart" ref={myChart} style={{ height: '600px',width:'1900px'}}></div>
+            <div id="rankingBarChart" ref={myChart} style={{ height: '400px' }}></div>
         </div>
     )
 

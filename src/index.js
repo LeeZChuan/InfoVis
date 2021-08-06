@@ -3,8 +3,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './Page';
 import { AppProvider } from './store';
+import './style.css';
 import 'antd/dist/antd.css';
 
 ReactDOM.render(<AppProvider>
-    <App />
+    <div className="all"><App /></div>
 </AppProvider>, document.getElementById("root"))

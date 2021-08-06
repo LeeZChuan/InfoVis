@@ -1,4 +1,4 @@
-//动态表格展示
+//第一列组件：动态滚动表格展示组件，用于展示用户选择的日期内的详细组件情况
 
 import React, { Component } from "react";
 import { JsSeamlessScroll } from "css-react-seamless-scroll";

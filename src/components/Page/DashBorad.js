@@ -1,18 +1,24 @@
 //页面整体布局设计
 import React, { useState } from 'react';
 //图表引入
-import PieChart from '@/components/onLine/online_ScattarChart';
+//实时数据展示
 import CarNumLineChart from '@/components/onLine/carNum_LineChart'
 import CarNumText from '@/components/onLine/carNum_TextBox'
-import InstrumentChart1 from '@/components/instrumentChart1';
+import InstrumentChart from '@/components/onLine/onLine_Dashborad';
+//数据完整性
+import AllIntegrityLineChart from '@/components/dataIntegrity/timeseriesConpoment/lineChart';
+import CanIntegrityLineChart from '@/components/dataIntegrity/can_timeLineChart';//can数据完整度
+import StactterPieChart from '@/components/dataIntegrity/timeseriesConpoment/stactterPieChart';
+//数据有效性
+import PieChart from '@/components/dataValidity/nightingalePieChart';
 import MultipleyaxisChart from '@/components/dataValidity/multiple';
-import Barycategory from '@/components/bar-ycategory';
-import BarycategoryCobo from '@/components/bar-ycategoryCobo';
+//数据时效性
+import Barycategory from '@/components/dataTemporal_Effect/bar-ycategory';//数据时效性
+import BarycategoryCobo from '@/components/dataTemporal_Effect/complexCharts';
+//数据连续性
 import EverydayLine from '@/components/everydayLine';
 import DataSeries_PieChart from '@/components/dataSeries_PieChart';
-import CanIntegrityLineChart from '@/components/dataIntegrity/timeLineChart/index';//can数据完整度
-import AllIntegrityLineChart from '@/components/dataIntegrity/timeseriesConpoment/lineChart';
-import StactterPieChart from '@/components/dataIntegrity/timeseriesConpoment/stactterPieChart';
+
 import { Layout, Row, Col, Divider } from 'antd';
 import { Button } from 'antd/lib/radio';
 import { RetweetOutlined } from '@ant-design/icons';
@@ -42,7 +48,7 @@ const Dashborad = () => {
                 <Row >
                     <Col className="gutter-row" span={8}>
                         <div>
-                            <InstrumentChart1 />
+                            <InstrumentChart />
                         </div>
                     </Col>
                     <Col className="gutter-row" span={8}>
@@ -67,7 +73,7 @@ const Dashborad = () => {
                         </div>
                     </Col>
                     <Col className="gutter-row" span={12} style={frontStyle}>
-                        带有时间序列的终端装车量
+                        Can数据情况变化折线图
                         <CanIntegrityLineChart />
                     </Col>
                 </Row>

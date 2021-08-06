@@ -1,7 +1,7 @@
 .scroll {
     display: inline-block;
     height: 440px;
-    width: 580px;
+    width: 90%;
     margin: 0 25px;
     overflow: hidden;
     position: relative;

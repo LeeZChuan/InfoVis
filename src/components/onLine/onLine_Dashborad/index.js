@@ -273,7 +273,7 @@ const InstrumentChart = () => {
 
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "get_InstChartData");
-    });
+    },[list.nowChooseCarBrand,list.nowChooseCarStyle,list.nowCho_CarDevNaData]);
     return (
         <div>
             <div id="instrumentChart1" ref={myChart} style={{ height: '400px' }} ></div>

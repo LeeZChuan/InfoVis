@@ -1,6 +1,6 @@
 .scroll {
   display: inline-block;
-  height: 400px;
+  height: 100%;
   width: 600px;
   margin: 0 25px;
   overflow: hidden;
@@ -25,4 +25,11 @@
   align-items: center;
   justify-content: space-between;
   padding: 3px 0;
+}
+.all{
+  height: 100%;
+  width: 100%;
+  overflow:hidden;
+  margin: 0;
+  padding: 0;
 }

@@ -1,4 +1,6 @@
-//终端装车数据时序折线图
+//第一列组件：终端装车辆总数时间序列折线图；
+//用于展示该时间段内的车辆总数变化情况
+
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
 import { getChartData } from '@/service/api'//数据读取
@@ -20,10 +22,21 @@ const option = {
     },
     tooltip: {
         trigger: 'axis',
+        backgroundColor: '#fff',
         axisPointer: {
-            type: 'cross'
-        },
+            type: 'shadow',
+            label: {
+                show: true,
+                backgroundColor: '#7B7DDC'
+            }
+        }
     },
+    grid: [{
+        x: '10%',
+        y: '-10%',
+        width: '88%',
+        height: '100%'
+    }],//位置操控
     color: '#00DAFF',//POINT COLOR
     length: {
         show: true
@@ -36,7 +49,6 @@ const option = {
             dataZoom: {
                 yAxisIndex: 'none'
             },
-            restore: { show: true },
             saveAsImage: { show: true }
         }
     },
@@ -149,7 +161,7 @@ const LineChart = () => {
     }, [])
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getCarInstallAmount_Month");
-    }, []);
+    }, [list]);
     return (
         <div>
             <Select
