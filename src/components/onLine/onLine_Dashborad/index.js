@@ -1,4 +1,4 @@
-// 在线率表示仪表盘2
+// 在线率表示仪表盘
 
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
@@ -35,7 +35,7 @@ const option = {
 
 const InstrumentChart = () => {
     const myChart = useRef();
-    const { list } = useContext(AppContext);
+const { list } = useContext(AppContext);
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         let demoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
         const series = [
@@ -263,12 +263,12 @@ const InstrumentChart = () => {
             }
         ]
         //数据配置
-        option.series = series;
-        myChart.current.setOption(option);
+option.series = series;
+myChart.current.setOption(option);
     }
 
     useEffect(() => {
-        myChart.current = echarts.init(document.getElementById('instrumentChart1'));
+myChart.current = echarts.init(document.getElementById('instrumentChart'));
     }, [])
 
     useEffect(() => {
@@ -276,8 +276,7 @@ const InstrumentChart = () => {
     },[list.nowChooseCarBrand,list.nowChooseCarStyle,list.nowCho_CarDevNaData]);
     return (
         <div>
-            <div id="instrumentChart1" ref={myChart} style={{ height: '400px' }} ></div>
-            {/* <div>{list.nowChooseCarBrand}+{list.nowChooseCarStyle}+{list.nowCho_CarDevNaData}+{list.startTime}+{list.endTime}</div> */}
+            <div id="instrumentChart" ref={myChart} style={{ height: '400px' }} ></div>
         </div>
     )
 

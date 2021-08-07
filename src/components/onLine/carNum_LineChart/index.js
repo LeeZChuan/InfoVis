@@ -7,6 +7,7 @@ import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store';
 import { Select } from 'antd';
 const { Option } = Select;
+
 const option = {
     backgroundColor: '#080b30',
     title: {
@@ -129,7 +130,6 @@ const LineChart = () => {
                         width: 1
                     },
                     areaStyle: {
-                        //color: '#94C9EC'
                         color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
                             offset: 0,
                             color: 'rgba(7,44,90,0.3)'

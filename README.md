@@ -60,7 +60,7 @@ yarn build 打包代码
 ### 注意事项
 
 - 项目默认采用了careate-react-app开发的react工程项目
-- 本项目初始使用js编写，后期使用ts重构代码
+- 本项目初始使用js编写，后期计划使用ts重构代码
 
 
 ## API | Reference
