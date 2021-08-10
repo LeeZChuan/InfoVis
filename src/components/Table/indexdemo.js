@@ -2,7 +2,7 @@
 
 import React, { useContext, useState, useEffect } from 'react'
 import { Card, Button, Table } from 'antd'
-import axios, { post } from 'axios'
+import axios from 'axios'
 import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store'
 import { Select } from 'antd'
