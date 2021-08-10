@@ -88,8 +88,8 @@ const TableDemo = () => {
         },
         {
             title: 'Mon',
-            dataIndex: 'mon',
-            key: 'mon',
+            dataIndex: "mon",
+            key: "mon",
         },
         {
             title: '性别',
@@ -114,9 +114,7 @@ const TableDemo = () => {
                         a.download = Date.now()+'.csv';
                         a.href = e.target.result;
                         document.body.appendChild(a);
-
                         a.click();
-
                         document.body.removeChild(a);
                     };
                 }

@@ -4,15 +4,6 @@ import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';
 
 const option = {
-    title: {
-        text: '某站点用户访问来源',
-        x: 'center',
-        textStyle: {
-            color: '#B4B4B4',
-            fontSize: 16,
-            fontWeight: 'normal',
-        },
-    },
     tooltip: {
         trigger: 'item',
         backgroundColor: '#fff',

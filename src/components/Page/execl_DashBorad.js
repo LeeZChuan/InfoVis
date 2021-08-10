@@ -1,7 +1,7 @@
 //页面整体布局设计
 import React from 'react';
 import { Layout } from 'antd';
-import TableDemo from '@/components/Table'
+import TableDemo from '@/components/Table/indexdemo.js'
 const { Footer, Content } = Layout;
 
 const Dashborad = () => {

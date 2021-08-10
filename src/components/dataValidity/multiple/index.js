@@ -1,3 +1,5 @@
+//数据有效性时序条件的折线组合图
+
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
 import { getChartData } from '@/service/api';
@@ -23,7 +25,7 @@ const option = {
     },
     color: colorArr,
     legend: {
-        data: ['Can数据', '工作时间', '位置信息', '信息时间','信息生成时间错误'],
+        data: ['Can数据', '工作时间', '位置信息', '信息时间', '信息生成时间错误'],
         left: '3%',
         top: '40',
         itemWidth: 10,
@@ -36,7 +38,7 @@ const option = {
         },
     },
     title: {
-        text: '数据完整性占比情况展示',
+        text: '数据有效性占比情况展示',
         textStyle: {
             color: '#FFFFFF',
             fontSize: '22',
@@ -194,7 +196,7 @@ const option = {
             },
             itemStyle: {
                 normal: {
-                    show: true, 
+                    show: true,
                 },
             },
             data: [{}],
@@ -225,6 +227,21 @@ const LineChart = () => {
     const myChart = useRef();
     useEffect(() => {
         myChart.current = echarts.init(document.getElementById('scatterYChart'));
+        //showLoading遮盖层显示
+        myChart.current.showLoading({
+            text: '数据正在努力加载中...',
+            color: '#c23531',
+            textColor: 'black',
+            // 字体大小。从 `v4.8.0` 开始支持。
+            fontSize: 45,
+            // 字体粗细。从 `v5.0.1` 开始支持。
+            fontWeight: 'normal',
+            // 字体风格。从 `v5.0.1` 开始支持。
+            fontStyle: 'normal',
+            // 字体系列。从 `v5.0.1` 开始支持。
+            fontFamily: 'sans-serif',
+            backgroundColor: 'rgba(255, 255, 255, 0)'
+        });
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
@@ -236,11 +253,11 @@ const LineChart = () => {
         let Work = [];//工作时间
         Data.map(item => {
             datacity.push(item.msgDate);
-            Can.push(item.RoCan*100);
-            Error.push(item.RoErrotime*100);
-            Info.push(item.RoInfo*100);
-            Loc.push(item.RoLocation*100);
-            Work.push(item.RoWorktime*100);
+            Can.push(item.RoCan * 100);
+            Error.push(item.RoErrotime * 100);
+            Info.push(item.RoInfo * 100);
+            Loc.push(item.RoLocation * 100);
+            Work.push(item.RoWorktime * 100);
         })
         option.series[0].data = Can;
         option.series[1].data = Work;
@@ -249,14 +266,16 @@ const LineChart = () => {
         option.series[4].data = Error;
         option.xAxis[0].data = datacity;
         myChart.current.setOption(option);
+        //showLoading遮盖层隐藏
+        myChart.current.hideLoading();
     }
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getDataValidation_MultipleData");
-    },[list]);
+    }, [list]);
     return (
         <div>
 
-            <div id="scatterYChart" ref={myChart} style={{ height: '400px' ,width:'100%'}}></div>
+            <div id="scatterYChart" ref={myChart} style={{ height: '400px', width: '100%' }}></div>
         </div>
     )
 

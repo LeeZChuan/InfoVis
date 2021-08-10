@@ -1,4 +1,4 @@
-//数据完整性：三个指标的时间序列堆叠图
+//数据有效性：多指标的南丁格尔图
 
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';

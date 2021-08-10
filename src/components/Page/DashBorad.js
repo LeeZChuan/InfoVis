@@ -16,7 +16,7 @@ import PieChart from '@/components/dataValidity/nightingalePieChart';
 import MultipleyaxisChart from '@/components/dataValidity/multiple';
 //数据时效性
 import Barycategory from '@/components/dataTemporal_Effect/bar-ycategory';
-import BarycategoryCobo from '@/components/dataTemporal_Effect/complexCharts';
+import BarycategoryPieChart from '@/components/dataTemporal_Effect/pieCharts';
 import ThemeRiverChart from '@/components/dataTemporal_Effect/themeRiverChart';
 // themeRiverChart
 //数据连续性
@@ -84,12 +84,12 @@ const Dashborad = () => {
                 <Divider orientation="left" style={frontStyle}>数据有效性</Divider>
                 <Row gutter={10}>
                     <Col md={8} style={frontStyle}>
-                        饼状图
+                        数据有效性饼状占比图
                         <PieChart />
                     </Col>
 
                     <Col md={16} style={frontStyle}>
-                        堆叠图
+                        数据有效性时序堆叠图
                         <MultipleyaxisChart />
                     </Col>
                 </Row>
@@ -100,8 +100,8 @@ const Dashborad = () => {
                         <Barycategory />
                     </Col>
                     <Col md={8} style={frontStyle}>
-                        时效性分布图
-                        <BarycategoryCobo />
+                        时效性饼状占比分布图
+                        <BarycategoryPieChart />
                     </Col>
                 </Row>
                 <Row gutter={10}>

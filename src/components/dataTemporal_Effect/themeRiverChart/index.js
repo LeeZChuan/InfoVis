@@ -83,6 +83,21 @@ const ThemeRiverChart = () => {
     const myChart = useRef();
     useEffect(() => {
         myChart.current = echarts.init(document.getElementById('themeRiverChart'));
+        //showLoading遮盖层显示
+        myChart.current.showLoading({
+            text: '数据正在努力加载中...',
+            color: '#c23531',
+            textColor: 'black',
+            // 字体大小。从 `v4.8.0` 开始支持。
+            fontSize: 45,
+            // 字体粗细。从 `v5.0.1` 开始支持。
+            fontWeight: 'normal',
+            // 字体风格。从 `v5.0.1` 开始支持。
+            fontStyle: 'normal',
+            // 字体系列。从 `v5.0.1` 开始支持。
+            fontFamily: 'sans-serif',
+            backgroundColor: 'rgba(255, 255, 255, 0)'
+        });
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
@@ -91,27 +106,27 @@ const ThemeRiverChart = () => {
         let DateList = Data.map(item => {
             return item[objList[0]];
         })
-        for(let i=0;i<objList.length;i++)
-        {
-            if(objList[i]=="msgDate")
-            {
+        for (let i = 0; i < objList.length; i++) {
+            if (objList[i] == "msgDate") {
 
             }
-            else{
-                Data.map(item=>{
+            else {
+                Data.map(item => {
                     //时间，数值大小，名称
-                    seriesList.push([item.msgDate,item[objList[i]],objList[i].toString()]) ;
+                    seriesList.push([item.msgDate, item[objList[i]], objList[i].toString()]);
                 })
             }
         }
-        option.series[0].data=seriesList;
-        option.legend.data=objList.slice(1, objList.length-1);
+        option.series[0].data = seriesList;
+        option.legend.data = objList.slice(1, objList.length - 1);
         //数据配置
         myChart.current.setOption(option);
+        //showLoading遮盖层隐藏
+        myChart.current.hideLoading();
     }
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getDataTimeliness_ComboData");
-    },[list]);
+    }, [list]);
     return (
         <div>
             <div id="themeRiverChart" ref={myChart} style={{ height: '400px' }}></div>

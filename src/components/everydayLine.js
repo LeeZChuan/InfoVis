@@ -1,10 +1,12 @@
-//每日采集数据量折线图
-
+//地理信息结合联动展示柱状图
+//两种展示方向：1.展示时间序列的折线图柱状图变化情况
+//2. 展示地理信息的折线图与柱状图变化情况
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
 import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store';
 
+//地理信息展示数据要求
 const category = ['市区', '万州', '江北', '南岸', '北碚', '綦南', '长寿', '永川', '璧山', '江津', '城口', '大足', '垫江', '丰都', '奉节', '合川', '江津区', '开州', '南川', '彭水', '黔江', '石柱', '铜梁', '潼南', '巫山', '巫溪', '武隆', '秀山', '酉阳', '云阳', '忠县', '川东', '检修'];
 const dottedBase = [];
 const lineData = [18092, 20728, 24045, 28348, 32808
@@ -105,7 +107,7 @@ const option = {
         yAxisIndex: 1,
         itemStyle: {
             normal: {
-                color: '#F02FC2'
+                color: '#F0D449'
             },
         },
         data: [{}]
@@ -193,14 +195,12 @@ const LineChart = () => {
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
-        console.log(Data);
-        let dateList = Data.map(item => { return (item.msgDate) })
         option.series[0].data = Data.map(item => { return (item.RoDaily) })
         option.series[1].data = Data.map(item => { return (item.singleRate) })
         option.series[2].data = Data.map(item => { return (item.multiRate) })
         option.series[3].data = Data.map(item => { return (item.interval) })
         option.series[4].data = Data.map(item => { return (item.losingDays) })
-        option.xAxis.data = dateList;
+        option.xAxis.data = Data.map(item => { return (item.msgDate) });
         myChart.current.setOption(option);
     }
     useEffect(() => {

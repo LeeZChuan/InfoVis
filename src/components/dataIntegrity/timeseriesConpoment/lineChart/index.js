@@ -4,7 +4,7 @@ import { getChartData } from '@/service/api';
 import AppContext from '@/store';
 
 const option = {
-    backgroundColor:'#080b30',
+    backgroundColor: '#080b30',
     title: {
         text: '数据完整性关系图',
         textStyle: {
@@ -319,7 +319,22 @@ const LineChart = () => {
     const { list } = useContext(AppContext);
     const myChart = useRef();
     useEffect(() => {
-        myChart.current = echarts.init(document.getElementById('timeLineChart'));
+        myChart.current = echarts.init(document.getElementById('timeLineChart'), null, { renderer: 'svg' });
+        //showLoading遮盖层显示
+        myChart.current.showLoading({
+            text: '数据正在努力加载中...',
+            color: '#c23531',
+            textColor: 'black',
+            // 字体大小。从 `v4.8.0` 开始支持。
+            fontSize: 45,
+            // 字体粗细。从 `v5.0.1` 开始支持。
+            fontWeight: 'normal',
+            // 字体风格。从 `v5.0.1` 开始支持。
+            fontStyle: 'normal',
+            // 字体系列。从 `v5.0.1` 开始支持。
+            fontFamily: 'sans-serif',
+            backgroundColor: 'rgba(255, 255, 255, 0)'
+        });
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
@@ -327,19 +342,29 @@ const LineChart = () => {
         let canRate = [];
         let locRate = [];
         let dailyRecordRate = [];
-        for (let i = 0; i < Data.length; i++) {
-            DataList.push(Data[i].msgDate);
-            canRate.push(Data[i].canRate * 100);
-            locRate.push(Data[i].locRate * 100);
-            dailyRecordRate.push(Data[i].dailyRecordRate * 100);
+        if (DataList.length != 0 || canRate.length != 0 || locRate.length != 0 || dailyRecordRate.length != 0) {
+            DataList.length = 0;
+            canRate.length = 0;
+            locRate.length = 0;
+            dailyRecordRate.length = 0;
+        } else {
+            for (let i = 0; i < Data.length; i++) {
+                DataList.push(Data[i].msgDate);
+                canRate.push(Data[i].canRate * 100);
+                locRate.push(Data[i].locRate * 100);
+                dailyRecordRate.push(Data[i].dailyRecordRate * 100);
+            }
         }
         //数据配置
         option.xAxis[0].data = DataList;
         option.series[0].data = canRate
         option.series[1].data = locRate
         option.series[2].data = dailyRecordRate
-        myChart.current.setOption(option,true);
+        myChart.current.setOption(option);
+        //showLoading遮盖层隐藏
+        myChart.current.hideLoading();
     }
+
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getTime_LineChartData");
     });

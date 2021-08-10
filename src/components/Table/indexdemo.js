@@ -38,112 +38,89 @@ const downloadData = () => {
 }
 
 
-const downloadAllData = (carBrand, carType, deviceName, startTime, endTime) => {
-    //下载所有数据的函数
-    console.log("下载所有数据！！！！！");
-    axios.get("http://192.168.19.2:5000/vis/get/downloadExcelData/brand%" + carBrand + "&type%" + carType + "&device%" + deviceName + "&timeStart%" + "\'" + startTime + "\'" + "&timeEnd%" + "\'" + endTime + "\'")
-        .then(res => {
-            console.log(res);
-            if (res.status === 200) {
-                const blob = new Blob([res.data], {
-                    type: 'application/ms-excel',
-                });
-                const reader = new FileReader();
-                reader.readAsDataURL(blob);
-                reader.onload = e => {
-                    const a = document.createElement('a');
-                    // console.log(a);
-                    a.download = '全部数据.csv';
-                    console.log(a);
-                    a.href = e.target.result;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                };
-            }
-        })
-        .catch(err => {
-            console.log(err.message);
-        });
-}
+
 
 const TableDemo = () => {
 
     let data2 = [];//表格数据
     let columns2 = [];//表格属性
-    const dataList = useState([]);//多选数组储存
-    // const chooseObj = useState("A");//多选数组储存
+    const [dataList, setdataList] = useState([]);//多选数组储存
+    const [columnsList, setcolumnsList] = useState([]);//多选数组储存
     const [chooseObj, setchooseObj] = useState("A")
-    const [downloadfile, setdownloadfile] = useState(false);
-    const filteredInfo = useState(null);
-    const sortedInfo = useState(null);
     const { list } = useContext(AppContext);
-    // {
-    //     title: 'Name',
-    //     dataIndex: 'name',
-    //     key: 'name',
-    //     filters: [
-    //         { text: 'Edward', value: 'Edward' },
-    //         { text: 'Jim', value: 'Jim' },
-    //     ],
-    //     filteredValue: filteredInfo.name || null,
-    //     onFilter: (value, record) => record.name.includes(value),
-    //     sorter: (a, b) => a.name.length - b.name.length,
-    //     sortOrder: sortedInfo.columnKey === 'name' && sortedInfo.order,
-    //     ellipsis: true,
-    // }
+
+    const downloadAllData = () => {
+        //下载所有数据的函数
+        axios.get("http://192.168.19.2:5000/vis/get/downloadExcelData/brand%" + list.nowChooseCarBrand + "&type%" + list.nowChooseCarStyle + "&device%" + list.nowCho_CarDevNaData + "&timeStart%" + "\'" + list.startTime + "\'" + "&timeEnd%" + "\'" + list.endTime + "\'")
+            .then(res => {
+                console.log(res);
+                if (res.status === 200) {
+                    const blob = new Blob([res.data], {
+                        type: 'application/ms-excel',
+                    });
+                    const reader = new FileReader();
+                    reader.readAsDataURL(blob);
+                    reader.onload = e => {
+                        const a = document.createElement('a');
+                        // console.log(a);
+                        a.download = Date.now() + '.csv';
+                        a.href = e.target.result;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    };
+                }
+            })
+            .catch(err => {
+                console.log(err.message);
+            });
+        console.log("下载成功");
+    }
 
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         let TabdemoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
         console.log(TabdemoData);
         let objList = Object.keys(TabdemoData[0]);
         console.log(objList);
-        objList.map(item => {
-            columns2.push({
-                title: TabdemoData[0][item],
-                dataIndex: item,
-                key: item,
-            })
-        })
-        console.log(columns2);
-        for (let i = 1; i < TabdemoData.length; i++) {
-            data2.push({
-                key: i - 1,
-                ...TabdemoData[i]
-            })
+        if (columns2.length != 0 || data2.length != 0) {
+            //两者都可以截断数据
+            columns2.slice(0, columns2.length);
+            data2.length = 0;
         }
-        console.log(data2);
-        // {
-        //     title: 'Age',
-        //     dataIndex: 'age',
-        //     key: 'age',
-        //     sorter: (a, b) => a.age - b.age,
-        //     sortOrder: sortedInfo.columnKey === 'age' && sortedInfo.order,
-        //     ellipsis: true,
-        // }
-        // {
-        //     title: 'Mon',
-        //     dataIndex: 'mon',
-        //     key: 'mon',
-        // },
+        else {
+            objList.map(item => {
+                console.log(item);
+                columns2.push({
+                    title: TabdemoData[0][item],
+                    dataIndex: item,
+                    key: item,
+                })
+            })
+            for (let i = 1; i < TabdemoData.length; i++) {
+                data2.push({
+                    key: i - 1,
+                    ...TabdemoData[i]
+                })
+            }
 
+        }
+        //数据进行配置
+        setcolumnsList(columns2);
+        setdataList(data2);
     }
 
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, 'getExcelTableData_' + chooseObj);
         return () => {
-            data2.splice(0, data2.length);
-            columns2.splice(0, columns2.length);
             console.log('will unmount')
         }
     }, [list, chooseObj]);
 
     return (
         <div>
-            {/* <TypingCard id='howUse' source={cardContent} height={178} /> */}
             <Card bordered={false} title='原始数据表格' style={{ marginBottom: 10, minHeight: 762 }} id='select'>
-                <Button onClick={downloadAllData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime)}>下载完整Excel表格</Button>
-                <Button onClick={downloadData()}>下载当前选择的Excel表格</Button>
+                <Button onClick={downloadAllData}>下载完整Excel表格</Button>
+                <Button onClick={downloadData}>下载当前选择的Excel表格</Button>
                 <Select
                     placeholder={"选中需要查看的表格数据"}
                     onChange={e => {
@@ -159,7 +136,7 @@ const TableDemo = () => {
                         })
                     }
                 </Select>
-                <Table rowSelection={rowSelection} dataSource={data2} columns={columns2} style={styles.tableStyle} onChange={handleChange} />
+                <Table rowSelection={rowSelection} dataSource={dataList} columns={columnsList} style={styles.tableStyle} onChange={handleChange} />
             </Card>
         </div>
     )

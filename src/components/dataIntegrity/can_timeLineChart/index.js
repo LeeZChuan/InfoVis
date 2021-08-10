@@ -1,6 +1,6 @@
 //终端装车量时序折线图
 
-import React, { useEffect, useRef,useContext } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
 import { getChartData } from '@/service/api';
 import AppContext from '@/store';
@@ -133,53 +133,73 @@ const LineChart = () => {
     const myChart = useRef();
     useEffect(() => {
         myChart.current = echarts.init(document.getElementById('Chart'));
+        //showLoading遮盖层显示
+        myChart.current.showLoading({
+            text: '数据正在努力加载中...',
+            color: '#c23531',
+            textColor: 'black',
+            // 字体大小。从 `v4.8.0` 开始支持。
+            fontSize: 45,
+            // 字体粗细。从 `v5.0.1` 开始支持。
+            fontWeight: 'normal',
+            // 字体风格。从 `v5.0.1` 开始支持。
+            fontStyle: 'normal',
+            // 字体系列。从 `v5.0.1` 开始支持。
+            fontFamily: 'sans-serif',
+            backgroundColor: 'rgba(255, 255, 255, 0)'
+        });
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
         let seriesList = [];
         let objList = Object.keys(Data[0]);
-        let DateList =Data.map(item=>{
-            return item[objList[0]];
-        })
-        for (let i = 1; i < objList.length; i++) {
-            seriesList.push({
-                name: objList[i],
-                type: 'line',
-                smooth: true,
-                stack: '百分比',
-                symbol: 'circle',
-                symbolSize: 10,
-                itemStyle: {
-                    normal: {
-                        color: line_color[i-1],
-                        lineStyle: {
-                            color: line_color[i-1],
-                            width: 1
-                        },
-                        areaStyle: {
-                            color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-                                offset: 0,
-                                color: 'rgba(7,44,90,0.3)'
-                            }, {
-                                offset: 1,
-                                color: 'rgba(0,212,199,0.9)'
-                            }]),
+        if (seriesList.length != 0) {
+            seriesList.length = 0;
+        } else {
+            for (let i = 1; i < objList.length; i++) {
+                seriesList.push({
+                    name: objList[i],
+                    type: 'line',
+                    smooth: true,
+                    stack: '百分比',
+                    symbol: 'circle',
+                    symbolSize: 10,
+                    itemStyle: {
+                        normal: {
+                            color: line_color[i - 1],
+                            lineStyle: {
+                                color: line_color[i - 1],
+                                width: 1
+                            },
+                            areaStyle: {
+                                color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                                    offset: 0,
+                                    color: 'rgba(7,44,90,0.3)'
+                                }, {
+                                    offset: 1,
+                                    color: 'rgba(0,212,199,0.9)'
+                                }]),
+                            }
                         }
-                    }
-                },
-                data: Data.map(item=>{
-                    return item[objList[i]]*100;
-                })
-            });
+                    },
+                    data: Data.map(item => {
+                        return item[objList[i]] * 100;
+                    })
+                });
+            }
         }
-        option.xAxis[0].data=DateList;
-        option.legend.data=objList.slice(1,objList.length);
-        option.series=seriesList;
+        option.xAxis[0].data = Data.map(item => {
+            return item[objList[0]];
+        });
+        option.legend.data = objList.slice(1, objList.length);
+        option.series = seriesList;
         myChart.current.setOption(option);
+        //showLoading遮盖层隐藏
+        myChart.current.hideLoading();
     }
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getTime_CanIntegrityLineChartData");
-    });
+    },[list]);
     return (
         <div>
 
