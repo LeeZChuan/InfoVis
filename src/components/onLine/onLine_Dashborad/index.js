@@ -2,13 +2,13 @@
 
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
-import { getChartData} from '@/service/api'//数据读取
+import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store';
 
 var highlight = '#03b7c9';
 
 const option = {
-    backgroundColor:'#080b30',
+    backgroundColor: '#080b30',
     title: {
         text: '实时在线率仪表盘',
         textStyle: {
@@ -23,9 +23,9 @@ const option = {
     toolbox: {
         show: true,
         feature: {
-            mark: {show: true},
-            dataView: {show: true, readOnly: false},
-            saveAsImage: {show: true}
+            mark: { show: true },
+            dataView: { show: true, readOnly: false },
+            saveAsImage: { show: true }
         }
     },
     series: [{}]
@@ -35,7 +35,7 @@ const option = {
 
 const InstrumentChart = () => {
     const myChart = useRef();
-const { list } = useContext(AppContext);
+    const { list } = useContext(AppContext);
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         let demoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
         const series = [
@@ -56,7 +56,7 @@ const { list } = useContext(AppContext);
                         color: [
                             [1, highlight]
                         ]
-                    }
+                    },
                 },
                 axisTick: {
                     show: true,
@@ -75,12 +75,18 @@ const { list } = useContext(AppContext);
                     }
                 },
                 axisLabel: {
-                    distance: -20,
+                    distance: -25,
                     textStyle: {
-                        color: highlight,
-                        fontSize: '14',
+                        color: '#fff',
+                        // color: highlight,
+                        fontSize: '15',
                         fontWeight: 'bold'
-                    }
+                    },
+                    //外侧仪表盘取整
+                    formatter: function (v) {
+                        return v.toFixed(0);
+
+                    },
                 },
                 pointer: {
                     show: 0
@@ -186,12 +192,18 @@ const { list } = useContext(AppContext);
                     }
                 },
                 axisLabel: {
-                    distance: -20,
+                    distance: -25,
                     textStyle: {
-                        color: highlight,
-                        fontSize: '14',
+                        color: '#fff',
+                        // color: highlight,
+                        fontSize: '15',
                         fontWeight: 'bold'
-                    }
+                    },
+                    //外侧仪表盘取整
+                    formatter: function (v) {
+                        return v.toFixed(0);
+
+                    },
                 },
                 pointer: {
                     show: 0
@@ -263,17 +275,17 @@ const { list } = useContext(AppContext);
             }
         ]
         //数据配置
-option.series = series;
-myChart.current.setOption(option);
+        option.series = series;
+        myChart.current.setOption(option);
     }
 
     useEffect(() => {
-myChart.current = echarts.init(document.getElementById('instrumentChart'));
+        myChart.current = echarts.init(document.getElementById('instrumentChart'));
     }, [])
 
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "get_InstChartData");
-    },[list.nowChooseCarBrand,list.nowChooseCarStyle,list.nowCho_CarDevNaData]);
+    }, [list]);
     return (
         <div>
             <div id="instrumentChart" ref={myChart} style={{ height: '400px' }} ></div>

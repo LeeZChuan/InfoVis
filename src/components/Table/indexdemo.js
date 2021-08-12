@@ -1,11 +1,10 @@
-// 数据表格下载模块
+// 数据表格下载模块--基本功能已经完成
 
 import React, { useContext, useState, useEffect } from 'react'
-import { Card, Button, Table } from 'antd'
+import { Card, Button, Table,Select } from 'antd'
 import axios from 'axios'
 import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store'
-import { Select } from 'antd'
 const { Option } = Select;
 
 const INITOPTION = ["A", "B"];

@@ -8,20 +8,20 @@ import AppContext from '@/store';
 import { Select } from 'antd';
 const { Option } = Select;
 
-const SELECT_OPTION = [{ name: '装车台数', value: '' }, { name: '出场台数', value: '' }];
+const SELECT_OPTION = [{ name: '装车台数', value: 'putinCar' }, { name: '出场台数', value: 'showCar' }];
 const option = {
     backgroundColor: '#080b30',
-    title: {
-        text: '车辆数量变化趋势',
-        textStyle: {
-            color: '#FFFFFF',
-            fontSize: '22',
-            fontFamily: 'PingFang',
-            fontWeight: '400',
-        },
-        left: 'center',
-        align: 'right'
-    },
+    // title: {
+    //     text: '数量变化趋势',
+    //     textStyle: {
+    //         color: '#FFFFFF',
+    //         fontSize: '22',
+    //         fontFamily: 'PingFang',
+    //         fontWeight: '400',
+    //     },
+    //     left: 'center',
+    //     align: 'right'
+    // },
     tooltip: {
         trigger: 'axis',
         backgroundColor: '#fff',
@@ -117,7 +117,7 @@ const LineChart = () => {
             data.push(item.amount);
         })
         const series = [{
-            name: '车辆数目',
+            name: '车辆数',
             type: 'line',
             smooth: true,
             symbolSize: 10,
@@ -158,7 +158,7 @@ const LineChart = () => {
         }
     }
     const selectOption = (option) => {
-        if (option == '') {
+        if (option == 'putinCar') {
             
         }
         else if (option == '') {
