@@ -1,8 +1,14 @@
 //数据连续性饼状图
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef,useState } from 'react';
 import * as echarts from 'echarts';
+import { Select } from 'antd'
+const { Option } = Select;
 
+const CHOOSE_OPTION = [
+    { name: '日志信息', value: 'dailyMessage' },
+    { name: '定时信息', value: 'countTimeMessage' },
+    { name: '信号', value: 'Message' }];
 const option = {
     tooltip: {
         trigger: 'item',
@@ -161,6 +167,13 @@ const option = {
 };
 const PieChart = () => {
     const myChart = useRef();
+    const [nowChoose, setnowChoose] = useState('');//当前选中的对象
+    const [selectChoose, setselectChoose] = useState(false);
+    const chooseStyle = (e) => {
+        //筛选重新加载数据方法,并且使用nowChoose进行监控是否重新渲染
+        setnowChoose(e);
+        setselectChoose(true);
+    }
     useEffect(() => {
         // const myChartDom = document.getElementById('Chart');
         myChart.current = echarts.init(document.getElementById('dataSeriesPieChart'));
@@ -181,7 +194,23 @@ const PieChart = () => {
     });
     return (
         <div>
-
+            <Select
+                showSearch
+                style={{ width: 120 }}
+                placeholder={selectChoose ? nowChoose : "查询品牌"}
+                onChange={e => {
+                    chooseStyle(e);
+                }}>
+                {
+                    CHOOSE_OPTION.map(item => {
+                        return (
+                            <Option value={item.value} key={item.value}>
+                                {item.name}
+                            </Option>
+                        )
+                    })
+                }
+            </Select>
             <div id="dataSeriesPieChart" ref={myChart} style={{ height: '400px' }}></div>
         </div>
     )

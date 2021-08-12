@@ -10,12 +10,6 @@ import AppContext from '@/store';
 const line_color = ['#EF7C1E', '#BCD8FF', '#00b3f4', '#00d4c7', '#61418C', '#434F96', '#E5AA25'];
 const option = {
     backgroundColor: '#080b30',
-    // grid: [{
-    //     x: '35%',
-    //     y: '-15%',
-    //     width: '60%',
-    //     height: '100%'
-    // }],
     tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -117,8 +111,10 @@ const ThemeRiverChart = () => {
                 })
             }
         }
+        console.log(seriesList);
+        console.log(objList);
         option.series[0].data = seriesList;
-        option.legend.data = objList.slice(1, objList.length - 1);
+        option.legend.data = objList.slice(1, objList.length);
         //数据配置
         myChart.current.setOption(option);
         //showLoading遮盖层隐藏

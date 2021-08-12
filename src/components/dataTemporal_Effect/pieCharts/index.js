@@ -8,7 +8,7 @@ import AppContext from '@/store';
 import { Select } from 'antd'
 const { Option } = Select;
 
-const chooseOption = ["A1count", "A2count", "CSQcount", "Pcount", "Scount"];
+const CHOOSE_OPTION = ["A1count", "A2count", "CSQcount", "Pcount", "Scount"];
 const color = ['#00ffff', '#00cfff', '#006ced', '#ffe000', '#ffa800', '#ff5b00', '#ff3000'];
 const option = {
     backgroundColor: '#080b30',
@@ -171,7 +171,7 @@ const DataIntPieChart = () => {
                     chooseStyle(e);
                 }}>
                 {
-                    chooseOption.map(item => {
+                    CHOOSE_OPTION.map(item => {
                         return (
                             <Option value={item} key={item}>
                                 {item}

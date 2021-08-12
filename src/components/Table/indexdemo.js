@@ -79,9 +79,8 @@ const TableDemo = () => {
 
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         let TabdemoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
-        console.log(TabdemoData);
+        //objList表格抬头列表名称
         let objList = Object.keys(TabdemoData[0]);
-        console.log(objList);
         if (columns2.length != 0 || data2.length != 0) {
             //两者都可以截断数据
             columns2.slice(0, columns2.length);
@@ -89,7 +88,6 @@ const TableDemo = () => {
         }
         else {
             objList.map(item => {
-                console.log(item);
                 columns2.push({
                     title: TabdemoData[0][item],
                     dataIndex: item,

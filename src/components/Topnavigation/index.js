@@ -68,6 +68,29 @@ const Topnav = () => {
         }
     }
 
+    //点击切换的节流函数实现
+    const throChoose = (func, waittime) => {
+        let timerOut
+        return function () {
+            if (!timerOut) {
+                timerOut = setTimeout(() => {
+                    func();
+                    timerOut = null;
+                }, waittime);
+            }
+        }
+    }
+    const downloadButton=()=>{
+       return <Button onClick={()=>{if (selectPage != true) { } else { setselectPage(false); }}}>
+            <Link to="/download" >数据下载</Link>
+        </Button>
+    }
+    const showDataButton=()=>{
+       return <Button onClick={()=>{if(selectPage != true){setselectPage(true)}else{}}}>
+            <Link to="/index" >可视展示</Link>
+        </Button>
+    }
+
 
 
     useEffect(() => {
@@ -89,10 +112,10 @@ const Topnav = () => {
 
                             }}><Link to="/download" >数据下载</Link></Button>) : (<Button onClick={() => {
                                 if (selectPage != true) {
-                                    console.log("等待一下");
                                     setselectPage(true);
                                 } else { }
                             }} > <Link to="/index" >可视展示</Link></Button>)
+
                         }
                     </div>
                     <h1 className="title">

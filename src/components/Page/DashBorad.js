@@ -106,8 +106,7 @@ const Dashborad = () => {
                 </Row>
                 <Row gutter={10}>
                     <Col md={24} style={frontStyle}>
-                        数据时效性-同步数据时长
-                        
+                        数据时效性-时序变化情况河流图
                         <ThemeRiverChart/>
                     </Col>
                 </Row>

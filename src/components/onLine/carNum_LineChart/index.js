@@ -8,6 +8,7 @@ import AppContext from '@/store';
 import { Select } from 'antd';
 const { Option } = Select;
 
+const SELECT_OPTION = [{ name: '装车台数', value: '' }, { name: '出场台数', value: '' }];
 const option = {
     backgroundColor: '#080b30',
     title: {
@@ -99,7 +100,7 @@ const option = {
     },
     series: [{}]
 };
-const timeData = [
+const TIME_OPTION = [
     { value: 'day', name: '按天' },
     { value: 'month', name: '按月' }
 ]
@@ -152,8 +153,16 @@ const LineChart = () => {
         if (Date == 'day') {
             getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getCarInstallAmount_Day");
         }
-        else if(Date=='month') {
+        else if (Date == 'month') {
             getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getCarInstallAmount_Month");
+        }
+    }
+    const selectOption = (option) => {
+        if (option == '') {
+            
+        }
+        else if (option == '') {
+            
         }
     }
     useEffect(() => {
@@ -171,7 +180,22 @@ const LineChart = () => {
                     selectDate(e);
                 }}
             >
-                {timeData.map(item => {
+                {TIME_OPTION.map(item => {
+                    return (
+                        <Option value={item.value} key={item.value}>
+                            {item.name}
+                        </Option>
+                    )
+                })}
+            </Select>
+            <Select
+                style={{ width: 130 }}
+                placeholder={"选择展示方向"}
+                onChange={e => {
+                    selectOption(e);
+                }}
+            >
+                {SELECT_OPTION.map(item => {
                     return (
                         <Option value={item.value} key={item.value}>
                             {item.name}

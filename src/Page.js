@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch, } from 'react-router-dom';
 //由于BrowserRouter每次请求都会向服务器发送请求，而hashrouter会在路径添加#分隔路径，然后后面的所有请求都不会发送到服务器端
 //如果做服务端渲染的话建议使用BrowserRouter，否则使用hashrouter
 //组件

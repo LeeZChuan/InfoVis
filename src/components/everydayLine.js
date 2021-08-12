@@ -190,7 +190,6 @@ const LineChart = () => {
     const myChart = useRef();
     const { list } = useContext(AppContext);
     useEffect(() => {
-        // const myChartDom = document.getElementById('Chart');
         myChart.current = echarts.init(document.getElementById('everydayLineChart'));
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
