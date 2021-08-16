@@ -205,12 +205,12 @@ const InstrumentChart = () => {
 
                     },
                 },
-                pointer: {
-                    show: 0
-                },
-                detail: {
-                    show: 0
-                }
+                // pointer: {
+                //     show: 0
+                // },
+                // detail: {
+                //     show: 0
+                // }
             },
 
             // 内侧指针、数值显示

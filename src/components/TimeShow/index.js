@@ -1,4 +1,6 @@
-//时间组件模块
+//时间滚动组件模块
+
+
 import React, { Component } from 'react'
 import moment from 'moment';
 import './index.less'
@@ -9,6 +11,7 @@ export default class TimeShow extends Component {
     //组件已经在渲染到DOM后运行
     componentDidMount() {
         this.thimerID = setInterval(
+            //数据更新后并不会停止，而是继续更新直到清除计时器
             () => this.tick(),
             1000
         );
