@@ -1,5 +1,9 @@
-//页面整体布局设计--
 
+/* 
+页面整体布局设计--用于展示可视化图表页面的布局效果
+编写者：lzc
+时间：2021-7-30 
+*/
 
 import React, { useState } from 'react';
 //图表引入
@@ -12,7 +16,7 @@ import AllIntegrityLineChart from '@/components/dataIntegrity/timeseriesConpomen
 import CanIntegrityLineChart from '@/components/dataIntegrity/can_timeLineChart';//can数据完整度
 import StactterPieChart from '@/components/dataIntegrity/timeseriesConpoment/stactterPieChart';
 //数据有效性
-import PieChart from '@/components/dataValidity/nightingalePieChart';
+// import PieChart from '@/components/dataValidity/nightingalePieChart';
 import MultipleyaxisChart from '@/components/dataValidity/multiple';
 //数据时效性
 import Barycategory from '@/components/dataTemporal_Effect/bar-ycategory';
@@ -83,12 +87,11 @@ const Dashborad = () => {
                 </Row>
                 <Divider orientation="left" style={frontStyle}>数据有效性</Divider>
                 <Row gutter={10}>
-                    <Col md={8} style={frontStyle}>
+                    {/* <Col md={8} style={frontStyle}>
                         数据有效性饼状占比图
                         <PieChart />
-                    </Col>
-
-                    <Col md={16} style={frontStyle}>
+                    </Col> */}
+                    <Col md={24} style={frontStyle}>
                         数据有效性时序堆叠图
                         <MultipleyaxisChart />
                     </Col>
@@ -108,12 +111,6 @@ const Dashborad = () => {
                     <Col md={24} style={frontStyle}>
                         数据时效性-时序变化情况河流图
                         <ThemeRiverChart/>
-                    </Col>
-                </Row>
-                <Row gutter={10}>
-                    <Col md={24} style={frontStyle}>
-                        各类时效性地图联动效果
-                        {/* <ControlMap/> */}
                     </Col>
                 </Row>
                 <Divider orientation="left" style={frontStyle}>数据连续性</Divider>

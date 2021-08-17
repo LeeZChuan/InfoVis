@@ -1,4 +1,9 @@
-// 在线率表示仪表盘
+/* 
+在线率表示仪表盘--暂时使用筛选器进行数据获取，后面版本添加需求文档中的实时刷新功能
+编写者：lzc
+时间：2021-7-4
+*/
+
 
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
@@ -6,7 +11,6 @@ import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store';
 
 var highlight = '#03b7c9';
-
 const option = {
     backgroundColor: '#080b30',
     title: {
@@ -284,7 +288,8 @@ const InstrumentChart = () => {
     }, [])
 
     useEffect(() => {
-        getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "get_InstChartData");
+        let { nowChooseCarBrand, nowChooseCarStyle, nowCho_CarDevNaData, startTime, endTime } = list
+        getData(nowChooseCarBrand, nowChooseCarStyle, nowCho_CarDevNaData, startTime, endTime, "get_InstChartData");
     }, [list]);
     return (
         <div>

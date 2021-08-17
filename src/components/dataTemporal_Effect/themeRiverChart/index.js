@@ -1,4 +1,9 @@
-//第三列图表：数据时效性：饼状图
+
+/* 
+第三列图表：数据时效性，时序河流图
+编写者：lzc
+时间：2021-7-15
+*/
 
 
 
@@ -97,6 +102,7 @@ const ThemeRiverChart = () => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
         let seriesList = [];
         let objList = Object.keys(Data[0]);
+        //日期列表
         let DateList = Data.map(item => {
             return item[objList[0]];
         })
@@ -111,8 +117,8 @@ const ThemeRiverChart = () => {
                 })
             }
         }
-        console.log(seriesList);
-        console.log(objList);
+        // console.log(seriesList);
+        // console.log(objList);
         option.series[0].data = seriesList;
         option.legend.data = objList.slice(1, objList.length);
         //数据配置

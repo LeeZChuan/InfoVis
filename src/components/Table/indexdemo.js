@@ -1,7 +1,12 @@
-// 数据表格下载模块--基本功能已经完成
+/* 
+数据表格下载模块--基本功能已经完成
+编写者：lzc
+时间：2021-7-30 
+*/
+
 
 import React, { useContext, useState, useEffect } from 'react'
-import { Card, Button, Table,Select } from 'antd'
+import { Card, Button, Table, Select } from 'antd'
 import axios from 'axios'
 import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store'
@@ -41,15 +46,15 @@ const downloadData = () => {
 
 const TableDemo = () => {
 
-    let data2 = [];//表格数据
-    let columns2 = [];//表格属性
-    const [dataList, setdataList] = useState([]);//多选数组储存
-    const [columnsList, setcolumnsList] = useState([]);//多选数组储存
+    let data2 = []; // 表格数据
+    let columns2 = []; // 表格属性
+    const [dataList, setdataList] = useState([]); // 多选数组储存
+    const [columnsList, setcolumnsList] = useState([]); // 多选数组储存
     const [chooseObj, setchooseObj] = useState("A")
     const { list } = useContext(AppContext);
 
     const downloadAllData = () => {
-        //下载所有数据的函数
+        // 下载所有数据的csv文件函数
         axios.get("http://192.168.19.2:5000/vis/get/downloadExcelData/brand%" + list.nowChooseCarBrand + "&type%" + list.nowChooseCarStyle + "&device%" + list.nowCho_CarDevNaData + "&timeStart%" + "\'" + list.startTime + "\'" + "&timeEnd%" + "\'" + list.endTime + "\'")
             .then(res => {
                 console.log(res);

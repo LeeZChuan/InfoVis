@@ -1,5 +1,9 @@
+/* 
 //第一列组件：终端装车辆总数时间序列折线图；
 //用于展示该时间段内的车辆总数变化情况
+编写者：lzc
+时间：2021-7-4
+*/
 
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
@@ -11,17 +15,6 @@ const { Option } = Select;
 const SELECT_OPTION = [{ name: '装车台数', value: 'putinCar' }, { name: '出场台数', value: 'showCar' }];
 const option = {
     backgroundColor: '#080b30',
-    // title: {
-    //     text: '数量变化趋势',
-    //     textStyle: {
-    //         color: '#FFFFFF',
-    //         fontSize: '22',
-    //         fontFamily: 'PingFang',
-    //         fontWeight: '400',
-    //     },
-    //     left: 'center',
-    //     align: 'right'
-    // },
     tooltip: {
         trigger: 'axis',
         backgroundColor: '#fff',
@@ -159,10 +152,10 @@ const LineChart = () => {
     }
     const selectOption = (option) => {
         if (option == 'putinCar') {
-            
+
         }
         else if (option == '') {
-            
+
         }
     }
     useEffect(() => {

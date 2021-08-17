@@ -1,4 +1,8 @@
-//全局状态储存
+/* 
+全局持久化状态储存
+编写者：lzc
+时间：2021-7-1
+*/
 import React, { createContext, useState } from 'react';
 const AppContext = createContext();//创建context对象
 
