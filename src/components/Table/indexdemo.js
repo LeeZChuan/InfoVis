@@ -6,13 +6,108 @@
 
 
 import React, { useContext, useState, useEffect } from 'react'
-import { Card, Button, Table, Select } from 'antd'
+import { Card, Button, Table, Select, TreeSelect } from 'antd'
 import axios from 'axios'
 import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store'
 const { Option } = Select;
 
-const INITOPTION = ["A", "B"];
+const INITOPTION = [{
+    title: "数据准确性",
+    value: "A",
+    children: [
+        {
+            title: '工作时间准确性表',
+            value: 'cc',
+        },
+        {
+            title: '经纬度跳变',
+            value: 'ccc',
+        },
+        {
+            title: '数据频发',
+            value: 'ccac',
+        },
+        {
+            title: '生成时间错误',
+            value: 'cccc',
+        },
+        {
+            title: '工况数据',
+            value: 'acc',
+        },
+        {
+            title: 'CCI推送数据',
+            value: 'ssd',
+        },
+    ],
+},
+{
+    title: "数据完整性",
+    value: "B",
+    children:[
+        {
+            title: '字典表',
+            value: 'ads',
+        },
+        {
+            title: '采集频率配置表',
+            value: 'eqwe',
+        },
+    ]
+}, {
+    title: "数据时效性",
+    value: "C",
+    children:[
+        {
+            title: '数据时效性神钢定制',
+            value: 'zz12',
+        },
+        {
+            title: '数据时效性-神钢同步数据',
+            value: 'cc23x',
+        },
+        {
+            title: '数据时效性-CCI',
+            value: 'dda',
+        },
+        {
+            title: 'CSQ统计',
+            value: 'eqw',
+        },
+        
+    ]
+}, {
+    title: "数据连续性",
+    value: "D",
+    children:[
+        {
+            title: '日志信息',
+            value: 'zz',
+        },
+        {
+            title: '定时信息',
+            value: 'ccx',
+        },
+        {
+            title: '信号连续性',
+            value: 'dd123a',
+        },  
+    ]
+}, {
+    title: "数据在线率",
+    value: "E",
+    children:[
+        {
+            title: '终端实时在线率',
+            value: 'zz3',
+        },
+        {
+            title: '终端历史在线率',
+            value: 'c3cx',
+        },
+    ]
+}];
 
 const styles = {
     tableStyle: {
@@ -121,9 +216,7 @@ const TableDemo = () => {
     return (
         <div>
             <Card bordered={false} title='原始数据表格' style={{ marginBottom: 10, minHeight: 762 }} id='select'>
-                <Button onClick={downloadAllData}>下载完整Excel表格</Button>
-                <Button onClick={downloadData}>下载当前选择的Excel表格</Button>
-                <Select
+                {/* <Select
                     placeholder={"选中需要查看的表格数据"}
                     onChange={e => {
                         setchooseObj(e);
@@ -131,13 +224,28 @@ const TableDemo = () => {
                     {
                         INITOPTION.map(item => {
                             return (
-                                <Option value={item} key={item}>
-                                    {item}
+                                <Option value={item.value} key={item.value}>
+                                    {item.name}
                                 </Option>
                             )
                         })
                     }
-                </Select>
+                </Select> */}
+
+                <TreeSelect
+                    style={{ width: '200px' }}
+                    value={chooseObj}
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    treeData={INITOPTION}
+                    placeholder="选中需要查看的表格数据"
+                    treeDefaultExpandAll
+                    onChange={e => {
+                        console.log(e);
+                        setchooseObj(e);
+                    }}
+                />
+                <Button onClick={downloadAllData}>下载完整Excel表格</Button>
+                {/* <Button onClick={downloadData}>下载当前选择的Excel表格</Button> */}
                 <Table rowSelection={rowSelection} dataSource={dataList} columns={columnsList} style={styles.tableStyle} onChange={handleChange} />
             </Card>
         </div>

@@ -10,8 +10,6 @@ import AppContext from '@/store';
 import "./styles.css";
 
 const data = [];
-
-
 class JsExample extends Component {
     state = {
         scrollSwitch: true,
@@ -55,7 +53,7 @@ class JsExample extends Component {
     }
 
     componentDidMount() {
-        this.timer = setInterval(() => {                            
+        this.timer = setInterval(() => {
             //开启定时器就会按照一个时间粒度进行不断循环，直至清除这个定时器
             if (this.context.selectNum) {
                 this.getData(this.context.list.nowChooseCarBrand, this.context.list.nowChooseCarStyle, this.context.list.nowCho_CarDevNaData, this.context.list.startTime, this.context.list.endTime, "getCarInstallInfo")
