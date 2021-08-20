@@ -1,14 +1,17 @@
-# 📈InfoVis
+# 📈InfoVis:数据传输过程信息可视化平台
 
-[![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)	]()[![Release](https://img.shields.io/badge/realease-latest-brightgreen.svg)	]()[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)	![React](https://img.shields.io/badge/React-17.x.x-blue.svg)
+[![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)	]()
+[![Release](https://img.shields.io/badge/realease-latest-brightgreen.svg)	]()
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)	
+![React](https://img.shields.io/badge/React-17.x.x-blue.svg)
 
 ## 简介 | Introduction
 
-infovis模块
+infovis：数据传输过程信息可视化平台模块
 
 提供对产品和文档本身的总体的、扼要的说明
 
-基于antd、echarts、d3的可视化单页面数据监控平台
+基于react、antd、echarts、d3的可视化单页面数据监控下载平台
 
 ## 快速上手 | Getting Started
 
@@ -60,13 +63,15 @@ yarn build 打包代码
 ### 注意事项
 
 - 项目默认采用了careate-react-app开发的react工程项目
-- 本项目初始使用js编写，后期计划使用ts重构代码
+- 本项目初始使用js编写，后期计划使用ts与scss重构代码
 
 
 ## API | Reference
 
 - 该项目使用了以下常用插件
 - 1.css-react-seamless-scroll，用于滚动展示滑动栏目
+- 2.react-router-dom，用于单页面模块跳转
+- 3.antd，ui与排版设计
 
 [API](./docs/API.md)
 
@@ -84,6 +89,14 @@ INFOVIS-master
 ├── src：# Here is the main directory we developed, which contains several directories and files:
 │   ├── style  # Contains css page situation
 │   ├── components # The various modules of the page are distributed, and their respective introductions are introduced in the README.md
+│   │    |──  dataIntegrity # 数据准确性模块
+│   │    |──  dataTemporal_Effect # 数据时效性模块
+│   │    |──  dataTimeSeries # 数据连续性模块
+│   │    |──  dataValidity # 数据有效性模块
+│   │    |──  Table # 数据表格展示与下载
+│   │    |──  TimeShow # 左上角时间滚动模块
+│   │    |──  Topnavigation # 页面头顶整体导航栏目
+│   │    |──  TypingCard # 动态滚动文字模块
 │   ├── utils # Tools that may be needed for the page
 │   ├── pages # File saved by page jump
 │   ├── serive 
@@ -92,9 +105,6 @@ INFOVIS-master
 │
 ├── static # Files in this directory will not be processed by WebPack: they will be copied directly to the final packaging directory (absolute path)
 │   ├── data  # Contains the data used by the visualization page
-│   │    |──  Forecast # Order forecast
-│   │    |──  ForecastPointChart # Data source for order forecast results-scatterplot
-│   │    |──  StartHeatMapChart # Heat map of distribution of starting orders
 │   ├── img # The background image required by the page
 │   ├── script # Code required for data processing
 │   └── js # Library files required for drawing

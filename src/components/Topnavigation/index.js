@@ -1,8 +1,8 @@
 
 /* 
-//顶部导航栏目设计组件
-编写者：lzc
-时间：2021-7-10
+   顶部导航栏目设计组件
+   编写者：lzc
+   创建时间：2021-7-10
 */
 
 import React, { useState, useEffect, useContext } from 'react';

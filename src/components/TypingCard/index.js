@@ -1,3 +1,12 @@
+
+/* 
+   动态文字滚动组件
+   编写者：lzc
+   创建时间：2021-7-2
+*/
+
+
+
 import React from 'react'
 import { Card } from 'antd'
 import Typing from '../../utils/typing'
