@@ -1,3 +1,11 @@
+/* 
+   数据完整性三种方向时序折线图
+   编写者：lzc
+   创建时间：2021-7-12
+*/
+
+
+
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
 import { getChartData } from '@/service/api';
@@ -367,7 +375,7 @@ const LineChart = () => {
 
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getTime_LineChartData");
-    });
+    },[list]);
     return (
         <div>
             <div id="timeLineChart" theme="theme" ref={myChart} style={{ height: '400px' }}></div>

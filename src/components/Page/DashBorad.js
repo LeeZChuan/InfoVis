@@ -1,8 +1,8 @@
 
 /* 
-页面整体布局设计--用于展示可视化图表页面的布局效果
-编写者：lzc
-时间：2021-7-30 
+    页面整体布局设计--用于展示可视化图表页面的布局效果
+    编写者：lzc
+    创建时间：2021-7-5
 */
 
 import React, { useState } from 'react';
@@ -22,10 +22,9 @@ import MultipleyaxisChart from '@/components/dataValidity/multiple';
 import Barycategory from '@/components/dataTemporal_Effect/bar-ycategory';
 import BarycategoryPieChart from '@/components/dataTemporal_Effect/pieCharts';
 import ThemeRiverChart from '@/components/dataTemporal_Effect/themeRiverChart';
-// themeRiverChart
 //数据连续性
-import EverydayLine from '@/components/everydayLine';
-import DataSeries_PieChart from '@/components/dataSeries_PieChart';
+import EverydayLine from '@/components/dataTimeSeries/timeSeries_LineChart';
+import Everyday_ScatterChart from '@/components/dataTimeSeries/everyday_ScatterChart';
 
 import { Layout, Row, Col, Divider } from 'antd';
 import { Button } from 'antd/lib/radio';
@@ -70,7 +69,6 @@ const Dashborad = () => {
                 <Row gutter={16}>
                     <Col className="gutter-row" span={12}>
                         <Button shape="circle" icon={<RetweetOutlined />} onClick={showSwitch}>转换</Button>
-                 
                         <div>
                             {
                                 LineOrScatterChart ? (
@@ -116,7 +114,7 @@ const Dashborad = () => {
                 <Divider orientation="left" style={frontStyle}>数据连续性</Divider>
                 <Row gutter={10}>
                     <Col md={8} style={frontStyle}>
-                        <DataSeries_PieChart />
+                        <Everyday_ScatterChart />
                     </Col>
                     <Col md={16} style={frontStyle}>
                         每日采集数量折线图

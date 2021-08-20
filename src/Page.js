@@ -1,7 +1,7 @@
 /* 
-页面跳转
-编写者：lzc
-时间：2021-7-20 
+   页面路由跳转
+   编写者：lzc
+   创建时间：2021-7-20 
 */
 
 
@@ -14,23 +14,23 @@ import Nav from './components/Topnavigation/index';
 // import BasicLayout from './components/TopDashborad/layout';//首页进入的操作预览页面
 import NotFound from './components/Page/NotFound';
 import Test from './scroll';
-// import Map from './components/Map';
+// import Map from './components/Map';//暂时地图demo
 import DashBorad from './components/Page/DashBorad';
 import Execl_DashBorad from './components/Page/execl_DashBorad';
 
 export default () => (
     <Router>
-        
-            <Nav />
-            <Switch>
-                <Route path="/" exact component={DashBorad} />
-                <Route path="/index" exact component={DashBorad} />
-                <Route path="/download" component={Execl_DashBorad} />
-                <Route path="/404" component={NotFound} />
-                <Route path="/test" component={Test} />
-                {/* <Route path="/Map" component={Map} /> */}
-            </Switch>
 
-       
+        <Nav />
+        <Switch>
+            <Route path="/" exact component={DashBorad} />
+            <Route path="/index" exact component={DashBorad} />
+            <Route path="/download" component={Execl_DashBorad} />
+            <Route path="/404" component={NotFound} />
+            <Route path="/test" component={Test} />
+            {/* <Route path="/Map" component={Map} /> */}
+        </Switch>
+
+
     </Router>
 );

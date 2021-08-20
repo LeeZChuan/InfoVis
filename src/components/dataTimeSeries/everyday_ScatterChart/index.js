@@ -1,4 +1,15 @@
-//数据连续性饼状图
+/* 
+   数据连续性饼状图
+   编写者：lzc
+   创建时间：2021-7-2
+*/
+
+
+
+
+//
+
+
 
 import React, { useEffect, useRef,useState } from 'react';
 import * as echarts from 'echarts';

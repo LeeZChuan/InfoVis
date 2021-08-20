@@ -5,18 +5,20 @@
 时间：2021-7-10
 */
 
-
-
 import React, { useState, useEffect, useContext } from 'react';
 import Clock from '@/components/TimeShow/index'
 import AppContext from '@/store';
-import moment from 'moment';//时间组件
+import moment from 'moment'; // 时间组件
 import { Link } from 'react-router-dom';
 import { getCarBrandData, getCarStyle, getDeviceName } from '@/service/api';
-import screenfull from 'screenfull';//全屏
-import { FullscreenOutlined, AreaChartOutlined, AppstoreOutlined } from '@ant-design/icons';
-import { Layout, Select, Space, DatePicker, Affix, Button } from 'antd';
-import './index.css';
+import screenfull from 'screenfull';
+import { FullscreenOutlined, AreaChartOutlined } from '@ant-design/icons';
+import { Layout, Select, Space, DatePicker, Affix, Button, Modal } from 'antd';
+import { ConfigProvider } from 'antd'; // 日期选择器外壳汉化
+import zhCN from 'antd/lib/locale/zh_CN';
+import 'moment/locale/zh-cn'; // 内部文字汉化
+import './index.css'; 
+moment.locale('zh-cn');
 const { Header } = Layout;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -33,6 +35,7 @@ const Topnav = () => {
     const [nowCho_CarDevNaData, setnowCho_CarDevNaData] = useState("");
     const [startTime, setstartTime] = useState('');//初始化一个时间终端数组
     const [endTime, setendTime] = useState('');//初始化一个时间终端数组
+    const [visible, setVisible] = useState(false);//地图图表弹窗展示
     const { list, setlist } = useContext(AppContext);
     const { selectPage, setselectPage } = useContext(AppContext);
     const { setselectNum } = useContext(AppContext);
@@ -46,16 +49,16 @@ const Topnav = () => {
         screenfull.toggle()
     }
     //初始化下拉菜单的数据列表
-    const initData = async () => {
+    const initCarBrandData = async () => {
         setcarBrand(await getCarBrandData());
     }
     //初始化下拉菜单的车辆类型数据列表
-    const initcarStyleData = async (carBrand) => {
+    const initCarStyleData = async (carBrand) => {
         setcarStyle(await getCarStyle(carBrand));
     }
 
     //初始化下拉菜单的车辆终端数据列表
-    const initcardeviceNameData = async (carBrand, carType) => {
+    const initCarDeviceNameData = async (carBrand, carType) => {
         setcarDeviceNameData(await getDeviceName(carBrand, carType));
     }
 
@@ -64,11 +67,11 @@ const Topnav = () => {
         switch (dataType) {
             case "carBrand":
                 setnowChooseCarBrand(e);
-                initcarStyleData(e);
+                initCarStyleData(e);
                 break;
             case "carStyle":
                 setnowChooseCarStyle(e);
-                initcardeviceNameData(nowChooseCarBrand, e);//初始化后面的数据数组
+                initCarDeviceNameData(nowChooseCarBrand, e);//初始化后面的数据数组
                 break;
             case "carDeviceName":
                 setnowCho_CarDevNaData(e);
@@ -76,7 +79,27 @@ const Topnav = () => {
         }
     }
 
-    //点击切换的节流函数实现
+    //全局状态设置--按钮点击事件
+    const selectType = () => {
+        const item = {
+            nowChooseCarBrand: nowChooseCarBrand,
+            nowChooseCarStyle: nowChooseCarStyle,
+            nowCho_CarDevNaData: nowCho_CarDevNaData,
+            startTime: startTime,
+            endTime: endTime
+        }
+        setlist(item);//设置全局list数据
+        setselectNum(true);//设置全局图表状态更新（主要针对于第一列的动态轮播图）
+        if (selectChoose != true) {
+            setselectChoose(true);
+            console.log("设置成功la!!!!");
+        }
+        else {
+            console.log("已经设置成功，无需设置la!!!!");
+        }
+    }
+
+    //点击切换的节流函数
     const throChoose = (func, waittime) => {
         let timerOut
         return function () {
@@ -88,21 +111,9 @@ const Topnav = () => {
             }
         }
     }
-    const downloadButton=()=>{
-       return <Button onClick={()=>{if (selectPage != true) { } else { setselectPage(false); }}}>
-            <Link to="/download" >数据下载</Link>
-        </Button>
-    }
-    const showDataButton=()=>{
-       return <Button onClick={()=>{if(selectPage != true){setselectPage(true)}else{}}}>
-            <Link to="/index" >可视展示</Link>
-        </Button>
-    }
-
-
 
     useEffect(() => {
-        initData();//最一开始初始化车辆品牌方法
+        initCarBrandData();//最一开始初始化车辆品牌方法
     }, [])
 
     return (
@@ -114,6 +125,7 @@ const Topnav = () => {
                     </div>
                     <div className="selectPage">
                         {
+                            // 页面切换按钮这里可以进行重构，目前还没有想到更好的实现方式
                             (selectPage) ? (<Button onClick={() => {
                                 if (selectPage != true) { } else { setselectPage(false); }
 
@@ -179,35 +191,33 @@ const Topnav = () => {
                                     )
                                 })}
                             </Select>
-                            <RangePicker ranges={{
-                                Today: [moment(), moment()],
-                                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                            }}
-                                onChange={chooseTimeRange} />
+                            <ConfigProvider locale={zhCN}>
+                                <RangePicker
+                                    ranges={{
+                                        '今天': [moment(), moment()],
+                                        '当前月份': [moment().startOf('month'), moment().endOf('month')],
+                                    }}
+                                    onChange={chooseTimeRange} />
+                            </ConfigProvider>
                             <Button type="primary"
-                                onClick={() => {
-                                    const item = {
-                                        nowChooseCarBrand: nowChooseCarBrand,
-                                        nowChooseCarStyle: nowChooseCarStyle,
-                                        nowCho_CarDevNaData: nowCho_CarDevNaData,
-                                        startTime: startTime,
-                                        endTime: endTime
-                                    }
-                                    setlist(item);//设置全局list数据
-                                    setselectNum(true);//设置全局图表状态更新（主要针对于第一列的动态轮播图）
-                                    if (selectChoose != true) {
-
-                                        setselectChoose(true);
-                                        console.log("设置成功");
-                                    }
-                                    else {
-                                        console.log("已经设置成功，无需设置");
-                                    }
-                                }}  >
+                                onClick={throChoose(selectType, 2000)}  >
                                 查询
                             </Button>
-                            <Button type="primary" onClick={fullScreen} icon={<AreaChartOutlined />}></Button>
+                            <Button type="primary" onClick={() => setVisible(true)} icon={<AreaChartOutlined />}></Button>
                             <Button type="primary" onClick={fullScreen} icon={<FullscreenOutlined />}></Button>
+
+                            <Modal
+                                title="地图弹窗展示"
+                                centered
+                                visible={visible}
+                                onOk={() => setVisible(false)}
+                                onCancel={() => setVisible(false)}
+                                width={1000}
+                            >
+                                <p>用于展示地图与多图联动效果</p>
+                                <p>等待数据接入中...</p>
+                                <p>静态联动已经设计完成...</p>
+                            </Modal>
                         </Space>
                     </div>
                 </div>

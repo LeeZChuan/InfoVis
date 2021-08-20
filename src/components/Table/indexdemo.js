@@ -6,11 +6,10 @@
 
 
 import React, { useContext, useState, useEffect } from 'react'
-import { Card, Button, Table, Select, TreeSelect } from 'antd'
+import { Card, Button, Table, TreeSelect } from 'antd'
 import axios from 'axios'
 import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store'
-const { Option } = Select;
 
 const INITOPTION = [{
     title: "数据准确性",
@@ -45,7 +44,7 @@ const INITOPTION = [{
 {
     title: "数据完整性",
     value: "B",
-    children:[
+    children: [
         {
             title: '字典表',
             value: 'ads',
@@ -58,7 +57,7 @@ const INITOPTION = [{
 }, {
     title: "数据时效性",
     value: "C",
-    children:[
+    children: [
         {
             title: '数据时效性神钢定制',
             value: 'zz12',
@@ -75,12 +74,12 @@ const INITOPTION = [{
             title: 'CSQ统计',
             value: 'eqw',
         },
-        
+
     ]
 }, {
     title: "数据连续性",
     value: "D",
-    children:[
+    children: [
         {
             title: '日志信息',
             value: 'zz',
@@ -92,12 +91,12 @@ const INITOPTION = [{
         {
             title: '信号连续性',
             value: 'dd123a',
-        },  
+        },
     ]
 }, {
     title: "数据在线率",
     value: "E",
-    children:[
+    children: [
         {
             title: '终端实时在线率',
             value: 'zz3',
@@ -216,22 +215,6 @@ const TableDemo = () => {
     return (
         <div>
             <Card bordered={false} title='原始数据表格' style={{ marginBottom: 10, minHeight: 762 }} id='select'>
-                {/* <Select
-                    placeholder={"选中需要查看的表格数据"}
-                    onChange={e => {
-                        setchooseObj(e);
-                    }} >
-                    {
-                        INITOPTION.map(item => {
-                            return (
-                                <Option value={item.value} key={item.value}>
-                                    {item.name}
-                                </Option>
-                            )
-                        })
-                    }
-                </Select> */}
-
                 <TreeSelect
                     style={{ width: '200px' }}
                     value={chooseObj}
