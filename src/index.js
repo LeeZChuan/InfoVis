@@ -1,11 +1,8 @@
-
 /* 
    数据可视化分析平台入口文件
    编写者：lzc
    创建时间：2021-7-2
 */
-
-
 
 import React from 'react';
 import ReactDOM from 'react-dom';
