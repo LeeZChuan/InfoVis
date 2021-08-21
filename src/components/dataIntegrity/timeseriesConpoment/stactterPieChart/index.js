@@ -85,8 +85,6 @@ const option = {
         itemWidth: 15,
         itemHeight: 15,
         itemGap: 15,
-        top: '0%',
-        left: '35%',
         textStyle: {
             color: '#ACCFFF',
             fontSize: 15,
@@ -129,7 +127,7 @@ const LineChart = () => {
         let canRate = [];
         let locRate = [];
         let dailyRecordRate = [];
-        if (DataList.length != 0 || canRate.length != 0 || locRate.length != 0 || dailyRecordRate.length != 0) {
+        if (DataList.length !== 0 || canRate.length !== 0 || locRate.length !== 0 || dailyRecordRate.length !== 0) {
             DataList.length = 0;
             canRate.length = 0;
             locRate.length = 0;

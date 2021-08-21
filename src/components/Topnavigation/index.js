@@ -90,7 +90,7 @@ const Topnav = () => {
         }
         setlist(item);//设置全局list数据
         setselectNum(true);//设置全局图表状态更新（主要针对于第一列的动态轮播图）
-        if (selectChoose != true) {
+        if (selectChoose !== true) {
             setselectChoose(true);
             console.log("设置成功la!!!!");
         }
@@ -127,10 +127,10 @@ const Topnav = () => {
                         {
                             // 页面切换按钮这里可以进行重构，目前还没有想到更好的实现方式
                             (selectPage) ? (<Button onClick={() => {
-                                if (selectPage != true) { } else { setselectPage(false); }
+                                if (selectPage !== true) { } else { setselectPage(false); }
 
                             }}><Link to="/download" >数据下载</Link></Button>) : (<Button onClick={() => {
-                                if (selectPage != true) {
+                                if (selectPage !== true) {
                                     setselectPage(true);
                                 } else { }
                             }} > <Link to="/index" >可视展示</Link></Button>)

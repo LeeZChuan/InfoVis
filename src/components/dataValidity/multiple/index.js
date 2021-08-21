@@ -31,7 +31,6 @@ const option = {
         itemWidth: 10,
         itemHeight: 10,
         itemGap: 15,
-        top: '10%',
         textStyle: {
             color: '#ACCFFF',
             fontSize: 12,

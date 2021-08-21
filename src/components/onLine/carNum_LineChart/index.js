@@ -5,14 +5,15 @@
    创建时间：2021-7-4
 */
 
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef, useContext, useState } from 'react';
 import * as echarts from 'echarts';
 import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store';
 import { Select } from 'antd';
 const { Option } = Select;
 
-const SELECT_OPTION = [{ name: '装车台数', value: 'putinCar' }, { name: '出场台数', value: 'showCar' }];
+const SELECT_OPTION = [{ name: '装车台数', value: 'CarInstall' }, { name: '出场台数', value: 'Carout' }];
+const TIME_OPTION = [{ value: 'day', name: '按天' }, { value: 'month', name: '按月' }];
 const option = {
     backgroundColor: '#080b30',
     tooltip: {
@@ -93,20 +94,19 @@ const option = {
     },
     series: [{}]
 };
-const TIME_OPTION = [
-    { value: 'day', name: '按天' },
-    { value: 'month', name: '按月' }
-]
 
 const LineChart = () => {
     const myChart = useRef();
+    const [Date, setDate] = useState("Month");
+    const [direction, setdirection] = useState("CarInstall")
     const { list } = useContext(AppContext);
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         let demoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        console.log(demoData);
         let timeData = [];
         let data = [];
         demoData.map((item) => {
-            timeData.push(item.month.toString());
+            timeData.push(item.Date.toString());
             data.push(item.amount);
         })
         const series = [{
@@ -144,26 +144,26 @@ const LineChart = () => {
 
     const selectDate = (Date) => {
         if (Date == 'day') {
-            getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getCarInstallAmount_Day");
+            setDate("Day");
         }
         else if (Date == 'month') {
-            getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getCarInstallAmount_Month");
+            setDate("Month")
         }
     }
     const selectOption = (option) => {
-        if (option == 'putinCar') {
-
+        if (option == 'CarInstall') {
+            setdirection("CarInstall");
         }
-        else if (option == '') {
-
+        else if (option == 'Carout') {
+            setdirection("Carout")
         }
     }
     useEffect(() => {
         myChart.current = echarts.init(document.getElementById('carNumLineChart'));
     }, [])
     useEffect(() => {
-        getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getCarInstallAmount_Month");
-    }, [list]);
+        getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "get" + direction + "Amount_" + Date);
+    }, [list, Date, direction]);
     return (
         <div>
             <Select

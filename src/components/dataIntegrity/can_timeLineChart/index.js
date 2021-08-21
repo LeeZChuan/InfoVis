@@ -153,7 +153,7 @@ const LineChart = () => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
         let seriesList = [];
         let objList = Object.keys(Data[0]);
-        if (seriesList.length != 0) {
+        if (seriesList.length !== 0) {
             seriesList.length = 0;
         } else {
             for (let i = 1; i < objList.length; i++) {
