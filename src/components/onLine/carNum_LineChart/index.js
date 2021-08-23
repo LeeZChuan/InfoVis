@@ -102,7 +102,6 @@ const LineChart = () => {
     const { list } = useContext(AppContext);
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         let demoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
-        console.log(demoData);
         let timeData = [];
         let data = [];
         demoData.map((item) => {

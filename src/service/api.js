@@ -4,23 +4,16 @@
    创建时间：2021-7-2
 */
 
-
 import axios from 'axios';
 import { API_Base } from './config';//引入请求地址
 
 
-//测试数据
-export async function getTimeseriesData(carBrand) {
-    const data = await axios.get(API_Base + "getTime_LineChartData/brand%" + carBrand + "&type%All&device%All&timeStart%" + "\'" + "xxxxx" + "\'" + "&timeEnd%" + "\'" + "xxx" + "\'");
-    return data.data;
-}
-
 //车辆品牌列表数据
 export async function getCarBrandData() {
     const data = await axios.get(API_Base + "getCarBrand/brand%All&type%All&device%All&timeStart%" + "\'" + "xxxxx" + "\'" + "&timeEnd%" + "\'" + "xxx" + "\'");
+    console.log(data.data);
     return data.data;
 }
-
 
 //车辆机型列表数据
 export async function getCarStyle(carBrand) {
