@@ -24,7 +24,7 @@ yarn
 ### Compiles and hot-reloads for development
 
 ```
-yarn start
+yarn start 项目本地启动
 ```
 
 ### Compiles and minifies for production

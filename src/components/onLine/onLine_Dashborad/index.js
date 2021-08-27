@@ -42,6 +42,8 @@ const InstrumentChart = () => {
     const { list } = useContext(AppContext);
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         let demoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        console.log("实时仪表盘");
+        console.log(demoData);
         const series = [
             {
                 type: 'gauge',
@@ -156,7 +158,7 @@ const InstrumentChart = () => {
                     }
                 },
                 data: [{
-                    value: demoData[0].onlineRate * 100
+                    value: (demoData[0].onlineRate * 100).toFixed(2)
                 }]
             },
             // 外围刻度
@@ -274,7 +276,7 @@ const InstrumentChart = () => {
                     }
                 },
                 data: [{
-                    value: demoData[0].gpdOnlieRate * 100
+                    value: (demoData[0].gpsOnlieRate * 100).toFixed(2)
                 }]
             }
         ]

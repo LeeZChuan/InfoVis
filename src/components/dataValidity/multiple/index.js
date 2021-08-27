@@ -37,7 +37,7 @@ const option = {
         },
     },
     title: {
-        text: '数据有效性占比情况展示',
+        text: '数据准确性占比情况展示',
         textStyle: {
             color: '#FFFFFF',
             fontSize: '22',
@@ -244,6 +244,8 @@ const LineChart = () => {
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        console.log("数据准确性占比情况")
+        console.log(Data);
         let datacity = [];
         let Can = [];//can数据
         let Error = [];//错误信息数据

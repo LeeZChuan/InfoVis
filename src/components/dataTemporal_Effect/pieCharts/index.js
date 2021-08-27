@@ -83,6 +83,8 @@ const DataIntPieChart = () => {
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        console.log("数据时效性饼状图");
+        console.log(Data);
         let objList = Data.map(item => { return (item.deltaT) });
         let tilie = {
             text: noeChoose + '数据时效性',

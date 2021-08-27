@@ -100,6 +100,8 @@ const ThemeRiverChart = () => {
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        console.log("数据时效性主题河流图");
+        console.log(Data);
         let seriesList = [];
         let objList = Object.keys(Data[0]);
         //日期列表

@@ -15,7 +15,7 @@ import InstrumentChart from '@/components/onLine/onLine_Dashborad';
 import AllIntegrityLineChart from '@/components/dataIntegrity/timeseriesConpoment/lineChart';
 import CanIntegrityLineChart from '@/components/dataIntegrity/can_timeLineChart';//can数据完整度
 import StactterPieChart from '@/components/dataIntegrity/timeseriesConpoment/stactterPieChart';
-//数据有效性
+//数据准确性
 // import PieChart from '@/components/dataValidity/nightingalePieChart';
 import MultipleyaxisChart from '@/components/dataValidity/multiple';
 //数据时效性
@@ -68,7 +68,7 @@ const Dashborad = () => {
                 <Divider id="basicData" orientation="left" style={frontStyle}>数据完整性展示</Divider>
                 <Row gutter={16}>
                     <Col className="gutter-row" span={12}>
-                        <Button shape="circle" icon={<RetweetOutlined />} onClick={showSwitch}>转换</Button>
+                        <Button shape="circle" icon={<RetweetOutlined />} size={"small"} onClick={showSwitch}>转换</Button>
                         <div>
                             {
                                 LineOrScatterChart ? (
@@ -83,14 +83,14 @@ const Dashborad = () => {
                         <CanIntegrityLineChart />
                     </Col>
                 </Row>
-                <Divider orientation="left" style={frontStyle}>数据有效性</Divider>
+                <Divider orientation="left" style={frontStyle}>数据准确性</Divider>
                 <Row gutter={10}>
                     {/* <Col md={8} style={frontStyle}>
                         数据有效性饼状占比图
                         <PieChart />
                     </Col> */}
                     <Col md={24} style={frontStyle}>
-                        数据有效性时序堆叠图
+                        数据准确性时序堆叠图
                         <MultipleyaxisChart />
                     </Col>
                 </Row>

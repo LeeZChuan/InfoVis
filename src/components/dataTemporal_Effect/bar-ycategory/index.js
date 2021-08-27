@@ -106,6 +106,8 @@ const BarChart = () => {
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        console.log("数据排行榜数据");
+        console.log(Data);
         let yAxis_name = Object.keys(Data[0]);
         let serise_data = [];
         if (serise_data.length != 0) {

@@ -1,7 +1,8 @@
 /* 
-数据表格下载模块--基本功能已经完成
-编写者：lzc
-时间：2021-7-30 
+    数据表格下载模块--基本功能1.0已经完成
+    2.0版本需要，添加对表格的操作，例如多选下载，表格指标排序
+    编写者：lzc
+    时间：2021-7-30 
 */
 
 
@@ -11,102 +12,108 @@ import axios from 'axios'
 import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store'
 
-const INITOPTION = [{
-    title: "数据准确性",
-    value: "A",
-    children: [
-        {
-            title: '工作时间准确性表',
-            value: 'cc',
-        },
-        {
-            title: '经纬度跳变',
-            value: 'ccc',
-        },
-        {
-            title: '数据频发',
-            value: 'ccac',
-        },
-        {
-            title: '生成时间错误',
-            value: 'cccc',
-        },
-        {
-            title: '工况数据',
-            value: 'acc',
-        },
-        {
-            title: 'CCI推送数据',
-            value: 'ssd',
-        },
-    ],
-},
-{
-    title: "数据完整性",
-    value: "B",
-    children: [
-        {
-            title: '字典表',
-            value: 'ads',
-        },
-        {
-            title: '采集频率配置表',
-            value: 'eqwe',
-        },
-    ]
-}, {
-    title: "数据时效性",
-    value: "C",
-    children: [
-        {
-            title: '数据时效性神钢定制',
-            value: 'zz12',
-        },
-        {
-            title: '数据时效性-神钢同步数据',
-            value: 'cc23x',
-        },
-        {
-            title: '数据时效性-CCI',
-            value: 'dda',
-        },
-        {
-            title: 'CSQ统计',
-            value: 'eqw',
-        },
+const INITOPTION = [
+    {
+        title: "数据在线率",
+        value: "InstChartData"
+    },
+    {
+        title: "车辆统计数据",
+        value: "ALLCarAmount",
+        children: [
+            {
+                title: '装车台数原始表格',
+                value: 'CarInstallAmount',
+            },
+            {
+                title: '出厂台数原始表格',
+                value: 'CaroutAmount',
+            },
+        ]
+    },
+    {
+        title: "数据准确性",
+        value: "A",
+        children: [
+            {
+                title: '工作时间准确性表',
+                value: 'cc',
+            },
+            {
+                title: '经纬度跳变',
+                value: 'ccc',
+            },
+            {
+                title: '数据频发',
+                value: 'ccac',
+            },
+            {
+                title: '生成时间错误',
+                value: 'cccc',
+            },
+            {
+                title: '工况数据',
+                value: 'acc',
+            },
+            {
+                title: 'CCI推送数据',
+                value: 'ssd',
+            },
+        ],
+    },
+    {
+        title: "数据完整性",
+        value: "B",
+        children: [
+            {
+                title: '字典表',
+                value: 'ads',
+            },
+            {
+                title: '采集频率配置表',
+                value: 'eqwe',
+            },
+        ]
+    }, {
+        title: "数据时效性",
+        value: "E",
+        children: [
+            {
+                title: '数据时效性神钢定制',
+                value: 'zz12',
+            },
+            {
+                title: '数据时效性-神钢同步数据',
+                value: 'cc23x',
+            },
+            {
+                title: '数据时效性-CCI',
+                value: 'dda',
+            },
+            {
+                title: 'CSQ统计',
+                value: 'eqw',
+            },
 
-    ]
-}, {
-    title: "数据连续性",
-    value: "D",
-    children: [
-        {
-            title: '日志信息',
-            value: 'zz',
-        },
-        {
-            title: '定时信息',
-            value: 'ccx',
-        },
-        {
-            title: '信号连续性',
-            value: 'dd123a',
-        },
-    ]
-}, {
-    title: "数据在线率",
-    value: "E",
-    children: [
-        {
-            title: '终端实时在线率',
-            value: 'zz3',
-        },
-        {
-            title: '终端历史在线率',
-            value: 'c3cx',
-        },
-    ]
-}];
+        ]
+    }, {
+        title: "数据连续性",
+        value: "F",
+        children: [
+            {
+                title: '日志信息',
+                value: 'zz',
+            },
+            {
+                title: '定时信息',
+                value: 'ccx',
+            },
+            {
+                title: '信号连续性',
+                value: 'dd123a',
+            },
+        ]
+    }];
 
 const styles = {
     tableStyle: {
@@ -131,7 +138,7 @@ const handleChange = (pagination, filters, sorter) => {
 }
 
 const downloadData = () => {
-    //下载选中的列表函数    
+    //下载选中的列表函数 ,未来版本可能会添加进入到表格数据筛选下载页面  
     console.log("下载选中数据？？？？")
 }
 
@@ -177,6 +184,8 @@ const TableDemo = () => {
 
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         let TabdemoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        console.log("表格原始数据")
+        console.log(TabdemoData);
         //objList表格抬头列表名称
         let objList = Object.keys(TabdemoData[0]);
         if (columns2.length != 0 || data2.length != 0) {

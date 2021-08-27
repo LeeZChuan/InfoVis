@@ -16,6 +16,7 @@ const SELECT_OPTION = [{ name: '装车台数', value: 'CarInstall' }, { name: '�
 const TIME_OPTION = [{ value: 'day', name: '按天' }, { value: 'month', name: '按月' }];
 const option = {
     backgroundColor: '#080b30',
+    title: {},
     tooltip: {
         trigger: 'axis',
         backgroundColor: '#fff',
@@ -98,10 +99,13 @@ const option = {
 const LineChart = () => {
     const myChart = useRef();
     const [Date, setDate] = useState("Month");
-    const [direction, setdirection] = useState("CarInstall")
+    const [direction, setdirection] = useState("CarInstall");
+    const [titleName, settitleName] = useState("装车台数");
     const { list } = useContext(AppContext);
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         let demoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        console.log("车辆数量展示")
+        console.log(demoData);
         let timeData = [];
         let data = [];
         demoData.map((item) => {
@@ -135,6 +139,18 @@ const LineChart = () => {
             },
             data: data
         }]
+        let title = {
+            text: titleName,
+            textStyle: {
+                color: '#FFFFFF',
+                fontSize: '22',
+                fontFamily: 'PingFang',
+                fontWeight: '400',
+            },
+            padding: [5, 0, 1000, 500],
+            left: 'center',
+        }
+        option.title = title;
         option.xAxis[0].data = timeData;
         option.series = series;
 
@@ -152,9 +168,11 @@ const LineChart = () => {
     const selectOption = (option) => {
         if (option == 'CarInstall') {
             setdirection("CarInstall");
+            settitleName("装车台数");
         }
         else if (option == 'Carout') {
             setdirection("Carout")
+            settitleName("出场台数")
         }
     }
     useEffect(() => {
@@ -168,6 +186,7 @@ const LineChart = () => {
             <Select
                 style={{ width: 130 }}
                 placeholder={"选择查询粒度"}
+                size={"small"}
                 onChange={e => {
                     selectDate(e);
                 }}
@@ -183,6 +202,7 @@ const LineChart = () => {
             <Select
                 style={{ width: 130 }}
                 placeholder={"选择展示方向"}
+                size={"small"}
                 onChange={e => {
                     selectOption(e);
                 }}
