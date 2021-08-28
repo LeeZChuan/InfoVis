@@ -1,5 +1,11 @@
 //数据有效性时序条件的折线组合图
 
+/* 
+    数据有效性时序条件的折线组合图
+    编写者：lzc
+    时间：2021-7-15
+*/
+
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
 import { getChartData } from '@/service/api';

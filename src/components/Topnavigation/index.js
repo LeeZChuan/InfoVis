@@ -13,11 +13,12 @@ import { Link } from 'react-router-dom';
 import { getCarBrandData, getCarStyle, getDeviceName } from '@/service/api';
 import screenfull from 'screenfull';
 import { FullscreenOutlined, AreaChartOutlined } from '@ant-design/icons';
-import { Layout, Select, Space, DatePicker, Affix, Button, Modal } from 'antd';
+import { Layout, Select, Space, DatePicker, Affix, Button, Modal, notification } from 'antd';
+import { CloudTwoTone } from '@ant-design/icons'
 import { ConfigProvider } from 'antd'; // 日期选择器外壳汉化
 import zhCN from 'antd/lib/locale/zh_CN';
 import 'moment/locale/zh-cn'; // 内部文字汉化
-import './index.css'; 
+import './index.css';
 moment.locale('zh-cn');
 const { Header } = Layout;
 const { Option } = Select;
@@ -56,12 +57,10 @@ const Topnav = () => {
     const initCarStyleData = async (carBrand) => {
         setcarStyle(await getCarStyle(carBrand));
     }
-
     //初始化下拉菜单的车辆终端数据列表
     const initCarDeviceNameData = async (carBrand, carType) => {
         setcarDeviceNameData(await getDeviceName(carBrand, carType));
     }
-
     //将选择车辆品牌、类型、终端操作，进行柯里化合并
     const chooseCarData = (dataType, e) => {
         switch (dataType) {
@@ -78,6 +77,15 @@ const Topnav = () => {
                 break;
         }
     }
+    //弹窗事件编写
+    const openNotification = (message, placement) => {
+        notification.open({
+            message: '查询成功，请稍后',
+            description: message,
+            icon: <CloudTwoTone style={{ color: '#F81D22' }} />,
+            placement
+        })
+    }
 
     //全局状态设置--按钮点击事件
     const selectType = () => {
@@ -90,12 +98,13 @@ const Topnav = () => {
         }
         setlist(item);//设置全局list数据
         setselectNum(true);//设置全局图表状态更新（主要针对于第一列的动态轮播图）
+        openNotification('查询中，请稍后','topLeft');
         if (selectChoose !== true) {
             setselectChoose(true);
-            console.log("设置成功la!!!!");
+            // openNotification('用户配置项设置成功','topLeft');
         }
         else {
-            console.log("已经设置成功，无需设置la!!!!");
+            // openNotification('已经设置成功，无需设置!!!!','topLeft');
         }
     }
 
