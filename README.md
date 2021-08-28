@@ -64,6 +64,7 @@ yarn build 打包代码
 
 - 项目默认采用了careate-react-app开发的react工程项目
 - 本项目目前使用apache-tomcat-8.5.65作为服务器，启动服务，本地端口为：http://192.168.19.38:8080/#/
+- 本项目的路径地址链接，在config文件夹中设置使用@/作为src文件夹的绝对定位
 - 本项目初始使用js编写，后期计划使用ts与scss重构代码文件
 - 计划使用[jest](https://github.com/facebook/jest)进行单元测试
 - 格式化方面采用[ESlint](https://github.com/eslint/eslint)+prettier

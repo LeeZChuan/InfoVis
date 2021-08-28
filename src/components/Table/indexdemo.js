@@ -119,8 +119,6 @@ const INITOPTION = [
     }];
 
 
-
-
 const styles = {
     tableStyle: {
         width: '100%'
@@ -148,8 +146,9 @@ const downloadData = () => {
     console.log("下载选中数据？？？？")
 }
 
-const openNotification = (message,whatChange,placement) => {
-    if(whatChange){
+const openNotification = (message, whatChange, placement) => {
+    if (whatChange) {
+        //操作成功弹窗
         notification.open({
             message: '表格数据操作成功',
             description: message,
@@ -157,7 +156,8 @@ const openNotification = (message,whatChange,placement) => {
             placement
         })
 
-    }else{
+    } else {
+        //操作失败弹窗
         notification.open({
             message: '表格数据操作失败',
             description: message,
@@ -181,8 +181,7 @@ const TableDemo = () => {
     const { list } = useContext(AppContext);
     const downloadAllData = () => {
         // 下载所有数据的csv文件函数
-        axios.get(API_Base+"downloadExcelData/brand%" + list.nowChooseCarBrand + "_" + chooseObj + "&type%" + list.nowChooseCarStyle + "&device%" + list.nowCho_CarDevNaData + "&timeStart%" + "\'" + list.startTime + "\'" + "&timeEnd%" + "\'" + list.endTime + "\'")
-            // axios.get("http://192.168.19.2:5000/vis/get/getExcelTableData_"+chooseObj+"/brand%" + list.nowChooseCarBrand + "&type%" + list.nowChooseCarStyle + "&device%" + list.nowCho_CarDevNaData + "&timeStart%" + "\'" + list.startTime + "\'" + "&timeEnd%" + "\'" + list.endTime + "\'")
+        axios.get(API_Base + "downloadExcelData/brand%" + list.nowChooseCarBrand + "_" + chooseObj + "&type%" + list.nowChooseCarStyle + "&device%" + list.nowCho_CarDevNaData + "&timeStart%" + "\'" + list.startTime + "\'" + "&timeEnd%" + "\'" + list.endTime + "\'")
             .then(res => {
                 console.log(res);
                 if (res.status === 200) {
@@ -200,13 +199,12 @@ const TableDemo = () => {
                         a.click();
                         document.body.removeChild(a);
                     };
-                    openNotification("数据下载成功！",true,'topRight');
+                    openNotification("数据下载成功！", true, 'topRight');
                 }
                 // console.log(res);
             })
             .catch(err => {
-                let message = "下载失败，请寻找原因,原因报错:" + err.message;
-                openNotification(message,false,'topRight');
+                openNotification("下载失败，请寻找原因,原因报错:" + err.message, false, 'topRight');
             });
     }
 
@@ -216,7 +214,7 @@ const TableDemo = () => {
             console.log("表格原始数据")
             console.log(TabdemoData);
             if (TabdemoData.length <= 1) {
-                openNotification("你所查询的数据表格，暂无数据，请重新查询",false,'topRight');
+                openNotification("你所查询的数据表格，暂无数据，请重新查询", false, 'topRight');
             }
             //objList表格抬头列表名称
             let objList = Object.keys(TabdemoData[0]);
@@ -247,7 +245,7 @@ const TableDemo = () => {
 
         } catch (error) {
             // console.log(error);
-            openNotification("查询出错，原因:" + error.message,false,'topRight');
+            openNotification("查询出错，原因:" + error.message, false, 'topRight');
         }
 
     }
