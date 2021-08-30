@@ -8,7 +8,7 @@
 
 import React, { useContext, useState, useEffect } from 'react'
 import { Card, Button, Table, TreeSelect, notification } from 'antd'
-import { SecurityScanTwoTone } from '@ant-design/icons'
+import { SecurityScanTwoTone,SecurityScanFilled } from '@ant-design/icons'
 import { API_Base } from '@/service/config';//引入请求地址
 import axios from 'axios'
 import { getChartData } from '@/service/api'//数据读取
@@ -161,7 +161,7 @@ const openNotification = (message, whatChange, placement) => {
         notification.open({
             message: '表格数据操作失败',
             description: message,
-            icon: <SecurityScanTwoTone style={{ color: '#F81D22' }} />,
+            icon: <SecurityScanFilled style={{ color: '#F81D22' }} />,
             placement
         })
 

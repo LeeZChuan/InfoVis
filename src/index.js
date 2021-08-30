@@ -12,7 +12,7 @@ import './style.css';
 import 'antd/dist/antd.css';
 
 ReactDOM.render(<AppProvider>
-    <div className="all">
+    <div class="all">
         <App />
     </div>
 </AppProvider>, document.getElementById("root"))

@@ -1,35 +1,8 @@
-.scroll {
-  display: inline-block;
-  height: 100%;
-  width: 600px;
-  margin: 0 25px;
-  overflow: hidden;
-  position: relative;
-  color: aliceblue;
-}
-
-.scroll > div:first-child {
-  font-weight: bold;
-  color: red;
-  text-align: center;
-}
-
-.scroll > div:last-child {
-  margin-top: 15px;
-  height: 260px;
-  overflow: hidden;
-}
-
-.scroll .item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 3px 0;
-}
 .all{
   position: block;
   height: 100%;
   width: 100%;
+  min-width: 1920px;
   overflow:hidden;
   margin: 0;
   padding: 0;
