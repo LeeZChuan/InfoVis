@@ -6,6 +6,7 @@
 import React, { Component } from "react";
 import { JsSeamlessScroll } from "css-react-seamless-scroll";
 import { getChartData } from '@/service/api';//数据读取
+import {message} from 'antd';
 import AppContext from '@/store';
 import "./styles.css";
 
@@ -26,7 +27,9 @@ class JsExample extends Component {
         //判断筛选的数据长度，如果不够弹窗进行报错，然后用户重新选择
         if (demoData.length !== 0) {
         } else {
-            alert('表格暂无数据，请重新选择')
+            // alert('表格暂无数据，请重新选择');
+            message.error('故障车辆实时滚动条该时间段内暂无数据，请重新选择');
+
         }
         demoData.map((item, index) => {
             data.push({

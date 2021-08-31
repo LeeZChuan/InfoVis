@@ -31,14 +31,15 @@ const Topnav = () => {
     const [carBrand, setcarBrand] = useState([]);//初始化一个车辆品牌列表数组
     const [carStyle, setcarStyle] = useState([]);//初始化一个车辆机型数组
     const [carDeviceNameData, setcarDeviceNameData] = useState([]);//初始化一个车辆终端数组
-    const [nowChooseCarBrand, setnowChooseCarBrand] = useState("");
-    const [nowChooseCarStyle, setnowChooseCarStyle] = useState("");
-    const [nowCho_CarDevNaData, setnowCho_CarDevNaData] = useState("");
-    const [startTime, setstartTime] = useState('');//初始化一个时间终端数组
-    const [endTime, setendTime] = useState('');//初始化一个时间终端数组
+    const [nowChooseCarBrand, setnowChooseCarBrand] = useState("ALL");
+    const [nowChooseCarStyle, setnowChooseCarStyle] = useState("ALL");
+    const [nowCho_CarDevNaData, setnowCho_CarDevNaData] = useState("ALL");
+    const [startTime, setstartTime] = useState('');//开始时间
+    const [endTime, setendTime] = useState('');//终止时间
     const [visible, setVisible] = useState(false);//地图图表弹窗展示
     const { list, setlist } = useContext(AppContext);
     const { selectPage, setselectPage } = useContext(AppContext);
+    const { settableloading } = useContext(AppContext);//表格加载状态
     const { setselectNum } = useContext(AppContext);
     //下拉时间选择
     const chooseTimeRange = (dates, dateStrings) => {
@@ -99,12 +100,12 @@ const Topnav = () => {
         setlist(item);//设置全局list数据
         setselectNum(true);//设置全局图表状态更新（主要针对于第一列的动态轮播图）
         openNotification('查询中，请稍后','topLeft');
+        settableloading(true);//设置表格状态
         if (selectChoose !== true) {
             setselectChoose(true);
-            // openNotification('用户配置项设置成功','topLeft');
         }
         else {
-            // openNotification('已经设置成功，无需设置!!!!','topLeft');
+           
         }
     }
 
@@ -209,12 +210,11 @@ const Topnav = () => {
                                     onChange={chooseTimeRange} />
                             </ConfigProvider>
                             <Button type="primary"
-                                onClick={throChoose(selectType, 2000)}  >
+                                onClick={throChoose(selectType, 4000)}  >
                                 查询
                             </Button>
                             <Button type="primary" onClick={() => setVisible(true)} icon={<AreaChartOutlined />}></Button>
                             <Button type="primary" onClick={fullScreen} icon={<FullscreenOutlined />}></Button>
-
                             <Modal
                                 title="地图弹窗展示"
                                 centered

@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Layout } from 'antd';
-import TableDemo from '@/components/Table/indexdemo.js'
+import TableDemo from '@/components/Table'
 const { Footer, Content } = Layout;
 
 const Dashborad = () => {

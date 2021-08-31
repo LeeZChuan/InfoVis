@@ -8,12 +8,11 @@
 
 import React, { useContext, useState, useEffect } from 'react'
 import { Card, Button, Table, TreeSelect, notification } from 'antd'
-import { SecurityScanTwoTone,SecurityScanFilled } from '@ant-design/icons'
+import { SecurityScanTwoTone, SecurityScanFilled } from '@ant-design/icons'
 import { API_Base } from '@/service/config';//引入请求地址
 import axios from 'axios'
 import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store'
-
 
 const INITOPTION = [
     {
@@ -146,39 +145,38 @@ const downloadData = () => {
     console.log("下载选中数据？？？？")
 }
 
-const openNotification = (message, whatChange, placement) => {
-    if (whatChange) {
-        //操作成功弹窗
-        notification.open({
-            message: '表格数据操作成功',
-            description: message,
-            icon: <SecurityScanTwoTone style={{ color: '#F81D22' }} />,
-            placement
-        })
-
-    } else {
-        //操作失败弹窗
-        notification.open({
-            message: '表格数据操作失败',
-            description: message,
-            icon: <SecurityScanFilled style={{ color: '#F81D22' }} />,
-            placement
-        })
-
-    }
-}
-
-
-
-
 const TableDemo = () => {
-
     let data2 = []; // 表格数据
     let columns2 = []; // 表格属性
     const [dataList, setdataList] = useState([]); // 多选数组储存
     const [columnsList, setcolumnsList] = useState([]); // 多选数组储存
     const [chooseObj, setchooseObj] = useState("carInfo"); // 当前用户选中的展示方向
+    const [chooseName, setchooseName] = useState("终端信息表/车辆统计原始数据"); // 当前用户选中的展示方向中文
     const { list } = useContext(AppContext);
+    const { tableloading, settableloading } = useContext(AppContext);
+    const openNotification = (message, whatChange, placement) => {
+        if (whatChange) {
+            //操作成功弹窗
+            notification.open({
+                message: chooseName + '-表格数据操作成功',
+                description: message,
+                icon: <SecurityScanTwoTone style={{ color: '#F81D22' }} />,
+                placement
+            })
+
+        } else {
+            //操作失败弹窗
+            notification.open({
+                message: chooseName + '-表格数据操作失败',
+                description: message,
+                icon: <SecurityScanFilled style={{ color: '#F81D22' }} />,
+                placement,
+                duration: 8
+            })
+
+        }
+    }
+    //下载用户需要的所有数据表格
     const downloadAllData = () => {
         // 下载所有数据的csv文件函数
         axios.get(API_Base + "downloadExcelData/brand%" + list.nowChooseCarBrand + "_" + chooseObj + "&type%" + list.nowChooseCarStyle + "&device%" + list.nowCho_CarDevNaData + "&timeStart%" + "\'" + list.startTime + "\'" + "&timeEnd%" + "\'" + list.endTime + "\'")
@@ -207,44 +205,46 @@ const TableDemo = () => {
                 openNotification("下载失败，请寻找原因,原因报错:" + err.message, false, 'topRight');
             });
     }
-
+    //数据获取
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         try {
             let TabdemoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
             console.log("表格原始数据")
             console.log(TabdemoData);
             if (TabdemoData.length <= 1) {
+                settableloading(false);
                 openNotification("你所查询的数据表格，暂无数据，请重新查询", false, 'topRight');
-            }
-            //objList表格抬头列表名称
-            let objList = Object.keys(TabdemoData[0]);
-            if (columns2.length != 0 || data2.length != 0) {
-                //两者都可以截断数据
-                columns2.slice(0, columns2.length);
-                data2.length = 0;
-            }
-            else {
-                objList.map(item => {
-                    columns2.push({
-                        title: TabdemoData[0][item],
-                        dataIndex: item,
-                        key: item,
-                    })
-                })
-                for (let i = 1; i < TabdemoData.length; i++) {
-                    data2.push({
-                        key: i - 1,
-                        ...TabdemoData[i]
-                    })
+            } else {
+                //objList表格抬头列表名称
+                let objList = Object.keys(TabdemoData[0]);
+                if (columns2.length != 0 || data2.length != 0) {
+                    //两者都可以截断数据
+                    columns2.slice(0, columns2.length);
+                    data2.length = 0;
                 }
+                else {
+                    objList.map(item => {
+                        columns2.push({
+                            title: TabdemoData[0][item],
+                            dataIndex: item,
+                            key: item,
+                        })
+                    })
+                    for (let i = 1; i < TabdemoData.length; i++) {
+                        data2.push({
+                            key: i - 1,
+                            ...TabdemoData[i]
+                        })
+                    }
 
+                }
+                //数据进行配置
+                setcolumnsList(columns2);
+                setdataList(data2);
+                settableloading(false);
             }
-            //数据进行配置
-            setcolumnsList(columns2);
-            setdataList(data2);
-
         } catch (error) {
-            // console.log(error);
+            settableloading(false);
             openNotification("查询出错，原因:" + error.message, false, 'topRight');
         }
 
@@ -267,13 +267,22 @@ const TableDemo = () => {
                     treeData={INITOPTION}
                     placeholder="选中需要查看的数据表格"
                     treeDefaultExpandAll
-                    onChange={e => {
+                    onChange={(e, value) => {
+                        settableloading(true);
+                        setchooseName(value);
                         setchooseObj(e);
                     }}
                 />
                 <Button onClick={downloadAllData}>下载完整Excel表格</Button>
                 {/* <Button onClick={downloadData}>下载当前选择的Excel表格</Button> */}
-                <Table rowSelection={rowSelection} dataSource={dataList} columns={columnsList} style={styles.tableStyle} onChange={handleChange} />
+                <Table
+                    rowSelection={rowSelection}
+                    dataSource={dataList}
+                    columns={columnsList}
+                    style={styles.tableStyle}
+                    onChange={handleChange}
+                    loading={tableloading}
+                />
             </Card>
         </div>
     )

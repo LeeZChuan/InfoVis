@@ -7,6 +7,8 @@
 
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
+import { notification } from "antd"
+import { SecurityScanFilled } from '@ant-design/icons'
 import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store';
 
@@ -35,6 +37,18 @@ const option = {
     series: [{}]
 };
 
+//弹窗事件编写
+const openNotification = (message, placement) => {
+    //操作失败弹窗
+    notification.open({
+        message: '实时在线率仪表盘',
+        description: message,
+        icon: <SecurityScanFilled style={{ color: '#F81D22' }} />,
+        placement,
+        duration: 8
+    })
+}
+
 
 
 const InstrumentChart = () => {
@@ -44,245 +58,251 @@ const InstrumentChart = () => {
         let demoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
         console.log("实时仪表盘");
         console.log(demoData);
-        const series = [
-            {
-                type: 'gauge',
-                center: ['25%', '50%'],
-                radius: '60%',  // 1行3个
-                splitNumber: 8 || 10,
-                min: 0,
-                max: demoData[0].online,
-                startAngle: 225,
-                endAngle: -45,
-                axisLine: {
-                    show: true,
-                    lineStyle: {
-                        width: 2,
-                        shadowBlur: 0,
-                        color: [
-                            [1, highlight]
-                        ]
+        if (demoData == "DataError") {
+            openNotification("该时间段内数据库中暂无数据，请重新查询", 'topLeft')
+        } else {
+            const series = [
+                {
+                    type: 'gauge',
+                    center: ['25%', '50%'],
+                    radius: '60%',  // 1行3个
+                    splitNumber: 8 || 10,
+                    min: 0,
+                    max: demoData[0].online,
+                    startAngle: 225,
+                    endAngle: -45,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            width: 2,
+                            shadowBlur: 0,
+                            color: [
+                                [1, highlight]
+                            ]
+                        },
                     },
-                },
-                axisTick: {
-                    show: true,
-                    lineStyle: {
-                        color: highlight,
-                        width: 1
+                    axisTick: {
+                        show: true,
+                        lineStyle: {
+                            color: highlight,
+                            width: 1
+                        },
+                        length: -5,
+                        splitNumber: 10
                     },
-                    length: -5,
-                    splitNumber: 10
-                },
-                splitLine: {
-                    show: true,
-                    length: -14,
-                    lineStyle: {
-                        color: highlight,
+                    splitLine: {
+                        show: true,
+                        length: -14,
+                        lineStyle: {
+                            color: highlight,
+                        }
+                    },
+                    axisLabel: {
+                        distance: -25,
+                        textStyle: {
+                            color: '#fff',
+                            // color: highlight,
+                            fontSize: '15',
+                            fontWeight: 'bold'
+                        },
+                        //外侧仪表盘取整
+                        formatter: function (v) {
+                            return v.toFixed(0);
+
+                        },
+                    },
+                    pointer: {
+                        show: 0
+                    },
+                    detail: {
+                        show: 0
                     }
                 },
-                axisLabel: {
-                    distance: -25,
-                    textStyle: {
-                        color: '#fff',
-                        // color: highlight,
-                        fontSize: '15',
-                        fontWeight: 'bold'
+                // 内侧指针、数值显示
+                {
+                    name: "终端在线率",
+                    type: 'gauge',
+                    center: ['25%', '50%'],
+                    radius: '60%',
+                    startAngle: 225,
+                    endAngle: -45,
+                    min: 0,
+                    max: 100,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            width: 16,
+                            color: [
+                                [1, 'rgba(255,255,255,.1)']
+                            ]
+                        }
                     },
-                    //外侧仪表盘取整
-                    formatter: function (v) {
-                        return v.toFixed(0);
+                    axisTick: {
+                        show: 0,
+                    },
+                    splitLine: {
+                        show: 0,
+                    },
+                    axisLabel: {
+                        show: 0
+                    },
+                    pointer: {
+                        show: true,
+                        length: '105%'
+                    },
+                    detail: {
+                        show: true,
+                        offsetCenter: [0, '100%'],
+                        textStyle: {
+                            fontSize: 20,
+                            color: '#fff'
+                        },
+                        formatter: [
+                            '{value} ' + ("%" || ''),
+                            '{name|' + "终端在线率" + '}'
+                        ].join('\n'),
+                        rich: {
+                            name: {
+                                fontSize: 14,
+                                lineHeight: 20,
+                                color: '#fff'
+                            }
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: highlight,
+                        }
+                    },
+                    data: [{
+                        value: (demoData[0].onlineRate * 100).toFixed(2)
+                    }]
+                },
+                // 外围刻度
+                {
+                    type: 'gauge',
+                    center: ['75%', '50%'],
+                    radius: '60%',  // 1行3个
+                    splitNumber: 8 || 10,
+                    min: 0,
+                    max: demoData[0].gpsOnline,
+                    startAngle: 225,
+                    endAngle: -45,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            width: 2,
+                            shadowBlur: 0,
+                            color: [
+                                [1, highlight]
+                            ]
+                        }
+                    },
+                    axisTick: {
+                        show: true,
+                        lineStyle: {
+                            color: highlight,
+                            width: 1
+                        },
+                        length: -5,
+                        splitNumber: 10
+                    },
+                    splitLine: {
+                        show: true,
+                        length: -14,
+                        lineStyle: {
+                            color: highlight,
+                        }
+                    },
+                    axisLabel: {
+                        distance: -25,
+                        textStyle: {
+                            color: '#fff',
+                            // color: highlight,
+                            fontSize: '15',
+                            fontWeight: 'bold'
+                        },
+                        //外侧仪表盘取整
+                        formatter: function (v) {
+                            return v.toFixed(0);
 
+                        },
                     },
+                    // pointer: {
+                    //     show: 0
+                    // },
+                    // detail: {
+                    //     show: 0
+                    // }
                 },
-                pointer: {
-                    show: 0
-                },
-                detail: {
-                    show: 0
+
+                // 内侧指针、数值显示
+                {
+                    name: "GPS在线率",
+                    type: 'gauge',
+                    center: ['75%', '50%'],
+                    radius: '60%',
+                    startAngle: 225,
+                    endAngle: -45,
+                    min: 0,
+                    max: 100,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            width: 16,
+                            color: [
+                                [1, 'rgba(255,255,255,.1)']
+                            ]
+                        }
+                    },
+                    axisTick: {
+                        show: 0,
+                    },
+                    splitLine: {
+                        show: 0,
+                    },
+                    axisLabel: {
+                        show: 0
+                    },
+                    pointer: {
+                        show: true,
+                        length: '105%'
+                    },
+                    detail: {
+                        show: true,
+                        offsetCenter: [0, '100%'],
+                        textStyle: {
+                            fontSize: 20,
+                            color: '#fff'
+                        },
+                        formatter: [
+                            '{value} ' + ("%" || ''),
+                            '{name|' + "GPS在线率" + '}'
+                        ].join('\n'),
+                        rich: {
+                            name: {
+                                fontSize: 14,
+                                lineHeight: 30,
+                                color: '#fff'
+                            }
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: highlight,
+                        }
+                    },
+                    data: [{
+                        value: (demoData[0].gpsOnlieRate * 100).toFixed(2)
+                    }]
                 }
-            },
-            // 内侧指针、数值显示
-            {
-                name: "终端在线率",
-                type: 'gauge',
-                center: ['25%', '50%'],
-                radius: '60%',
-                startAngle: 225,
-                endAngle: -45,
-                min: 0,
-                max: 100,
-                axisLine: {
-                    show: true,
-                    lineStyle: {
-                        width: 16,
-                        color: [
-                            [1, 'rgba(255,255,255,.1)']
-                        ]
-                    }
-                },
-                axisTick: {
-                    show: 0,
-                },
-                splitLine: {
-                    show: 0,
-                },
-                axisLabel: {
-                    show: 0
-                },
-                pointer: {
-                    show: true,
-                    length: '105%'
-                },
-                detail: {
-                    show: true,
-                    offsetCenter: [0, '100%'],
-                    textStyle: {
-                        fontSize: 20,
-                        color: '#fff'
-                    },
-                    formatter: [
-                        '{value} ' + ("%" || ''),
-                        '{name|' + "终端在线率" + '}'
-                    ].join('\n'),
-                    rich: {
-                        name: {
-                            fontSize: 14,
-                            lineHeight: 20,
-                            color: '#fff'
-                        }
-                    }
-                },
-                itemStyle: {
-                    normal: {
-                        color: highlight,
-                    }
-                },
-                data: [{
-                    value: (demoData[0].onlineRate * 100).toFixed(2)
-                }]
-            },
-            // 外围刻度
-            {
-                type: 'gauge',
-                center: ['75%', '50%'],
-                radius: '60%',  // 1行3个
-                splitNumber: 8 || 10,
-                min: 0,
-                max: demoData[0].gpsOnline,
-                startAngle: 225,
-                endAngle: -45,
-                axisLine: {
-                    show: true,
-                    lineStyle: {
-                        width: 2,
-                        shadowBlur: 0,
-                        color: [
-                            [1, highlight]
-                        ]
-                    }
-                },
-                axisTick: {
-                    show: true,
-                    lineStyle: {
-                        color: highlight,
-                        width: 1
-                    },
-                    length: -5,
-                    splitNumber: 10
-                },
-                splitLine: {
-                    show: true,
-                    length: -14,
-                    lineStyle: {
-                        color: highlight,
-                    }
-                },
-                axisLabel: {
-                    distance: -25,
-                    textStyle: {
-                        color: '#fff',
-                        // color: highlight,
-                        fontSize: '15',
-                        fontWeight: 'bold'
-                    },
-                    //外侧仪表盘取整
-                    formatter: function (v) {
-                        return v.toFixed(0);
+            ]
+            //数据配置
+            option.series = series;
+            myChart.current.setOption(option);
 
-                    },
-                },
-                // pointer: {
-                //     show: 0
-                // },
-                // detail: {
-                //     show: 0
-                // }
-            },
+        }
 
-            // 内侧指针、数值显示
-            {
-                name: "GPS在线率",
-                type: 'gauge',
-                center: ['75%', '50%'],
-                radius: '60%',
-                startAngle: 225,
-                endAngle: -45,
-                min: 0,
-                max: 100,
-                axisLine: {
-                    show: true,
-                    lineStyle: {
-                        width: 16,
-                        color: [
-                            [1, 'rgba(255,255,255,.1)']
-                        ]
-                    }
-                },
-                axisTick: {
-                    show: 0,
-                },
-                splitLine: {
-                    show: 0,
-                },
-                axisLabel: {
-                    show: 0
-                },
-                pointer: {
-                    show: true,
-                    length: '105%'
-                },
-                detail: {
-                    show: true,
-                    offsetCenter: [0, '100%'],
-                    textStyle: {
-                        fontSize: 20,
-                        color: '#fff'
-                    },
-                    formatter: [
-                        '{value} ' + ("%" || ''),
-                        '{name|' + "GPS在线率" + '}'
-                    ].join('\n'),
-                    rich: {
-                        name: {
-                            fontSize: 14,
-                            lineHeight: 30,
-                            color: '#fff'
-                        }
-                    }
-                },
-                itemStyle: {
-                    normal: {
-                        color: highlight,
-                    }
-                },
-                data: [{
-                    value: (demoData[0].gpsOnlieRate * 100).toFixed(2)
-                }]
-            }
-        ]
-        //数据配置
-        option.series = series;
-        myChart.current.setOption(option);
     }
 
     useEffect(() => {
