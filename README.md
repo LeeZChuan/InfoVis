@@ -30,7 +30,7 @@ yarn start 项目本地启动
 ### Compiles and minifies for production
 
 ```
-yarn build 打包代码
+yarn build 打包代码,打包完毕后放入apache-tomcat-8.5.65文件夹中的webapp中，然后启动服务就可以在局域网内部访问
 ```
 
 

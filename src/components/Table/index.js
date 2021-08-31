@@ -153,7 +153,7 @@ const TableDemo = () => {
     const [chooseObj, setchooseObj] = useState("carInfo"); // 当前用户选中的展示方向
     const [chooseName, setchooseName] = useState("终端信息表/车辆统计原始数据"); // 当前用户选中的展示方向中文
     const { list } = useContext(AppContext);
-    const { tableloading, settableloading } = useContext(AppContext);
+    const { tableloading, settableloading } = useContext(AppContext);//table加载控件状态
     const openNotification = (message, whatChange, placement) => {
         if (whatChange) {
             //操作成功弹窗
@@ -190,8 +190,7 @@ const TableDemo = () => {
                     reader.readAsDataURL(blob);
                     reader.onload = e => {
                         const a = document.createElement('a');
-                        // console.log(a);
-                        a.download = Date.now() + '.csv';
+                        a.download = Date.now() + '.xlsx';
                         a.href = e.target.result;
                         document.body.appendChild(a);
                         a.click();
@@ -199,7 +198,6 @@ const TableDemo = () => {
                     };
                     openNotification("数据下载成功！", true, 'topRight');
                 }
-                // console.log(res);
             })
             .catch(err => {
                 openNotification("下载失败，请寻找原因,原因报错:" + err.message, false, 'topRight');
@@ -209,8 +207,8 @@ const TableDemo = () => {
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         try {
             let TabdemoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
-            console.log("表格原始数据")
-            console.log(TabdemoData);
+            // console.log("表格原始数据")
+            // console.log(TabdemoData);
             if (TabdemoData.length <= 1) {
                 settableloading(false);
                 openNotification("你所查询的数据表格，暂无数据，请重新查询", false, 'topRight');

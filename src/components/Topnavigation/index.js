@@ -205,7 +205,10 @@ const Topnav = () => {
                                 <RangePicker
                                     ranges={{
                                         '今天': [moment(), moment()],
-                                        '当前月份': [moment().startOf('month'), moment().endOf('month')],
+                                        '一周前': [moment().subtract('days',6), moment().endOf('day')],
+                                        '一个月前': [moment().subtract('days',30), moment().endOf('day')],
+                                        // '当前月份': [moment().startOf('month'), moment().endOf('month')],
+                                        '今年一整年': [moment().startOf('year'), moment().endOf('year')],
                                     }}
                                     onChange={chooseTimeRange} />
                             </ConfigProvider>
