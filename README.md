@@ -115,3 +115,10 @@ INFOVIS-master
 │
 └── README.md 
 ```
+
+## 项目截图
+
+![1](/src/style/1.png)
+![1](/src/style/2.png)
+![1](/src/style/3.png)
+![1](/src/style/4.png)
