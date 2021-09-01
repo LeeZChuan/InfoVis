@@ -80,6 +80,7 @@ const InstrumentChart = () => {
                                 [1, highlight]
                             ]
                         },
+
                     },
                     axisTick: {
                         show: true,
@@ -106,9 +107,8 @@ const InstrumentChart = () => {
                             fontWeight: 'bold'
                         },
                         //外侧仪表盘取整
-                        formatter: function (v) {
-                            return v.toFixed(0);
-
+                        formatter: function (value) {
+                            return value.toFixed(0);
                         },
                     },
                     pointer: {

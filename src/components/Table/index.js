@@ -5,7 +5,6 @@
     时间：2021-7-30 
 */
 
-
 import React, { useContext, useState, useEffect } from 'react'
 import { Card, Button, Table, TreeSelect, notification } from 'antd'
 import { SecurityScanTwoTone, SecurityScanFilled } from '@ant-design/icons'
@@ -22,10 +21,12 @@ const INITOPTION = [
             {
                 title: '终端实时在线率',
                 value: 'terminalOnlineRate',
+
             },
             {
                 title: '终端历史在线率',
                 value: 'terminalOnlineRateOfHistory',
+                disabled: true,
             },
         ],
     },
@@ -40,6 +41,7 @@ const INITOPTION = [
             {
                 title: '工作时间准确性表',
                 value: 'dataActuallyOfWorktime',
+                disabled: true,
             },
             {
                 title: '经纬度跳变',
@@ -48,10 +50,12 @@ const INITOPTION = [
             {
                 title: '数据频发',
                 value: 'dataActuallyOfInfo',
+                disabled: true,
             },
             {
                 title: '生成时间错误',
                 value: 'dataActuallyOfEroTime',
+                disabled: true,
             },
             {
                 title: '工况数据',
@@ -70,10 +74,13 @@ const INITOPTION = [
             {
                 title: '字典表',
                 value: 'dictTable',
+                disabled: true,
+
             },
             {
                 title: '采集频率配置表',
                 value: 'receiveFre',
+                disabled: true,
             },
         ]
     }, {
@@ -83,28 +90,35 @@ const INITOPTION = [
             {
                 title: '数据时效性神钢定制',
                 value: 'dataTimelinessOfKob',
+                disabled: true,
+
             },
             {
                 title: '数据时效性-神钢同步数据',
                 value: 'dataTimelinessOfKob2',
+                disabled: true,
             },
             {
                 title: '数据时效性-CCI',
                 value: 'dataTimelinessOfCCI',
+                disabled: true,
             },
             {
                 title: 'CSQ统计',
                 value: 'CSQ',
+                disabled: true,
+
             },
 
         ]
     }, {
         title: "数据连续性",
-        value: "F",
+        value: "C",
         children: [
             {
                 title: '日志信息',
                 value: 'dataContinuallyOfDailyRecord',
+                disabled: true,
             },
             {
                 title: '定时信息',
@@ -113,6 +127,8 @@ const INITOPTION = [
             {
                 title: '信号连续性',
                 value: 'dataContinuallyOfSignal',
+                disabled: true,
+
             },
         ]
     }];
@@ -154,6 +170,8 @@ const TableDemo = () => {
     const [chooseName, setchooseName] = useState("终端信息表/车辆统计原始数据"); // 当前用户选中的展示方向中文
     const { list } = useContext(AppContext);
     const { tableloading, settableloading } = useContext(AppContext);//table加载控件状态
+
+    //弹窗方法
     const openNotification = (message, whatChange, placement) => {
         if (whatChange) {
             //操作成功弹窗
@@ -190,7 +208,7 @@ const TableDemo = () => {
                     reader.readAsDataURL(blob);
                     reader.onload = e => {
                         const a = document.createElement('a');
-                        a.download = Date.now() + '.xlsx';
+                        a.download = Date.now() + '.csv';
                         a.href = e.target.result;
                         document.body.appendChild(a);
                         a.click();
@@ -207,8 +225,6 @@ const TableDemo = () => {
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         try {
             let TabdemoData = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
-            // console.log("表格原始数据")
-            // console.log(TabdemoData);
             if (TabdemoData.length <= 1) {
                 settableloading(false);
                 openNotification("你所查询的数据表格，暂无数据，请重新查询", false, 'topRight');
@@ -240,6 +256,7 @@ const TableDemo = () => {
                 setcolumnsList(columns2);
                 setdataList(data2);
                 settableloading(false);
+                openNotification("查询成功", true, 'topRight');
             }
         } catch (error) {
             settableloading(false);
@@ -270,7 +287,8 @@ const TableDemo = () => {
                         setchooseName(value);
                         setchooseObj(e);
                     }}
-                />
+                >
+                </TreeSelect>
                 <Button onClick={downloadAllData}>下载完整Excel表格</Button>
                 {/* <Button onClick={downloadData}>下载当前选择的Excel表格</Button> */}
                 <Table

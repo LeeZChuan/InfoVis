@@ -137,6 +137,7 @@ const option = {
                     fontFamily: 'PingFang',
                     fontStyle: 'normal',
                     fontSize: 12,
+                    
                 },
             },
         },
@@ -346,6 +347,7 @@ const LineChart = () => {
     }, [])
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
+        console.log(Data);
         let DataList = [];
         let canRate = [];
         let locRate = [];
@@ -358,9 +360,9 @@ const LineChart = () => {
         } else {
             for (let i = 0; i < Data.length; i++) {
                 DataList.push(Data[i].msgDate);
-                canRate.push(Data[i].canRate * 100);
-                locRate.push(Data[i].locRate * 100);
-                dailyRecordRate.push(Data[i].dailyRecordRate * 100);
+                canRate.push((Data[i].canRate * 100).toFixed(2));
+                locRate.push((Data[i].locRate * 100).toFixed(2));
+                dailyRecordRate.push((Data[i].dailyRecordRate * 100).toFixed(2));
             }
         }
         //数据配置
@@ -375,7 +377,7 @@ const LineChart = () => {
 
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getTime_LineChartData");
-    },[list]);
+    }, [list]);
     return (
         <div>
             <div id="timeLineChart" theme="theme" ref={myChart} style={{ height: '400px' }}></div>

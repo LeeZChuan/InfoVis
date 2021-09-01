@@ -15,7 +15,6 @@ export async function getCarBrandData() {
     console.log(data.data);
     return data.data;
 }
-
 //车辆机型列表数据
 export async function getCarStyle(carBrand) {
     // console.log("api变化"+carBrand);
@@ -35,12 +34,4 @@ export async function getDeviceName(carBrand, carType) {
 export async function getChartData(carBrand, carType, deviceName, startTime, endTime, DataFuncation) {
     const data = await axios.get(API_Base + DataFuncation + "/brand%" + carBrand + "&type%" + carType + "&device%" + deviceName + "&timeStart%" + "\'" + startTime + "\'" + "&timeEnd%" + "\'" + endTime + "\'");
     return data.data;
-}
-
-export function downloadExcelData() {
-    //获取python后端传回的excel表格文件
-    axios.post('https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=FAutoGlobalStatis,FAutoContinentStatis,FAutoGlobalDailyList,FAutoCountryConfirmAdd').then((res) => {
-        let worldData = res.data.data.FAutoGlobalStatis;
-        return worldData;
-    });
 }
