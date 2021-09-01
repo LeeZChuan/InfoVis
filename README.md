@@ -18,7 +18,7 @@ infovis：数据传输过程信息可视化平台模块
 ### Project setup
 
 ```
-yarn
+yarn 安装所需配置文件
 ```
 
 ### Compiles and hot-reloads for development
@@ -46,8 +46,8 @@ yarn build 打包代码,打包完毕后放入apache-tomcat-8.5.65文件夹中的
 > 静态资源的存放
 #### components
 > 通用组件的存放
-#### config
-> 模块的引入与配置的存放
+#### service
+> 数据模块的引入
 #### hooks
 > 部分通用hooks的存放
 #### layouts
@@ -77,11 +77,9 @@ yarn build 打包代码,打包完毕后放入apache-tomcat-8.5.65文件夹中的
 - 2.react-router-dom，用于单页面模块跳转
 - 3.antd，ui与排版设计
 
-[API](./docs/API.md)
-
 
 ## 项目结构
-
+```
 INFOVIS-master
 │
 ├── build  
@@ -116,3 +114,4 @@ INFOVIS-master
 │
 │
 └── README.md 
+```
