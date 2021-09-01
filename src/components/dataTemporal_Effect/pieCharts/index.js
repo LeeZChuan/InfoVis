@@ -1,5 +1,11 @@
-//第三列图表：数据时效性：柱状图或者折线图切换展示
+//第三列图表：数据时效性：
 //多种组合图表联动展示--暂时放弃了，但是右侧折线图已经完成数据展示
+/* 
+    数据时效性：几个方向的占比情况：分别是"A1count", "A2count", "CSQcount", "Pcount", "Scount"
+    编写者：lzc
+    时间：2021-7-10
+*/
+
 
 import React, { useEffect, useRef, useContext, useState } from 'react';
 import * as echarts from 'echarts';

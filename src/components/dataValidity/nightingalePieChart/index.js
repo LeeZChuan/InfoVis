@@ -1,4 +1,4 @@
-//数据有效性：多指标的南丁格尔图
+//数据有效性：多指标的南丁格尔图--暂时遗弃，不使用这个图表
 
 import React, { useEffect, useRef } from 'react';
 import * as echarts from 'echarts';

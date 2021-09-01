@@ -1,4 +1,8 @@
-//时间滚动组件模块
+/* 
+    时间实时动态滚动栏目
+    编写者：lzc
+    时间：2021-7-1
+*/
 
 
 import React, { Component } from 'react'

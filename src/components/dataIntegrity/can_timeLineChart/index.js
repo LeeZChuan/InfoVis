@@ -1,4 +1,10 @@
-//终端装车量时序折线图
+
+/* 
+   数据完整性can数据方向时序折线图
+   编写者：lzc
+   创建时间：2021-7-12
+*/
+
 
 import React, { useEffect, useRef, useContext } from 'react';
 import * as echarts from 'echarts';
