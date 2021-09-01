@@ -63,10 +63,10 @@ const option = {
 const DataIntPieChart = () => {
     const { list } = useContext(AppContext);
     const myChart = useRef();
-    const [noeChoose, setnoeChoose] = useState("A1count");
+    const [nowChoose, setnowChoose] = useState("A1count");
     const [selectChoose, setselectChoose] = useState(false);
     const chooseStyle = (e) => {
-        setnoeChoose(e);
+        setnowChoose(e);
         setselectChoose(true);
     }
     useEffect(() => {
@@ -93,7 +93,7 @@ const DataIntPieChart = () => {
         console.log(Data);
         let objList = Data.map(item => { return (item.deltaT) });
         let tilie = {
-            text: noeChoose + '数据时效性',
+            text: nowChoose + '数据时效性',
             top: '48%',
             textAlign: "center",
             left: "49%",
@@ -109,7 +109,7 @@ const DataIntPieChart = () => {
         } else {
             for (var i = 0; i < Data.length; i++) {
                 data.push({
-                    value: Data[i][noeChoose],
+                    value: Data[i][nowChoose],
                     name: Data[i].deltaT,
                     itemStyle: {
                         normal: {
@@ -168,13 +168,13 @@ const DataIntPieChart = () => {
     }, [list]);
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getDataTimeliness_PieData");
-    }, [noeChoose]);//下拉框筛选联动图表展示
+    }, [nowChoose]);//下拉框筛选联动图表展示
     return (
         <div>
             <Select
                 showSearch
                 style={{ width: 120 }}
-                placeholder={selectChoose ? noeChoose : "查询品牌"}
+                placeholder={selectChoose ? nowChoose : "查询品牌"}
                 onChange={e => {
                     chooseStyle(e);
                 }}>

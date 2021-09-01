@@ -115,19 +115,19 @@ const BarChart = () => {
         console.log("数据排行榜数据");
         console.log(Data);
         let yAxis_name = Object.keys(Data[0]);
-        let serise_data = [];
-        if (serise_data.length != 0) {
-            serise_data.length = 0;
+        let seriseData = [];
+        if (seriseData.length != 0) {
+            seriseData.length = 0;
         }
         else {
             for (let [key, value] of Object.entries(Data[0])) {
                 //获取对象数值
-                serise_data.push(value);
+                seriseData.push(value);
             }
         }
 
         option.yAxis.data = yAxis_name;
-        option.series[0].data = serise_data;
+        option.series[0].data = seriseData;
         //数据配置
         myChart.current.setOption(option);
         //showLoading遮盖层隐藏

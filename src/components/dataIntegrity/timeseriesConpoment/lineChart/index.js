@@ -348,25 +348,25 @@ const LineChart = () => {
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
         console.log(Data);
-        let DataList = [];
+        let dataList = [];
         let canRate = [];
         let locRate = [];
         let dailyRecordRate = [];
-        if (DataList.length != 0 || canRate.length != 0 || locRate.length != 0 || dailyRecordRate.length != 0) {
-            DataList.length = 0;
+        if (dataList.length != 0 || canRate.length != 0 || locRate.length != 0 || dailyRecordRate.length != 0) {
+            dataList.length = 0;
             canRate.length = 0;
             locRate.length = 0;
             dailyRecordRate.length = 0;
         } else {
             for (let i = 0; i < Data.length; i++) {
-                DataList.push(Data[i].msgDate);
+                dataList.push(Data[i].msgDate);
                 canRate.push((Data[i].canRate * 100).toFixed(2));
                 locRate.push((Data[i].locRate * 100).toFixed(2));
                 dailyRecordRate.push((Data[i].dailyRecordRate * 100).toFixed(2));
             }
         }
         //数据配置
-        option.xAxis[0].data = DataList;
+        option.xAxis[0].data = dataList;
         option.series[0].data = canRate
         option.series[1].data = locRate
         option.series[2].data = dailyRecordRate

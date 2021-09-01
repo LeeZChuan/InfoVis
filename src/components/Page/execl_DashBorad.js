@@ -4,17 +4,15 @@
     创建时间：2021-7-5
 */
 
-
-
 import React from 'react';
 import { Layout } from 'antd';
-import TableDemo from '@/components/Table'
+import Table from '@/components/Table'
 const { Footer, Content } = Layout;
 
 const Dashborad = () => {
     return (<Layout>
         <Content>
-            <TableDemo />
+            <Table />
         </Content>
         <Footer style={{ textAlign: 'center' }}>Created by TYKJ</Footer>
     </Layout>)

@@ -123,25 +123,25 @@ const LineChart = () => {
     const getData = async (CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation) => {
         const Data = await getChartData(CarBrand, CarStyle, CarDevNaData, startTime, endTime, Chartfuncation);
         console.log(Data);
-        let DataList = [];
+        let dataList = [];
         let canRate = [];
         let locRate = [];
         let dailyRecordRate = [];
-        if (DataList.length !== 0 || canRate.length !== 0 || locRate.length !== 0 || dailyRecordRate.length !== 0) {
-            DataList.length = 0;
+        if (dataList.length !== 0 || canRate.length !== 0 || locRate.length !== 0 || dailyRecordRate.length !== 0) {
+            dataList.length = 0;
             canRate.length = 0;
             locRate.length = 0;
             dailyRecordRate.length = 0;
         } else {
             for (let i = 0; i < Data.length; i++) {
-                // DataList.push(new Date(Data[i].msgDate).toLocaleString())
-                DataList.push(Data[i].msgDate);
+                // dataList.push(new Date(Data[i].msgDate).toLocaleString())
+                dataList.push(Data[i].msgDate);
                 canRate.push(Data[i].canRate);
                 locRate.push(Data[i].locRate);
                 dailyRecordRate.push(Data[i].dailyRecordRate);
             }
         }
-        option.angleAxis.data = DataList;
+        option.angleAxis.data = dataList;
         option.series[0].data = canRate
         option.series[1].data = locRate
         option.series[2].data = dailyRecordRate
