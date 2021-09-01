@@ -1,6 +1,6 @@
 /* 
     数据表格下载模块--基本功能1.0已经完成
-    2.0版本需要，添加对表格的操作，例如多选下载，表格指标排序
+    2.0版本需要，添加对表格的操作，例如多选下载，表格指标排序,
     编写者：lzc
     时间：2021-7-30 
 */
@@ -14,6 +14,7 @@ import { getChartData } from '@/service/api'//数据读取
 import AppContext from '@/store'
 
 const INITOPTION = [
+    //disable属性用于下拉框筛选项的禁用，如果需要放开去掉即可
     {
         title: "终端在线率",
         value: "A",
@@ -199,7 +200,6 @@ const TableDemo = () => {
         // 下载所有数据的csv文件函数
         axios.get(API_Base + "downloadExcelData/brand%" + list.nowChooseCarBrand + "_" + chooseObj + "&type%" + list.nowChooseCarStyle + "&device%" + list.nowCho_CarDevNaData + "&timeStart%" + "\'" + list.startTime + "\'" + "&timeEnd%" + "\'" + list.endTime + "\'")
             .then(res => {
-                console.log(res);
                 if (res.status === 200) {
                     const blob = new Blob([res.data], {
                         type: 'application/ms-excel',
@@ -238,11 +238,41 @@ const TableDemo = () => {
                 }
                 else {
                     objList.map(item => {
-                        columns2.push({
-                            title: TabdemoData[0][item],
-                            dataIndex: item,
-                            key: item,
-                        })
+                        if (item == "installDate") {
+                            columns2.push({
+                                title: TabdemoData[0][item],
+                                dataIndex: item,
+                                key: item,
+                                sorter: (function (a, b) {
+                                    let aTimeString = a.installDate;
+                                    let aTime = new Date(aTimeString).getTime();
+                                    let bTimeString = b.installDate;
+                                    let bTime = new Date(bTimeString).getTime();
+                                    return aTime - bTime;
+                                }),
+                                ellipsis: true,
+                            })
+                        } else if (item == "lastReceiveTime1") {
+                            columns2.push({
+                                title: TabdemoData[0][item],
+                                dataIndex: item,
+                                key: item,
+                                sorter: (function (a, b) {
+                                    let aTimeString = a.lastReceiveTime1;
+                                    let aTime = new Date(aTimeString).getTime();
+                                    let bTimeString = b.lastReceiveTime1;
+                                    let bTime = new Date(bTimeString).getTime();
+                                    return aTime - bTime;
+                                }),
+                                ellipsis: true,
+                            })
+                        }
+                        else
+                            columns2.push({
+                                title: TabdemoData[0][item],
+                                dataIndex: item,
+                                key: item,
+                            })
                     })
                     for (let i = 1; i < TabdemoData.length; i++) {
                         data2.push({
@@ -250,8 +280,8 @@ const TableDemo = () => {
                             ...TabdemoData[i]
                         })
                     }
-
                 }
+                console.log(columns2);
                 //数据进行配置
                 setcolumnsList(columns2);
                 setdataList(data2);
@@ -268,6 +298,8 @@ const TableDemo = () => {
         //在这里使用_对象进行拼接,实现动态切换查询与下载
         getData(list.nowChooseCarBrand + "_" + chooseObj, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, 'getExcelTableData');
         return () => {
+            columns2.slice(0, columns2.length);
+            data2.length = 0;
             console.log('will unmount')
         }
     }, [list, chooseObj]);
@@ -283,9 +315,9 @@ const TableDemo = () => {
                     placeholder="选中需要查看的数据表格"
                     treeDefaultExpandAll
                     onChange={(e, value) => {
-                        settableloading(true);
-                        setchooseName(value);
-                        setchooseObj(e);
+                        settableloading(true);//开启加载动画
+                        setchooseName(value);//设置当前选中的中文名称
+                        setchooseObj(e);//动态当前选中的库的英文名称
                     }}
                 >
                 </TreeSelect>

@@ -52,15 +52,15 @@ const Topnav = () => {
     }
     //初始化下拉菜单的数据列表
     const initCarBrandData = async () => {
-        setcarBrand(await getCarBrandData());
+        setcarBrand(await getCarBrandData(list.startTime,list.endTime));
     }
     //初始化下拉菜单的车辆类型数据列表
     const initCarStyleData = async (carBrand) => {
-        setcarStyle(await getCarStyle(carBrand));
+        setcarStyle(await getCarStyle(carBrand,list.startTime,list.endTime));
     }
     //初始化下拉菜单的车辆终端数据列表
     const initCarDeviceNameData = async (carBrand, carType) => {
-        setcarDeviceNameData(await getDeviceName(carBrand, carType));
+        setcarDeviceNameData(await getDeviceName(carBrand, carType,list.startTime,list.endTime));
     }
     //将选择车辆品牌、类型、终端操作，进行柯里化合并
     const chooseCarData = (dataType, e) => {
