@@ -51,12 +51,10 @@ const INITOPTION = [
             {
                 title: '数据频发',
                 value: 'dataActuallyOfInfo',
-                disabled: true,
             },
             {
                 title: '生成时间错误',
                 value: 'dataActuallyOfEroTime',
-                disabled: true,
             },
             {
                 title: '工况数据',

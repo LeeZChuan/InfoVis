@@ -29,6 +29,20 @@ const option = {
             saveAsImage: { show: true },
         }
     },
+    dataZoom: [
+        {
+            show: true,
+            realtime: true,
+            start: 0,
+            end: 80
+        },
+        {
+            type: 'inside',
+            realtime: true,
+            start: 0,
+            end: 80
+        }
+    ],
     color: colorArr,
     legend: {
         data: ['Can数据', '工作时间', '位置信息', '信息时间', '信息生成时间错误'],
@@ -260,11 +274,11 @@ const LineChart = () => {
         let Work = [];//工作时间
         Data.map(item => {
             datacity.push(item.msgDate);
-            Can.push(item.RoCan * 100);
-            Error.push(item.RoErrotime * 100);
-            Info.push(item.RoInfo * 100);
-            Loc.push(item.RoLocation * 100);
-            Work.push(item.RoWorktime * 100);
+            Can.push((item.RoCan * 100).toFixed(2));
+            Error.push((item.RoErrotime * 100).toFixed(2));
+            Info.push((item.RoInfo * 100).toFixed(2));
+            Loc.push((item.RoLocation * 100).toFixed(2));
+            Work.push((item.RoWorktime * 100).toFixed(2));
         })
         option.series[0].data = Can;
         option.series[1].data = Work;
