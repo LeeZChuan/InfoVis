@@ -189,7 +189,7 @@ const LineChart = () => {
                         }
                     },
                     data: Data.map(item => {
-                        return item[objList[i]] * 100;
+                        return (item[objList[i]] * 100).toFixed(2);
                     })
                 });
             }

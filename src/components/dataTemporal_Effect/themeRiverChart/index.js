@@ -115,7 +115,7 @@ const ThemeRiverChart = () => {
             else {
                 Data.map(item => {
                     //时间，数值大小，名称
-                    seriesList.push([item.msgDate, item[objList[i]], objList[i].toString()]);
+                    seriesList.push([item.msgDate, item[objList[i]].toFixed(2), objList[i].toString()]);
                 })
             }
         }

@@ -122,7 +122,7 @@ const BarChart = () => {
         else {
             for (let [key, value] of Object.entries(Data[0])) {
                 //获取对象数值
-                seriseData.push(value);
+                seriseData.push(value.toFixed(2));
             }
         }
 
