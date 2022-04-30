@@ -205,7 +205,7 @@ const LineChart = () => {
     }
     useEffect(() => {
         getData(list.nowChooseCarBrand, list.nowChooseCarStyle, list.nowCho_CarDevNaData, list.startTime, list.endTime, "getTime_CanIntegrityLineChartData");
-    },[list]);
+    }, [list]);
     return (
         <div>
             <div id="Chart" ref={myChart} style={{ height: '400px' }}></div>
