@@ -3,15 +3,19 @@
 [![Documentation Status](https://img.shields.io/badge/docs-latest-brightgreen.svg?style=flat)	]()
 [![Release](https://img.shields.io/badge/realease-latest-brightgreen.svg)	]()
 [![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu)	
-![React](https://img.shields.io/badge/React-17.x.x-blue.svg)
+![React](https://img.shields.io/badge/React-17.0.2-blue.svg)
 
 ## 简介 | Introduction
 
-infovis：数据传输过程信息可视化平台模块
+Infovis：数据传输过程信息可视化平台
 
 提供对产品和文档本身的总体的、扼要的说明
 
-基于react、antd、echarts、d3的可视化单页面数据监控下载平台
+基于react、antd、echarts、d3的可视化单页面数据监控与数据下载平台
+
+用于展示设备数据相关属性的监控平台，实时或者历史数据展示
+
+其中后端服务使用py提供，已下架
 
 ## 快速上手 | Getting Started
 
@@ -95,7 +99,7 @@ INFOVIS-master
 │   │    |──  dataTemporal_Effect # 数据时效性模块
 │   │    |──  dataTimeSeries # 数据连续性模块
 │   │    |──  dataValidity # 数据有效性模块
-│   │    |──  Table # 数据表格展示与下载
+│   │    |──  Table # 数据表格展示与下载页
 │   │    |──  TimeShow # 左上角时间滚动模块
 │   │    |──  Topnavigation # 页面头顶整体导航栏目
 │   │    |──  TypingCard # 动态滚动文字模块
